@@ -77,7 +77,7 @@ header{
 }
 
 .ai{
-  background:#111;
+  background:#151515;
   margin-right:auto;
 }
 
@@ -174,12 +174,6 @@ input[type=text]{
   color:#888;
   font-style:italic;
 }
-
-@media(max-width:600px){
-  .chat{padding:15px 12px 125px}
-  .message{max-width:90%}
-  .welcome h1{font-size:28px}
-}
 </style>
 </head>
 
@@ -195,7 +189,7 @@ input[type=text]{
   <div class="welcome" id="welcome">
     <h1>Сәлем! 👋</h1>
     <p>Мен — My AI</p>
-    <p>Сұрағыңызды жазыңыз немесе сурет жіберіңіз.</p>
+    <p>Сұрағыңызды жазыңыз.</p>
   </div>
 
 </div>
@@ -204,7 +198,7 @@ input[type=text]{
 
   <div class="preview" id="preview">
     <div class="preview-box">
-      <span id="previewIcon">🖼️</span>
+      <span>🖼️</span>
       <span id="previewName"></span>
       <button class="remove" onclick="removeFile()">×</button>
     </div>
@@ -212,7 +206,8 @@ input[type=text]{
 
   <div class="bottom">
 
-    <button class="attach"
+    <button
+      class="attach"
       onclick="document.getElementById('fileInput').click()">
       ＋
     </button>
@@ -231,7 +226,11 @@ input[type=text]{
       autocomplete="off"
     >
 
-    <button class="send" onclick="sendMessage()">➤</button>
+    <button
+      class="send"
+      onclick="sendMessage()">
+      ➤
+    </button>
 
   </div>
 
@@ -242,9 +241,8 @@ input[type=text]{
 const API_URL =
   "https://my-ai-backend.razinavsegda84.workers.dev";
 
-let selectedFile = null;
-
 let conversation = [];
+let selectedFile = null;
 
 
 /* FILE */
@@ -265,7 +263,7 @@ function selectFile(event){
 }
 
 
-/* REMOVE */
+/* REMOVE FILE */
 
 function removeFile(){
 
@@ -306,7 +304,8 @@ function addMessage(text,type,imageUrl=null){
     const textElement =
       document.createElement("div");
 
-    textElement.textContent = text;
+    textElement.textContent =
+      text;
 
     message.appendChild(textElement);
   }
@@ -320,7 +319,7 @@ function addMessage(text,type,imageUrl=null){
 }
 
 
-/* SEND */
+/* SEND MESSAGE */
 
 async function sendMessage(){
 
@@ -339,65 +338,32 @@ async function sendMessage(){
   if(welcome)
     welcome.remove();
 
+
   let imageUrl = null;
-
-  let userContent = [];
-
-  /* IMAGE */
 
   if(selectedFile){
 
     imageUrl =
       URL.createObjectURL(selectedFile);
-
-    const reader =
-      new FileReader();
-
-    const imageData =
-      await new Promise(resolve => {
-
-        reader.onload =
-          () => resolve(reader.result);
-
-        reader.readAsDataURL(selectedFile);
-
-      });
-
-    userContent.push({
-      type:"image_url",
-      image_url:{
-        url:imageData
-      }
-    });
   }
 
-  /* TEXT */
 
-  if(text){
+  const userText =
+    text ||
+    "Сурет жіберілді. Осы сурет туралы айтып бер.";
 
-    userContent.push({
-      type:"text",
-      text:text
-    });
-
-  }else{
-
-    userContent.push({
-      type:"text",
-      text:"Осы суретті талдап бер."
-    });
-
-  }
 
   addMessage(
-    text || "Сурет жіберілді",
+    userText,
     "user",
     imageUrl
   );
 
+
   input.value = "";
 
   removeFile();
+
 
   const loading =
     addMessage(
@@ -407,55 +373,66 @@ async function sendMessage(){
 
   loading.classList.add("loading");
 
+
   try{
 
     conversation.push({
       role:"user",
-      content:userContent
+      content:userText
     });
 
+
     const response =
-      await fetch(API_URL,{
-        method:"POST",
+      await fetch(
+        API_URL,
+        {
+          method:"POST",
 
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
 
-        body:JSON.stringify({
-          messages:conversation
-        })
-      });
+          body:JSON.stringify({
+            messages:conversation
+          })
+        }
+      );
+
 
     const data =
       await response.json();
 
+
     loading.remove();
+
 
     if(!response.ok){
 
       throw new Error(
-        data.error?.message ||
         data.error ||
-        "AI қатесі"
+        "AI сервер қатесі"
       );
 
     }
 
+
     const answer =
-      data.choices?.[0]?.message?.content ||
+      data.answer ||
       "AI жауап бермеді.";
+
 
     conversation.push({
       role:"assistant",
       content:answer
     });
 
+
     addMessage(
       answer,
       "ai"
     );
+
 
   }catch(error){
 
@@ -484,7 +461,7 @@ function newChat(){
     <div class="welcome" id="welcome">
       <h1>Сәлем! 👋</h1>
       <p>Мен — My AI</p>
-      <p>Сұрағыңызды жазыңыз немесе сурет жіберіңіз.</p>
+      <p>Сұрағыңызды жазыңыз.</p>
     </div>
   `;
 
@@ -495,21 +472,21 @@ function newChat(){
 /* ENTER */
 
 document
-.getElementById("input")
-.addEventListener(
-  "keydown",
-  function(e){
+  .getElementById("input")
+  .addEventListener(
+    "keydown",
+    function(e){
 
-    if(e.key === "Enter"){
+      if(e.key === "Enter"){
 
-      e.preventDefault();
+        e.preventDefault();
 
-      sendMessage();
+        sendMessage();
+
+      }
 
     }
-
-  }
-);
+  );
 
 </script>
 
