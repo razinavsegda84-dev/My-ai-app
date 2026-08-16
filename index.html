@@ -17,6 +17,10 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
   height: 100vh;
+}
+
+.app {
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -69,8 +73,9 @@ header {
 }
 
 .message img {
+  display: block;
   max-width: 100%;
-  max-height: 350px;
+  max-height: 400px;
   border-radius: 14px;
   margin-bottom: 8px;
 }
@@ -94,7 +99,7 @@ textarea {
   color: white;
   border: 1px solid #333;
   border-radius: 18px;
-  padding: 12px;
+  padding: 13px;
   font-size: 16px;
   outline: none;
 }
@@ -109,14 +114,13 @@ button {
   font-size: 20px;
 }
 
-#file {
-  display: none;
-}
-
 .file-button {
   background: #222;
   color: white;
-  font-size: 22px;
+}
+
+#file {
+  display: none;
 }
 
 #preview {
@@ -139,6 +143,8 @@ button {
 </head>
 
 <body>
+
+<div class="app">
 
 <header>🤖 My AI</header>
 
@@ -167,27 +173,26 @@ button {
   <input
     type="file"
     id="file"
-    accept="image/*"
+    accept="image/jpeg,image/png,image/webp"
     onchange="selectImage(event)">
 
   <textarea
     id="input"
     placeholder="Хабарлама жазыңыз..."
-    rows="1">
-  </textarea>
+    rows="1"></textarea>
 
   <button onclick="sendMessage()">➤</button>
+
+</div>
 
 </div>
 
 <script>
 
 const WORKER_URL =
-  "https://my-ai-backend.razinavsegda84.workers.dev";
+"https://my-ai-backend.razinavsegda84.workers.dev";
 
 let selectedImage = null;
-
-let messages = [];
 
 
 /* СУРЕТ ТАҢДАУ */
@@ -197,6 +202,12 @@ function selectImage(event) {
   const file = event.target.files[0];
 
   if (!file) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Сурет 5 MB-тан үлкен болмауы керек.");
+    event.target.value = "";
+    return;
+  }
 
   selectedImage = file;
 
@@ -215,7 +226,29 @@ function selectImage(event) {
 }
 
 
-/* ХАБАРЛАМА ҚОСУ */
+/* СУРЕТТІ BASE64 DATA URL-ҒА АЙНАЛДЫРУ */
+
+function fileToDataURL(file) {
+
+  return new Promise(function(resolve, reject) {
+
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      resolve(reader.result);
+    };
+
+    reader.onerror = function() {
+      reject(new Error("Суретті оқу мүмкін болмады."));
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+}
+
+
+/* ХАБАРЛАМАНЫ ЧАТҚА ҚОСУ */
 
 function addMessage(text, type, image = null) {
 
@@ -240,12 +273,12 @@ function addMessage(text, type, image = null) {
 
   if (text) {
 
-    const p =
+    const textDiv =
       document.createElement("div");
 
-    p.textContent = text;
+    textDiv.textContent = text;
 
-    div.appendChild(p);
+    div.appendChild(textDiv);
   }
 
   chat.appendChild(div);
@@ -257,7 +290,7 @@ function addMessage(text, type, image = null) {
 }
 
 
-/* ЖІБЕРУ */
+/* СҰРАҚ ЖІБЕРУ */
 
 async function sendMessage() {
 
@@ -267,8 +300,9 @@ async function sendMessage() {
   const text =
     input.value.trim();
 
-  if (!text && !selectedImage)
+  if (!text && !selectedImage) {
     return;
+  }
 
   document.getElementById("welcome").style.display =
     "none";
@@ -276,7 +310,7 @@ async function sendMessage() {
 
   let imageData = null;
 
-  /* СУРЕТТІ DATA URL-ҒА АЙНАЛДЫРУ */
+  /* СУРЕТ БАР БОЛСА */
 
   if (selectedImage) {
 
@@ -288,7 +322,8 @@ async function sendMessage() {
   /* USER ХАБАРЛАМАСЫ */
 
   addMessage(
-    text || "Осы суретті талдап бер.",
+    text ||
+    "Осы суретте не бар екенін айтып бер.",
     "user",
     imageData
   );
@@ -296,47 +331,29 @@ async function sendMessage() {
 
   input.value = "";
 
-
   document.getElementById("preview").style.display =
     "none";
 
 
   const loading =
     addMessage(
-      "AI суретті қарап жатыр...",
+      "AI суретті талдап жатыр...",
       "ai"
     );
 
 
   try {
 
-    let body = {
+    const body = {
+
       message:
         text ||
-        "Осы суретте не бар екенін қазақ тілінде түсіндір."
+        "Осы суретте не бар екенін қазақ тілінде толық сипатта.",
+
+      image:
+        imageData
+
     };
-
-
-    /* СУРЕТ БАР */
-
-    if (imageData) {
-
-      body.image = imageData;
-    }
-
-
-    /* МӘТІН БАР */
-
-    if (!imageData) {
-
-      messages.push({
-        role: "user",
-        content: text
-      });
-
-      body.messages =
-        messages;
-    }
 
 
     const response =
@@ -367,31 +384,40 @@ async function sendMessage() {
 
       throw new Error(
         data.error ||
-        "Сервер қатесі"
+        "Сервер қатесі: " +
+        response.status
       );
     }
 
 
-const answer =
-    typeof data.answer === "string"
-        ? data.answer
-        : JSON.stringify(data.answer) || "Жауап алынбады.";
+    let answer =
+      data.answer;
+
+
+    /* OBJECT КЕЛСЕ */
+
+    if (typeof answer !== "string") {
+
+      answer =
+        answer?.response ||
+        answer?.result ||
+        JSON.stringify(answer);
+
+    }
+
+
+    if (!answer) {
+
+      answer =
+        "AI жауап бере алмады.";
+
+    }
 
 
     addMessage(
       answer,
       "ai"
     );
-
-
-    if (!imageData) {
-
-      messages.push({
-        role: "assistant",
-        content: answer
-      });
-
-    }
 
 
   } catch (error) {
@@ -402,57 +428,38 @@ const answer =
       "Қате: " + error.message,
       "ai"
     );
+
   }
 
 
   selectedImage = null;
 
   document.getElementById("file").value = "";
+
 }
 
 
-/* FILE → DATA URL */
-
-function fileToDataURL(file) {
-
-  return new Promise(
-    (resolve, reject) => {
-
-      const reader =
-        new FileReader();
-
-      reader.onload =
-        () => resolve(reader.result);
-
-      reader.onerror =
-        reject;
-
-      reader.readAsDataURL(file);
-    }
-  );
-}
-
-
-/* ENTER */
+/* ENTER = ЖІБЕРУ */
 
 document
-  .getElementById("input")
-  .addEventListener(
-    "keydown",
-    function(event) {
+.getElementById("input")
+.addEventListener(
+  "keydown",
+  function(event) {
 
-      if (
-        event.key === "Enter" &&
-        !event.shiftKey
-      ) {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
 
-        event.preventDefault();
+      event.preventDefault();
 
-        sendMessage();
-      }
+      sendMessage();
 
     }
-  );
+
+  }
+);
 
 </script>
 
