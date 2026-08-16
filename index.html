@@ -1,140 +1,182 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>My AI</title>
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      height: 100vh;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    .app {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-    header {
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid #222;
-      font-size: 20px;
-      font-weight: 700;
-    }
+header {
+  height: 60px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+}
 
-    #chat {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
+#chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  padding-bottom: 100px;
+}
 
-    .welcome {
-      text-align: center;
-      margin-top: 25vh;
-      color: #aaa;
-    }
+.welcome {
+  text-align: center;
+  margin-top: 25vh;
+  color: #888;
+}
 
-    .welcome h1 {
-      color: white;
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+.welcome h1 {
+  color: #fff;
+  font-size: 32px;
+}
 
-    .message {
-      max-width: 85%;
-      margin: 12px auto;
-      padding: 13px 16px;
-      border-radius: 18px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
+.message {
+  max-width: 85%;
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 18px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
 
-    .user {
-      background: #2563eb;
-      margin-right: 0;
-    }
+.user {
+  background: #2563eb;
+  margin-left: auto;
+}
 
-    .ai {
-      background: #1f1f1f;
-      margin-left: 0;
-    }
+.ai {
+  background: #1d1d1d;
+  margin-right: auto;
+}
 
-    .input-area {
-      padding: 12px;
-      border-top: 1px solid #222;
-      display: flex;
-      gap: 8px;
-      background: #000;
-    }
+.message img {
+  max-width: 100%;
+  max-height: 350px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
 
-    textarea {
-      flex: 1;
-      resize: none;
-      min-height: 48px;
-      max-height: 140px;
-      border: 1px solid #333;
-      border-radius: 16px;
-      background: #171717;
-      color: white;
-      padding: 14px;
-      font-size: 16px;
-      outline: none;
-    }
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: #000;
+  border-top: 1px solid #222;
+  display: flex;
+  gap: 8px;
+}
 
-    button {
-      border: none;
-      border-radius: 16px;
-      padding: 0 20px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-    }
+textarea {
+  flex: 1;
+  resize: none;
+  background: #1b1b1b;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 18px;
+  padding: 12px;
+  font-size: 16px;
+  outline: none;
+}
 
-    button:disabled {
-      opacity: .5;
-    }
-  </style>
+button {
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: black;
+  font-size: 20px;
+}
+
+#file {
+  display: none;
+}
+
+.file-button {
+  background: #222;
+  color: white;
+  font-size: 22px;
+}
+
+#preview {
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  left: 10px;
+  background: #222;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+#preview img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="app">
+<header>🤖 My AI</header>
 
-  <header>🤖 My AI</header>
+<div id="chat">
 
-  <div id="chat">
-
-    <div class="welcome" id="welcome">
-      <h1>My AI</h1>
-      <p>Сәлем! Мен саған көмектесуге дайынмын.</p>
-    </div>
-
+  <div class="welcome" id="welcome">
+    <h1>Сәлем! 👋</h1>
+    <p>Мен — My AI</p>
+    <p>Сұрақ қойыңыз немесе сурет жіберіңіз.</p>
   </div>
 
-  <div class="input-area">
+</div>
 
-    <textarea
-      id="message"
-      placeholder="Хабарлама жазыңыз..."
-      rows="1"
-    ></textarea>
+<div id="preview">
+  <img id="previewImage">
+</div>
 
-    <button id="send">➤</button>
+<div class="bottom">
 
-  </div>
+  <button
+    class="file-button"
+    onclick="document.getElementById('file').click()">
+    📎
+  </button>
+
+  <input
+    type="file"
+    id="file"
+    accept="image/*"
+    onchange="selectImage(event)">
+
+  <textarea
+    id="input"
+    placeholder="Хабарлама жазыңыз..."
+    rows="1">
+  </textarea>
+
+  <button onclick="sendMessage()">➤</button>
 
 </div>
 
@@ -143,90 +185,213 @@
 const WORKER_URL =
   "https://my-ai-backend.razinavsegda84.workers.dev";
 
-const chat = document.getElementById("chat");
-const input = document.getElementById("message");
-const sendButton = document.getElementById("send");
-const welcome = document.getElementById("welcome");
+let selectedImage = null;
 
 let messages = [];
 
-function addMessage(text, type) {
 
-  if (welcome) {
-    welcome.style.display = "none";
+/* СУРЕТ ТАҢДАУ */
+
+function selectImage(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  selectedImage = file;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    document.getElementById("previewImage").src =
+      e.target.result;
+
+    document.getElementById("preview").style.display =
+      "block";
+  };
+
+  reader.readAsDataURL(file);
+}
+
+
+/* ХАБАРЛАМА ҚОСУ */
+
+function addMessage(text, type, image = null) {
+
+  const chat =
+    document.getElementById("chat");
+
+  const div =
+    document.createElement("div");
+
+  div.className =
+    "message " + type;
+
+  if (image) {
+
+    const img =
+      document.createElement("img");
+
+    img.src = image;
+
+    div.appendChild(img);
   }
 
-  const div = document.createElement("div");
+  if (text) {
 
-  div.className = "message " + type;
+    const p =
+      document.createElement("div");
 
-  div.textContent = text;
+    p.textContent = text;
+
+    div.appendChild(p);
+  }
 
   chat.appendChild(div);
 
-  chat.scrollTop = chat.scrollHeight;
+  chat.scrollTop =
+    chat.scrollHeight;
 
   return div;
 }
 
+
+/* ЖІБЕРУ */
+
 async function sendMessage() {
 
-  const text = input.value.trim();
+  const input =
+    document.getElementById("input");
 
-  if (!text) return;
+  const text =
+    input.value.trim();
+
+  if (!text && !selectedImage)
+    return;
+
+  document.getElementById("welcome").style.display =
+    "none";
+
+
+  let imageData = null;
+
+  /* СУРЕТТІ DATA URL-ҒА АЙНАЛДЫРУ */
+
+  if (selectedImage) {
+
+    imageData =
+      await fileToDataURL(selectedImage);
+  }
+
+
+  /* USER ХАБАРЛАМАСЫ */
+
+  addMessage(
+    text || "Осы суретті талдап бер.",
+    "user",
+    imageData
+  );
+
 
   input.value = "";
 
-  addMessage(text, "user");
 
-  sendButton.disabled = true;
+  document.getElementById("preview").style.display =
+    "none";
 
-  const loading = addMessage("Жауап дайындалып жатыр...", "ai");
 
-  messages.push({
-    role: "user",
-    content: text
-  });
+  const loading =
+    addMessage(
+      "AI суретті қарап жатыр...",
+      "ai"
+    );
+
 
   try {
 
-    const response = await fetch(WORKER_URL, {
+    let body = {
+      message:
+        text ||
+        "Осы суретте не бар екенін қазақ тілінде түсіндір."
+    };
 
-      method: "POST",
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+    /* СУРЕТ БАР */
 
-      body: JSON.stringify({
-        messages: messages
-      })
+    if (imageData) {
 
-    });
+      body.image = imageData;
+    }
 
-    const data = await response.json();
+
+    /* МӘТІН БАР */
+
+    if (!imageData) {
+
+      messages.push({
+        role: "user",
+        content: text
+      });
+
+      body.messages =
+        messages;
+    }
+
+
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(body)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
 
     loading.remove();
+
 
     if (!response.ok) {
 
       throw new Error(
-        data.error || "Сервер қатесі"
+        data.error ||
+        "Сервер қатесі"
       );
-
     }
+
 
     const answer =
       data.answer ||
-      data.response ||
       "Жауап алынбады.";
 
-    addMessage(answer, "ai");
 
-    messages.push({
-      role: "assistant",
-      content: answer
-    });
+    addMessage(
+      answer,
+      "ai"
+    );
+
+
+    if (!imageData) {
+
+      messages.push({
+        role: "assistant",
+        content: answer
+      });
+
+    }
+
 
   } catch (error) {
 
@@ -236,40 +401,57 @@ async function sendMessage() {
       "Қате: " + error.message,
       "ai"
     );
-
-    console.error(error);
-
-  } finally {
-
-    sendButton.disabled = false;
-
-    input.focus();
-
   }
+
+
+  selectedImage = null;
+
+  document.getElementById("file").value = "";
 }
 
-sendButton.addEventListener(
-  "click",
-  sendMessage
-);
 
-input.addEventListener(
-  "keydown",
-  function(event) {
+/* FILE → DATA URL */
 
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
+function fileToDataURL(file) {
 
-      event.preventDefault();
+  return new Promise(
+    (resolve, reject) => {
 
-      sendMessage();
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        () => resolve(reader.result);
+
+      reader.onerror =
+        reject;
+
+      reader.readAsDataURL(file);
+    }
+  );
+}
+
+
+/* ENTER */
+
+document
+  .getElementById("input")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
+
+        event.preventDefault();
+
+        sendMessage();
+      }
 
     }
-
-  }
-);
+  );
 
 </script>
 
