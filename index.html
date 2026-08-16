@@ -372,9 +372,10 @@ async function sendMessage() {
     }
 
 
-    const answer =
-      data.answer ||
-      "Жауап алынбады.";
+const answer =
+    typeof data.answer === "string"
+        ? data.answer
+        : JSON.stringify(data.answer) || "Жауап алынбады.";
 
 
     addMessage(
