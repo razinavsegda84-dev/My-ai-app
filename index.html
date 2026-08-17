@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>My AI</title>
 
 <style>
@@ -32,18 +31,18 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 14px;
+  flex-shrink: 0;
+}
+
+.header-title {
   font-size: 20px;
   font-weight: bold;
 }
 
-.header-title {
-  margin: auto;
-  transform: translateX(18px);
-}
-
-.new-chat {
+.icon-button {
   width: 42px;
   height: 42px;
+  border: 0;
   border-radius: 50%;
   background: #222;
   color: #fff;
@@ -53,28 +52,29 @@ header {
 #chat {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
-  padding-bottom: 110px;
+  padding: 18px;
+  padding-bottom: 120px;
 }
 
 .welcome {
   text-align: center;
-  margin-top: 25vh;
+  margin-top: 24vh;
   color: #888;
 }
 
 .welcome h1 {
   color: #fff;
-  font-size: 32px;
+  font-size: 30px;
 }
 
 .message {
-  max-width: 85%;
+  max-width: 86%;
   padding: 12px 16px;
   margin: 12px 0;
   border-radius: 18px;
   line-height: 1.5;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .user {
@@ -95,105 +95,118 @@ header {
   margin-bottom: 8px;
 }
 
-.bottom {
+.bottom-area {
   position: fixed;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   width: 100%;
-  padding: 10px;
   background: #000;
   border-top: 1px solid #222;
-  display: flex;
-  gap: 8px;
+  padding: 8px;
   z-index: 20;
+}
+
+.preview {
+  display: none;
+  padding-bottom: 7px;
+}
+
+.preview img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recording-status {
+  display: none;
+  color: #ff4d4d;
+  font-size: 13px;
+  padding: 4px 5px 7px;
+}
+
+.controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 textarea {
   flex: 1;
+  min-width: 0;
   resize: none;
   background: #1b1b1b;
-  color: white;
+  color: #fff;
   border: 1px solid #333;
   border-radius: 18px;
-  padding: 13px;
+  padding: 12px;
   font-size: 16px;
   outline: none;
+  max-height: 120px;
 }
 
 button {
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  background: white;
-  color: black;
-  font-size: 20px;
+  border: 0;
+  cursor: pointer;
   flex-shrink: 0;
 }
 
-.file-button,
-.camera-button,
-.mic-button {
+.control-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background: #222;
-  color: white;
+  color: #fff;
+  font-size: 19px;
 }
 
 .send-button {
-  background: white;
-  color: black;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  font-size: 19px;
 }
 
-#file,
-#camera {
+.recording {
+  background: #b91c1c !important;
+}
+
+input[type="file"] {
   display: none;
-}
-
-#preview {
-  display: none;
-  position: fixed;
-  bottom: 72px;
-  left: 10px;
-  background: #222;
-  padding: 8px;
-  border-radius: 12px;
-  z-index: 30;
-}
-
-#preview img {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 8px;
 }
 
 .status {
+  position: fixed;
+  bottom: 72px;
+  left: 0;
+  width: 100%;
   text-align: center;
   color: #777;
   font-size: 12px;
-  padding: 5px;
+  z-index: 25;
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {
-
-  .bottom {
-    padding: 7px;
-    gap: 5px;
-  }
-
-  .bottom button {
-    width: 44px;
-    height: 44px;
-  }
-
-  textarea {
-    font-size: 15px;
-    padding: 11px;
-  }
-
   #chat {
     padding: 14px;
   }
 
+  .controls {
+    gap: 4px;
+  }
+
+  .control-button,
+  .send-button {
+    width: 43px;
+    height: 43px;
+  }
+
+  textarea {
+    font-size: 15px;
+  }
 }
 </style>
 </head>
@@ -203,9 +216,8 @@ button {
 <div class="app">
 
 <header>
-
   <button
-    class="new-chat"
+    class="icon-button"
     onclick="newChat()"
     title="Жаңа чат">
     ＋
@@ -215,125 +227,150 @@ button {
     🤖 My AI
   </div>
 
-  <div style="width:42px;"></div>
-
+  <div style="width:42px"></div>
 </header>
+
 
 <div id="chat">
 
   <div class="welcome" id="welcome">
-
     <h1>Сәлем! 👋</h1>
-
     <p>Мен — My AI</p>
+    <p>Сұрақ қойыңыз немесе сурет жіберіңіз.</p>
+  </div>
 
-    <p>
-      Сұрақ қойыңыз немесе сурет жіберіңіз.
-    </p>
+</div>
+
+
+<div id="status" class="status"></div>
+
+
+<div class="bottom-area">
+
+  <div id="preview" class="preview">
+    <img id="previewImage">
+  </div>
+
+  <div
+    id="recordingStatus"
+    class="recording-status">
+    🔴 Жазылып жатыр... Тоқтату үшін 🎤 батырмасын басыңыз
+  </div>
+
+
+  <div class="controls">
+
+    <!-- Галерея -->
+    <button
+      class="control-button"
+      onclick="document.getElementById('fileInput').click()"
+      title="Сурет таңдау">
+      📎
+    </button>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/jpeg,image/png,image/webp"
+      onchange="selectImage(event)">
+
+
+    <!-- Камера -->
+    <button
+      class="control-button"
+      onclick="document.getElementById('cameraInput').click()"
+      title="Камера">
+      📷
+    </button>
+
+    <input
+      id="cameraInput"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      onchange="selectImage(event)">
+
+
+    <!-- Микрофон -->
+    <button
+      id="micButton"
+      class="control-button"
+      onclick="toggleRecording()"
+      title="Дауыс">
+      🎤
+    </button>
+
+
+    <textarea
+      id="input"
+      rows="1"
+      placeholder="Хабарлама жазыңыз..."></textarea>
+
+
+    <button
+      class="send-button"
+      onclick="sendMessage()"
+      title="Жіберу">
+      ➤
+    </button>
 
   </div>
 
 </div>
 
-<div id="status" class="status"></div>
-
-<div id="preview">
-  <img id="previewImage">
 </div>
 
-<div class="bottom">
-
-  <button
-    class="file-button"
-    onclick="document.getElementById('file').click()"
-    title="Сурет таңдау">
-    📎
-  </button>
-
-  <input
-    type="file"
-    id="file"
-    accept="image/jpeg,image/png,image/webp"
-    onchange="selectImage(event)">
-
-
-  <button
-    class="camera-button"
-    onclick="document.getElementById('camera').click()"
-    title="Камера">
-    📷
-  </button>
-
-  <input
-    type="file"
-    id="camera"
-    accept="image/*"
-    capture="environment"
-    onchange="selectImage(event)">
-
-
-  <button
-    class="mic-button"
-    id="micButton"
-    onclick="toggleMicrophone()"
-    title="Дауыс">
-    🎤
-  </button>
-
-
-  <textarea
-    id="input"
-    placeholder="Хабарлама жазыңыз..."
-    rows="1"></textarea>
-
-
-  <button
-    class="send-button"
-    onclick="sendMessage()"
-    title="Жіберу">
-    ➤
-  </button>
-
-</div>
-
-</div>
 
 <script>
+
+/* =========================================
+   CLOUDFLARE WORKER
+========================================= */
 
 const WORKER_URL =
 "https://my-ai-backend.razinavsegda84.workers.dev";
 
 
-/* =========================
-   CHAT HISTORY
-========================= */
+/* =========================================
+   STATE
+========================================= */
 
 let chatHistory = [];
 
 let selectedImage = null;
 
+let mediaRecorder = null;
 
-/* =========================
-   VOICE
-========================= */
+let audioChunks = [];
 
-let recognition = null;
+let isRecording = false;
 
-let isListening = false;
+let audioMimeType = "audio/webm";
 
 
-/* =========================
-   ЖАҢА ЧАТ
-========================= */
+/* =========================================
+   STATUS
+========================================= */
+
+function setStatus(text) {
+
+  document.getElementById("status").textContent =
+    text || "";
+
+}
+
+
+/* =========================================
+   NEW CHAT
+========================================= */
 
 function newChat() {
 
-  const confirmed =
-    confirm(
-      "Жаңа чат бастаймыз ба?"
-    );
-
-  if (!confirmed) return;
+  if (
+    !confirm("Жаңа чат бастаймыз ба?")
+  ) {
+    return;
+  }
 
   chatHistory = [];
 
@@ -341,15 +378,9 @@ function newChat() {
 
   document.getElementById("chat").innerHTML = `
     <div class="welcome" id="welcome">
-
       <h1>Сәлем! 👋</h1>
-
       <p>Мен — My AI</p>
-
-      <p>
-        Сұрақ қойыңыз немесе сурет жіберіңіз.
-      </p>
-
+      <p>Сұрақ қойыңыз немесе сурет жіберіңіз.</p>
     </div>
   `;
 
@@ -358,29 +389,17 @@ function newChat() {
   document.getElementById("preview").style.display =
     "none";
 
-  document.getElementById("file").value = "";
+  document.getElementById("fileInput").value = "";
 
-  document.getElementById("camera").value = "";
+  document.getElementById("cameraInput").value = "";
 
   setStatus("");
-
 }
 
 
-/* =========================
-   STATUS
-========================= */
-
-function setStatus(text) {
-
-  document.getElementById("status").textContent =
-    text || "";
-}
-
-
-/* =========================
-   IMAGE SELECT
-========================= */
+/* =========================================
+   SELECT IMAGE
+========================================= */
 
 function selectImage(event) {
 
@@ -400,9 +419,7 @@ function selectImage(event) {
 
   if (file.size > 20 * 1024 * 1024) {
 
-    alert(
-      "Сурет 20 MB-тан үлкен."
-    );
+    alert("Сурет 20 MB-тан үлкен.");
 
     event.target.value = "";
 
@@ -430,9 +447,9 @@ function selectImage(event) {
 }
 
 
-/* =========================
-   IMAGE COMPRESSION
-========================= */
+/* =========================================
+   COMPRESS IMAGE
+========================================= */
 
 function compressImage(file) {
 
@@ -451,7 +468,8 @@ function compressImage(file) {
           img.onload =
             function() {
 
-              const MAX_SIZE = 1280;
+              const MAX =
+                1280;
 
               let width =
                 img.width;
@@ -460,34 +478,34 @@ function compressImage(file) {
                 img.height;
 
 
-              if (width > height) {
+              if (
+                width > MAX ||
+                height > MAX
+              ) {
 
-                if (width > MAX_SIZE) {
+                if (width > height) {
 
                   height =
                     Math.round(
                       height *
-                      MAX_SIZE /
+                      MAX /
                       width
                     );
 
                   width =
-                    MAX_SIZE;
-                }
+                    MAX;
 
-              } else {
-
-                if (height > MAX_SIZE) {
+                } else {
 
                   width =
                     Math.round(
                       width *
-                      MAX_SIZE /
+                      MAX /
                       height
                     );
 
                   height =
-                    MAX_SIZE;
+                    MAX;
                 }
               }
 
@@ -505,9 +523,7 @@ function compressImage(file) {
 
 
               const ctx =
-                canvas.getContext(
-                  "2d"
-                );
+                canvas.getContext("2d");
 
               ctx.drawImage(
                 img,
@@ -518,15 +534,11 @@ function compressImage(file) {
               );
 
 
-              const compressed =
+              resolve(
                 canvas.toDataURL(
                   "image/jpeg",
                   0.70
-                );
-
-
-              resolve(
-                compressed
+                )
               );
             };
 
@@ -565,9 +577,9 @@ function compressImage(file) {
 }
 
 
-/* =========================
+/* =========================================
    ADD MESSAGE
-========================= */
+========================================= */
 
 function addMessage(
   text,
@@ -576,14 +588,10 @@ function addMessage(
 ) {
 
   const chat =
-    document.getElementById(
-      "chat"
-    );
+    document.getElementById("chat");
 
   const div =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   div.className =
     "message " + type;
@@ -592,38 +600,28 @@ function addMessage(
   if (image) {
 
     const img =
-      document.createElement(
-        "img"
-      );
+      document.createElement("img");
 
     img.src =
       image;
 
-    div.appendChild(
-      img
-    );
+    div.appendChild(img);
   }
 
 
   if (text) {
 
     const textDiv =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     textDiv.textContent =
       text;
 
-    div.appendChild(
-      textDiv
-    );
+    div.appendChild(textDiv);
   }
 
 
-  chat.appendChild(
-    div
-  );
+  chat.appendChild(div);
 
   chat.scrollTop =
     chat.scrollHeight;
@@ -633,16 +631,416 @@ function addMessage(
 }
 
 
-/* =========================
-   SEND MESSAGE
-========================= */
+/* =========================================
+   MICROPHONE
+========================================= */
+
+async function toggleRecording() {
+
+  if (isRecording) {
+
+    stopRecording();
+
+    return;
+  }
+
+
+  if (
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ) {
+
+    alert(
+      "Бұл браузер микрофонды жазуды қолдамайды."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+
+    audioChunks = [];
+
+
+    /*
+     * iPhone Safari көбіне mp4/aac
+     * немесе webm форматтарын қолдануы мүмкін.
+     */
+
+    let options = {};
+
+
+    if (
+      MediaRecorder.isTypeSupported(
+        "audio/mp4"
+      )
+    ) {
+
+      options.mimeType =
+        "audio/mp4";
+
+      audioMimeType =
+        "audio/mp4";
+
+    }
+
+    else if (
+      MediaRecorder.isTypeSupported(
+        "audio/webm;codecs=opus"
+      )
+    ) {
+
+      options.mimeType =
+        "audio/webm;codecs=opus";
+
+      audioMimeType =
+        "audio/webm";
+
+    }
+
+    else if (
+      MediaRecorder.isTypeSupported(
+        "audio/webm"
+      )
+    ) {
+
+      options.mimeType =
+        "audio/webm";
+
+      audioMimeType =
+        "audio/webm";
+
+    }
+
+    else {
+
+      audioMimeType =
+        "audio/webm";
+    }
+
+
+    mediaRecorder =
+      new MediaRecorder(
+        stream,
+        options
+      );
+
+
+    mediaRecorder.ondataavailable =
+      function(event) {
+
+        if (
+          event.data &&
+          event.data.size > 0
+        ) {
+
+          audioChunks.push(
+            event.data
+          );
+        }
+      };
+
+
+    mediaRecorder.onstop =
+      async function() {
+
+        stream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
+
+        const blob =
+          new Blob(
+            audioChunks,
+            {
+              type:
+                audioMimeType
+            }
+          );
+
+
+        await sendAudio(
+          blob
+        );
+      };
+
+
+    mediaRecorder.start();
+
+
+    isRecording =
+      true;
+
+
+    document
+      .getElementById(
+        "micButton"
+      )
+      .classList.add(
+        "recording"
+      );
+
+
+    document
+      .getElementById(
+        "micButton"
+      )
+      .textContent =
+        "⏹️";
+
+
+    document
+      .getElementById(
+        "recordingStatus"
+      )
+      .style.display =
+        "block";
+
+
+    setStatus(
+      "Микрофон қосылды..."
+    );
+
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Микрофонға рұқсат берілмеді немесе микрофон қолжетімсіз."
+    );
+
+  }
+}
+
+
+/* =========================================
+   STOP RECORDING
+========================================= */
+
+function stopRecording() {
+
+  if (
+    mediaRecorder &&
+    mediaRecorder.state !== "inactive"
+  ) {
+
+    mediaRecorder.stop();
+  }
+
+
+  isRecording =
+    false;
+
+
+  document
+    .getElementById(
+      "micButton"
+    )
+    .classList.remove(
+      "recording"
+    );
+
+
+  document
+    .getElementById(
+      "micButton"
+    )
+    .textContent =
+      "🎤";
+
+
+  document
+    .getElementById(
+      "recordingStatus"
+    )
+    .style.display =
+      "none";
+
+
+  setStatus(
+    "Аудио өңделіп жатыр..."
+  );
+}
+
+
+/* =========================================
+   BLOB → BASE64
+========================================= */
+
+function blobToBase64(blob) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      const reader =
+        new FileReader();
+
+      reader.onloadend =
+        function() {
+
+          resolve(
+            reader.result
+          );
+        };
+
+
+      reader.onerror =
+        function() {
+
+          reject(
+            new Error(
+              "Аудионы оқу мүмкін болмады."
+            )
+          );
+        };
+
+
+      reader.readAsDataURL(blob);
+
+    }
+  );
+}
+
+
+/* =========================================
+   SEND AUDIO
+========================================= */
+
+async function sendAudio(blob) {
+
+  try {
+
+    if (!blob || blob.size === 0) {
+
+      throw new Error(
+        "Аудио бос."
+      );
+    }
+
+
+    setStatus(
+      "🎤 Сөйлеу мәтінге айналдырылып жатыр..."
+    );
+
+
+    const audioBase64 =
+      await blobToBase64(blob);
+
+
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              message: "",
+
+              audio:
+                audioBase64,
+
+              audioMimeType:
+                audioMimeType,
+
+              history:
+                chatHistory.slice(-12)
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "Аудио өңдеу қатесі."
+      );
+    }
+
+
+    const transcript =
+      data.transcript ||
+      "";
+
+
+    if (!transcript) {
+
+      throw new Error(
+        "Сөйлеу мәтінге айналмады."
+      );
+    }
+
+
+    /*
+     * Whisper нәтижесін textarea-ға саламыз.
+     * Бірден AI-ға жібермейміз.
+     */
+
+    const input =
+      document.getElementById(
+        "input"
+      );
+
+    input.value =
+      transcript;
+
+
+    setStatus(
+      "🎤 Дауыс мәтінге айналды. Енді ➤ басыңыз."
+    );
+
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Дауыс өңдеу қатесі:\n" +
+      error.message
+    );
+
+    setStatus("");
+  }
+
+}
+
+
+/* =========================================
+   SEND TEXT / IMAGE
+========================================= */
 
 async function sendMessage() {
 
   const input =
-    document.getElementById(
-      "input"
-    );
+    document.getElementById("input");
 
   const text =
     input.value.trim();
@@ -652,14 +1050,13 @@ async function sendMessage() {
     !text &&
     !selectedImage
   ) {
+
     return;
   }
 
 
   const welcome =
-    document.getElementById(
-      "welcome"
-    );
+    document.getElementById("welcome");
 
   if (welcome) {
 
@@ -672,8 +1069,6 @@ async function sendMessage() {
     null;
 
 
-  /* IMAGE */
-
   if (selectedImage) {
 
     try {
@@ -682,18 +1077,22 @@ async function sendMessage() {
         "Сурет дайындалып жатыр..."
       );
 
+
       imageData =
         await compressImage(
           selectedImage
         );
 
-    } catch (error) {
+    }
 
-      addMessage(
-        "Суретті дайындау мүмкін болмады: " +
-        error.message,
-        "ai"
+    catch (error) {
+
+      alert(
+        "Суретті дайындау қатесі:\n" +
+        error.message
       );
+
+      setStatus("");
 
       return;
     }
@@ -702,10 +1101,8 @@ async function sendMessage() {
 
   const userText =
     text ||
-    "Осы суретте не бар екенін айтып бер.";
+    "Осы суретте не бар екенін қазақ тілінде сипатта.";
 
-
-  /* SHOW USER */
 
   addMessage(
     userText,
@@ -714,16 +1111,9 @@ async function sendMessage() {
   );
 
 
-  /*
-   * ТЕК СОҢҒЫ 12
-   * МӘТІНДІК ХАБАРЛАМАНЫ ЖІБЕРЕМІЗ
-   */
+  input.value =
+    "";
 
-  const historyToSend =
-    chatHistory.slice(-12);
-
-
-  input.value = "";
 
   document.getElementById(
     "preview"
@@ -745,23 +1135,11 @@ async function sendMessage() {
 
   try {
 
-    const body = {
-
-      message:
-        userText,
-
-      image:
-        imageData,
-
-      history:
-        historyToSend
-    };
-
-
     const response =
       await fetch(
         WORKER_URL,
         {
+
           method: "POST",
 
           headers: {
@@ -770,9 +1148,19 @@ async function sendMessage() {
           },
 
           body:
-            JSON.stringify(
-              body
-            )
+            JSON.stringify({
+
+              message:
+                userText,
+
+              image:
+                imageData,
+
+              history:
+                chatHistory.slice(-12)
+
+            })
+
         }
       );
 
@@ -804,11 +1192,7 @@ async function sendMessage() {
     ) {
 
       answer =
-        answer?.response ||
-        answer?.result ||
-        JSON.stringify(
-          answer
-        );
+        JSON.stringify(answer);
     }
 
 
@@ -824,10 +1208,6 @@ async function sendMessage() {
       "ai"
     );
 
-
-    /*
-     * КОНТЕКСТКЕ ҚОСУ
-     */
 
     chatHistory.push({
 
@@ -857,15 +1237,9 @@ async function sendMessage() {
     ) {
 
       chatHistory =
-        chatHistory.slice(
-          -12
-        );
+        chatHistory.slice(-12);
     }
 
-
-    /*
-     * AI ЖАУАБЫН ДАУЫСТАП ОҚУ
-     */
 
     speakAnswer(
       answer
@@ -874,16 +1248,19 @@ async function sendMessage() {
 
     setStatus("");
 
+  }
 
-  } catch (error) {
+  catch (error) {
 
     loading.remove();
+
 
     addMessage(
       "Қате: " +
       error.message,
       "ai"
     );
+
 
     setStatus("");
   }
@@ -892,160 +1269,44 @@ async function sendMessage() {
   selectedImage =
     null;
 
-  document.getElementById(
-    "file"
-  ).value = "";
 
   document.getElementById(
-    "camera"
+    "fileInput"
+  ).value = "";
+
+
+  document.getElementById(
+    "cameraInput"
   ).value = "";
 }
 
 
-/* =========================
-   MICROPHONE
-========================= */
-
-function toggleMicrophone() {
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-
-  if (!SpeechRecognition) {
-
-    alert(
-      "Бұл браузерде дауыс арқылы енгізу қолдау көрсетілмейді."
-    );
-
-    return;
-  }
-
-
-  if (isListening) {
-
-    if (recognition) {
-
-      recognition.stop();
-    }
-
-    return;
-  }
-
-
-  recognition =
-    new SpeechRecognition();
-
-
-  recognition.lang =
-    "kk-KZ";
-
-  recognition.continuous =
-    false;
-
-  recognition.interimResults =
-    false;
-
-
-  recognition.onstart =
-    function() {
-
-      isListening =
-        true;
-
-      document.getElementById(
-        "micButton"
-      ).textContent =
-        "🔴";
-
-      setStatus(
-        "Тыңдап тұрмын..."
-      );
-    };
-
-
-  recognition.onresult =
-    function(event) {
-
-      const transcript =
-        event
-        .results[0][0]
-        .transcript;
-
-      const input =
-        document.getElementById(
-          "input"
-        );
-
-      input.value =
-        transcript;
-    };
-
-
-  recognition.onerror =
-    function(event) {
-
-      console.log(
-        "Speech error:",
-        event.error
-      );
-
-      setStatus("");
-
-      isListening =
-        false;
-
-      document.getElementById(
-        "micButton"
-      ).textContent =
-        "🎤";
-    };
-
-
-  recognition.onend =
-    function() {
-
-      isListening =
-        false;
-
-      document.getElementById(
-        "micButton"
-      ).textContent =
-        "🎤";
-
-      setStatus("");
-    };
-
-
-  recognition.start();
-}
-
-
-/* =========================
+/* =========================================
    TEXT TO SPEECH
-========================= */
+========================================= */
 
 function speakAnswer(text) {
 
   if (
     !("speechSynthesis" in window)
   ) {
+
     return;
   }
 
 
   if (!text) {
+
     return;
   }
 
 
   /*
-   * Өте ұзын жауапты
-   * дауыстамаймыз.
+   * Тым ұзын жауапты
+   * автоматты түрде оқымаймыз.
    */
 
-  const shortText =
+  const speechText =
     text.slice(
       0,
       1500
@@ -1055,52 +1316,50 @@ function speakAnswer(text) {
   window.speechSynthesis.cancel();
 
 
-  const speech =
+  const utterance =
     new SpeechSynthesisUtterance(
-      shortText
+      speechText
     );
 
 
-  speech.lang =
+  utterance.lang =
     "kk-KZ";
 
-  speech.rate =
-    1.0;
+  utterance.rate =
+    1;
 
-  speech.pitch =
-    1.0;
+  utterance.pitch =
+    1;
 
 
   window.speechSynthesis.speak(
-    speech
+    utterance
   );
 }
 
 
-/* =========================
-   ENTER
-========================= */
+/* =========================================
+   ENTER TO SEND
+========================================= */
 
 document
-.getElementById(
-  "input"
-)
-.addEventListener(
-  "keydown",
-  function(event) {
+  .getElementById("input")
+  .addEventListener(
+    "keydown",
+    function(event) {
 
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      sendMessage();
+        sendMessage();
+      }
+
     }
-
-  }
-);
+  );
 
 </script>
 
