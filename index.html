@@ -1338,43 +1338,38 @@ async function sendMessage() {
 
 function speakAnswer(text) {
 
-  if (
-    !("speechSynthesis" in window)
-  ) {
-
-    alert(
-      "Бұл браузер дауыстап оқуды қолдамайды."
-    );
-
+  if (!("speechSynthesis" in window)) {
+    alert("Бұл браузер дауыстап оқуды қолдамайды.");
     return;
   }
-
 
   if (!text) {
     return;
   }
 
-
   window.speechSynthesis.cancel();
 
+  const utterance = new SpeechSynthesisUtterance(text);
 
-  const utterance =
-    new SpeechSynthesisUtterance(text);
+  utterance.lang = "kk-KZ";
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
 
+  // Қолжетімді дауыстарды алу
+  let voices = window.speechSynthesis.getVoices();
 
-  utterance.lang =
-    "kk-KZ";
-
-  utterance.rate =
-    0.95;
-
-  utterance.pitch =
-    1;
-
-
-  window.speechSynthesis.speak(
-    utterance
+  // Қазақша дауысты іздеу
+  let kazakhVoice = voices.find(voice =>
+    voice.lang &&
+    voice.lang.toLowerCase().startsWith("kk")
   );
+
+  // Қазақша дауыс табылса, міндетті түрде соны қолдану
+  if (kazakhVoice) {
+    utterance.voice = kazakhVoice;
+  }
+
+  window.speechSynthesis.speak(utterance);
 }
 
 
