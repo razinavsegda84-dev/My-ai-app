@@ -210,6 +210,16 @@ const WORKER_URL =
 
 let selectedImage = null;
 
+/*
+ * ЧАТ ТАРИХЫ
+ *
+ * Тек мәтіндік хабарламаларды сақтаймыз.
+ * Base64 суреттерді тарихқа сақтамаймыз,
+ * себебі олар өте үлкен болуы мүмкін.
+ */
+
+let chatHistory = [];
+
 
 /* СУРЕТ ТАҢДАУ */
 
@@ -248,7 +258,7 @@ function selectImage(event) {
 }
 
 
-/* СУРЕТТІ КІШІРТУ ЖӘНЕ JPEG ҚЫСУ */
+/* СУРЕТТІ ҚЫСУ */
 
 function compressImage(file) {
 
@@ -270,8 +280,11 @@ function compressImage(file) {
         if (width > height) {
 
           if (width > MAX_SIZE) {
+
             height =
-              Math.round(height * MAX_SIZE / width);
+              Math.round(
+                height * MAX_SIZE / width
+              );
 
             width = MAX_SIZE;
           }
@@ -279,8 +292,11 @@ function compressImage(file) {
         } else {
 
           if (height > MAX_SIZE) {
+
             width =
-              Math.round(width * MAX_SIZE / height);
+              Math.round(
+                width * MAX_SIZE / height
+              );
 
             height = MAX_SIZE;
           }
@@ -303,11 +319,6 @@ function compressImage(file) {
           height
         );
 
-        /*
-         * JPEG сапасы 0.70
-         * Сурет көлемін қатты азайтады
-         */
-
         const compressed =
           canvas.toDataURL(
             "image/jpeg",
@@ -318,8 +329,11 @@ function compressImage(file) {
       };
 
       img.onerror = function() {
+
         reject(
-          new Error("Суретті ашу мүмкін болмады.")
+          new Error(
+            "Суретті ашу мүмкін болмады."
+          )
         );
       };
 
@@ -327,8 +341,11 @@ function compressImage(file) {
     };
 
     reader.onerror = function() {
+
       reject(
-        new Error("Суретті оқу мүмкін болмады.")
+        new Error(
+          "Суретті оқу мүмкін болмады."
+        )
       );
     };
 
@@ -338,9 +355,13 @@ function compressImage(file) {
 }
 
 
-/* ХАБАРЛАМАНЫ ҚОСУ */
+/* ХАБАРЛАМАНЫ ЭКРАНҒА ШЫҒАРУ */
 
-function addMessage(text, type, image = null) {
+function addMessage(
+  text,
+  type,
+  image = null
+) {
 
   const chat =
     document.getElementById("chat");
@@ -380,7 +401,7 @@ function addMessage(text, type, image = null) {
 }
 
 
-/* СҰРАҚ ЖІБЕРУ */
+/* AI-ҒА ЖІБЕРУ */
 
 async function sendMessage() {
 
@@ -397,18 +418,19 @@ async function sendMessage() {
   document.getElementById("welcome").style.display =
     "none";
 
-  let imageData = null;
 
-  /*
-   * СУРЕТ БОЛСА — АВТОМАТТЫ ҚЫСАМЫЗ
-   */
+  /* СУРЕТТІ ДАЙЫНДАУ */
+
+  let imageData = null;
 
   if (selectedImage) {
 
     try {
 
       imageData =
-        await compressImage(selectedImage);
+        await compressImage(
+          selectedImage
+        );
 
     } catch (error) {
 
@@ -423,19 +445,41 @@ async function sendMessage() {
   }
 
 
-  /* USER */
+  /* ҚОЛДАНУШЫ ХАБАРЫ */
+
+  const userText =
+    text ||
+    "Осы суретте не бар екенін айтып бер.";
+
 
   addMessage(
-    text ||
-    "Осы суретте не бар екенін айтып бер.",
+    userText,
     "user",
     imageData
   );
+
+
+  /*
+   * Worker-ге жіберетін тарих
+   *
+   * Суреттің өзін тарихқа қоспаймыз.
+   */
+
+  const historyToSend =
+    chatHistory.slice(-12);
+
+
+  /*
+   * ҚАЗІРГІ СҰРАҚТЫ ТАРИХҚА
+   * ЖАУАП КЕЛГЕННЕН КЕЙІН ҚОСАМЫЗ.
+   */
+
 
   input.value = "";
 
   document.getElementById("preview").style.display =
     "none";
+
 
   const loading =
     addMessage(
@@ -449,11 +493,13 @@ async function sendMessage() {
     const body = {
 
       message:
-        text ||
-        "Осы суретте не бар екенін қазақ тілінде нақты сипатта.",
+        userText,
 
       image:
-        imageData
+        imageData,
+
+      history:
+        historyToSend
     };
 
 
@@ -501,7 +547,6 @@ async function sendMessage() {
         answer?.response ||
         answer?.result ||
         JSON.stringify(answer);
-
     }
 
 
@@ -509,14 +554,41 @@ async function sendMessage() {
 
       answer =
         "AI жауап бере алмады.";
-
     }
 
+
+    /* AI ЖАУАБЫН КӨРСЕТУ */
 
     addMessage(
       answer,
       "ai"
     );
+
+
+    /*
+     * КОНТЕКСТКЕ ҚОСУ
+     */
+
+    chatHistory.push({
+      role: "user",
+      content: userText
+    });
+
+    chatHistory.push({
+      role: "assistant",
+      content: answer
+    });
+
+
+    /*
+     * ТЕК СОҢҒЫ 12 ХАБАРЛАМАНЫ САҚТАЙМЫЗ
+     */
+
+    if (chatHistory.length > 12) {
+
+      chatHistory =
+        chatHistory.slice(-12);
+    }
 
 
   } catch (error) {
@@ -527,7 +599,6 @@ async function sendMessage() {
       "Қате: " + error.message,
       "ai"
     );
-
   }
 
 
@@ -535,7 +606,6 @@ async function sendMessage() {
 
   document.getElementById("file").value = "";
   document.getElementById("camera").value = "";
-
 }
 
 
@@ -555,7 +625,6 @@ document
       event.preventDefault();
 
       sendMessage();
-
     }
 
   }
