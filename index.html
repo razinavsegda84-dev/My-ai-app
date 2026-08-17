@@ -580,7 +580,6 @@ function compressImage(file) {
 /* =========================================
    ADD MESSAGE
 ========================================= */
-
 function addMessage(
   text,
   type,
@@ -618,6 +617,57 @@ function addMessage(
       text;
 
     div.appendChild(textDiv);
+
+
+    // AI жауабына 🔊 батырмасын қосу
+    if (type === "ai") {
+
+      const speakButton =
+        document.createElement("button");
+
+      speakButton.textContent =
+        "🔊";
+
+      speakButton.style.marginTop =
+        "10px";
+
+      speakButton.style.background =
+        "#333";
+
+      speakButton.style.color =
+        "#fff";
+
+      speakButton.style.border =
+        "0";
+
+      speakButton.style.borderRadius =
+        "50%";
+
+      speakButton.style.width =
+        "40px";
+
+      speakButton.style.height =
+        "40px";
+
+      speakButton.style.fontSize =
+        "18px";
+
+      speakButton.style.cursor =
+        "pointer";
+
+
+      speakButton.onclick =
+        function() {
+
+          speakAnswer(text);
+
+        };
+
+
+      div.appendChild(
+        speakButton
+      );
+    }
   }
 
 
@@ -629,6 +679,7 @@ function addMessage(
 
   return div;
 }
+
 
 
 /* =========================================
@@ -1291,42 +1342,31 @@ function speakAnswer(text) {
     !("speechSynthesis" in window)
   ) {
 
+    alert(
+      "Бұл браузер дауыстап оқуды қолдамайды."
+    );
+
     return;
   }
 
 
   if (!text) {
-
     return;
   }
-
-
-  /*
-   * Тым ұзын жауапты
-   * автоматты түрде оқымаймыз.
-   */
-
-  const speechText =
-    text.slice(
-      0,
-      1500
-    );
 
 
   window.speechSynthesis.cancel();
 
 
   const utterance =
-    new SpeechSynthesisUtterance(
-      speechText
-    );
+    new SpeechSynthesisUtterance(text);
 
 
   utterance.lang =
     "kk-KZ";
 
   utterance.rate =
-    1;
+    0.95;
 
   utterance.pitch =
     1;
