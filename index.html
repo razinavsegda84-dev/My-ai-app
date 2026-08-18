@@ -1852,16 +1852,11 @@ async function sendMessage() {
     return;
   }
 
-
   const input =
-    document.getElementById(
-      "input"
-    );
-
+    document.getElementById("input");
 
   const text =
     input.value.trim();
-
 
   if (
     !text &&
@@ -1871,58 +1866,48 @@ async function sendMessage() {
     return;
   }
 
-
   if (!currentChatId) {
     createChat();
   }
 
-
   const welcome =
-    document.getElementById(
-      "welcome"
-    );
-
+    document.getElementById("welcome");
 
   if (welcome) {
     welcome.remove();
   }
 
+  sending = true;
 
-  sending =
-    true;
+  setStatus("Дайындалып жатыр...");
 
-
-  setStatus(
-    "Дайындалып жатыр..."
-  );
-
+  let loading = null;
 
   try {
 
-    /* IMAGES */
+    /* =========================
+       СУРЕТ
+    ========================= */
 
-    const imageData =
-      [];
+    let imageData = null;
 
+    if (selectedImages.length) {
 
-    for (
-      const file of selectedImages
-    ) {
+      setStatus("Сурет дайындалып жатыр...");
 
-      imageData.push(
+      // Қазір Worker бір сурет қабылдайды
+      imageData =
         await compressImage(
-          file
-        )
-      );
-
+          selectedImages[0]
+        );
     }
 
 
-    /* FILES */
+    /* =========================
+       ФАЙЛ
+    ========================= */
 
-    let fileText =
-      "";
-
+    let fileText = "";
 
     for (
       const file of selectedFiles
@@ -1933,61 +1918,127 @@ async function sendMessage() {
         " оқылып жатыр..."
       );
 
+      try {
 
-      const textFromFile =
-        await processFile(
-          file
+        const textFromFile =
+          await processFile(file);
+
+        if (textFromFile) {
+
+          fileText +=
+            "\n\n--- " +
+            file.name +
+            " ---\n" +
+            textFromFile;
+
+        }
+
+      }
+
+      catch (fileError) {
+
+        console.error(
+          "Файл қатесі:",
+          fileError
         );
 
+        fileText +=
+          "\n\n--- " +
+          file.name +
+          " ---\nФайлды оқу мүмкін болмады.";
 
-      fileText +=
-        "\n\n--- " +
-        file.name +
-        " ---\n" +
-        textFromFile;
+      }
 
     }
 
 
-    const userText =
-      text ||
-      (
-        imageData.length
-          ? "Осы суреттерді талда."
-          : "Осы файлды талда."
-      );
+    /* =========================
+       USER TEXT
+    ========================= */
+
+    let userText =
+      text;
+
+    if (!userText) {
+
+      if (imageData) {
+
+        userText =
+          "Осы суретті талда.";
+
+      }
+
+      else if (fileText) {
+
+        userText =
+          "Осы файлдағы ақпаратты талда.";
+
+      }
+
+      else {
+
+        userText =
+          "Сәлем.";
+
+      }
+
+    }
 
 
-    /* USER MESSAGE */
+    /* =========================
+       ФАЙЛ МӘТІНІН СҰРАҚҚА ҚОСУ
+    ========================= */
+
+    if (fileText) {
+
+      userText +=
+        "\n\nФайлдағы ақпарат:\n" +
+        fileText;
+
+    }
+
+
+    /* =========================
+       USER MESSAGE
+    ========================= */
 
     addMessage(
-      userText,
+      text || (
+        imageData
+          ? "Осы суретті талда."
+          : "Осы файлды талда."
+      ),
       "user",
       imageData
+        ? [imageData]
+        : []
     );
 
 
-    /* WORKER */
+    /* =========================
+       LOADING
+    ========================= */
 
     setStatus(
       "AI жауап дайындап жатыр..."
     );
 
-
-    const loading =
+    loading =
       addMessage(
         "AI жауап дайындап жатыр...",
         "ai"
       );
 
 
+    /* =========================
+       CLOUDFLARE WORKER
+    ========================= */
+
     const response =
       await fetch(
         WORKER_URL,
         {
-
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
             "Content-Type":
@@ -1997,17 +2048,11 @@ async function sendMessage() {
           body:
             JSON.stringify({
 
-              action:
-                "chat",
-
               message:
                 userText,
 
-              images:
+              image:
                 imageData,
-
-              fileText:
-                fileText,
 
               history:
                 history.slice(-12)
@@ -2018,30 +2063,79 @@ async function sendMessage() {
       );
 
 
-    const data =
-      await response.json();
+    /* =========================
+       RESPONSE
+    ========================= */
 
+    let data;
 
-    loading.remove();
+    try {
 
+      data =
+        await response.json();
 
-    if (!response.ok) {
+    }
+
+    catch {
 
       throw new Error(
-        data.error ||
-        "Сервер қатесі."
+        "Cloudflare Worker JSON жауап қайтармады."
       );
 
     }
 
 
-    const answer =
-      typeof data.answer === "string"
-        ? data.answer
-        : JSON.stringify(
-            data.answer
-          );
+    if (!response.ok) {
 
+      throw new Error(
+        data?.error ||
+        "Сервер қатесі: " +
+        response.status
+      );
+
+    }
+
+
+    /* =========================
+       AI ANSWER
+    ========================= */
+
+    let answer =
+      data?.answer;
+
+    if (
+      typeof answer !==
+      "string"
+    ) {
+
+      answer =
+        JSON.stringify(
+          answer
+        );
+
+    }
+
+    if (!answer) {
+
+      answer =
+        "AI жауап бере алмады.";
+
+    }
+
+
+    /* =========================
+       LOADING ӨШІРУ
+    ========================= */
+
+    if (loading) {
+      loading.remove();
+      loading = null;
+    }
+
+
+    /* =========================
+       AI MESSAGE
+    ========================= */
 
     addMessage(
       answer,
@@ -2049,7 +2143,9 @@ async function sendMessage() {
     );
 
 
-    /* SAVE USER */
+    /* =========================
+       HISTORY
+    ========================= */
 
     history.push({
 
@@ -2057,15 +2153,20 @@ async function sendMessage() {
         "user",
 
       content:
-        userText,
+        text ||
+        (
+          imageData
+            ? "Осы суретті талда."
+            : "Осы файлды талда."
+        ),
 
       images:
         imageData
+          ? [imageData]
+          : []
 
     });
 
-
-    /* SAVE AI */
 
     history.push({
 
@@ -2085,11 +2186,12 @@ async function sendMessage() {
       history.slice(-12);
 
 
-    /* TITLE */
+    /* =========================
+       CHAT TITLE
+    ========================= */
 
     const chat =
       currentChat();
-
 
     if (
       chat &&
@@ -2097,10 +2199,18 @@ async function sendMessage() {
       "Жаңа чат"
     ) {
 
+      const title =
+        text ||
+        (
+          imageData
+            ? "Суретті талдау"
+            : "Файлды талдау"
+        );
+
       chat.title =
-        userText.length > 45
-          ? userText.slice(0,45) + "..."
-          : userText;
+        title.length > 45
+          ? title.slice(0, 45) + "..."
+          : title;
 
     }
 
@@ -2108,15 +2218,16 @@ async function sendMessage() {
     updateChat();
 
 
-    input.value =
-      "";
+    /* =========================
+       CLEAR
+    ========================= */
+
+    input.value = "";
 
     input.style.height =
       "auto";
 
-
     clearSelection();
-
 
     setStatus("");
 
@@ -2125,14 +2236,20 @@ async function sendMessage() {
   catch (error) {
 
     console.error(
+      "SEND ERROR:",
       error
     );
+
+
+    if (loading) {
+      loading.remove();
+    }
 
 
     addMessage(
       "Қате: " +
       (
-        error.message ||
+        error?.message ||
         "Белгісіз қате"
       ),
       "ai"
@@ -2151,287 +2268,3 @@ async function sendMessage() {
   }
 
 }
-
-
-/* =========================================================
-   REGENERATE
-========================================================= */
-
-async function regenerateAnswer(
-  oldAnswer
-) {
-
-  if (sending) {
-    return;
-  }
-
-
-  if (
-    history.length < 2
-  ) {
-    return;
-  }
-
-
-  const last =
-    history[
-      history.length - 1
-    ];
-
-
-  if (
-    last.role !==
-    "assistant"
-  ) {
-    return;
-  }
-
-
-  history.pop();
-
-
-  const previousUser =
-    history[
-      history.length - 1
-    ];
-
-
-  if (
-    !previousUser ||
-    previousUser.role !==
-    "user"
-  ) {
-    return;
-  }
-
-
-  const loading =
-    addMessage(
-      "Жаңа жауап дайындалып жатыр...",
-      "ai"
-    );
-
-
-  sending =
-    true;
-
-
-  try {
-
-    const response =
-      await fetch(
-        WORKER_URL,
-        {
-
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                "chat",
-
-              message:
-                previousUser.content,
-
-              images:
-                previousUser.images || [],
-
-              history:
-                history.slice(-12)
-
-            })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    loading.remove();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "Қайта генерация қатесі."
-      );
-
-    }
-
-
-    const answer =
-      data.answer ||
-      "AI жауап бере алмады.";
-
-
-    addMessage(
-      answer,
-      "ai"
-    );
-
-
-    history.push({
-
-      role:
-        "assistant",
-
-      content:
-        answer,
-
-      images:
-        []
-
-    });
-
-
-    updateChat();
-
-  }
-
-  catch (error) {
-
-    loading.remove();
-
-    addMessage(
-      "Қате: " +
-      error.message,
-      "ai"
-    );
-
-  }
-
-  finally {
-
-    sending =
-      false;
-
-  }
-
-}
-
-
-/* =========================================================
-   IMAGE MODAL
-========================================================= */
-
-function openImage(
-  src
-) {
-
-  document.getElementById(
-    "modalImage"
-  ).src =
-    src;
-
-  document.getElementById(
-    "imageModal"
-  ).classList.add(
-    "show"
-  );
-
-}
-
-
-function closeImage() {
-
-  document.getElementById(
-    "imageModal"
-  ).classList.remove(
-    "show"
-  );
-
-}
-
-
-/* =========================================================
-   ENTER
-========================================================= */
-
-document
-  .getElementById(
-    "input"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Enter" &&
-        !event.shiftKey
-      ) {
-
-        event.preventDefault();
-
-        sendMessage();
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   AUTO HEIGHT
-========================================================= */
-
-document
-  .getElementById(
-    "input"
-  )
-  .addEventListener(
-    "input",
-    function() {
-
-      this.style.height =
-        "auto";
-
-      this.style.height =
-        Math.min(
-          this.scrollHeight,
-          120
-        ) + "px";
-
-    }
-  );
-
-
-/* =========================================================
-   START
-========================================================= */
-
-if (!chats.length) {
-
-  createChat();
-
-}
-
-else {
-
-  currentChatId =
-    chats[0].id;
-
-  history =
-    chats[0].history || [];
-
-}
-
-
-renderCurrent();
-
-renderChats();
-
-</script>
-
-</body>
-
-</html>
