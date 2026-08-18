@@ -955,11 +955,12 @@ function renderCurrentChat() {
       }
 
       addMessage(
-        text,
-        item.role === "user"
-          ? "user"
-          : "ai"
-      );
+  text,
+  item.role === "user"
+    ? "user"
+    : "ai",
+  item.image || null
+);
 
     }
   );
@@ -1873,14 +1874,10 @@ async function sendMessage() {
     ========================== */
 
     chatHistory.push({
-
-      role:
-        "user",
-
-      content:
-        userText
-
-    });
+  role: "user",
+  content: userText,
+  image: imageData || null
+});
 
 
     chatHistory.push({
