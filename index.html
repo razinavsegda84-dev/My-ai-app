@@ -2049,6 +2049,158 @@ async function regenerateAnswer() {
   }
 
 }
+  /* =========================================================
+   AI ЖАУАП БАТЫРМАЛАРЫ
+========================================================= */
+
+function addAIButtons(message) {
+
+  if (!message) return;
+
+  if (
+    !message.classList.contains("ai") ||
+    message.querySelector(".ai-buttons")
+  ) {
+    return;
+  }
+
+  const content =
+    message.querySelector(".message-content");
+
+  if (!content) return;
+
+  const text =
+    content.innerText.trim();
+
+  if (!text) return;
+
+  const buttons =
+    document.createElement("div");
+
+  buttons.className =
+    "ai-buttons";
+
+
+  /* КӨШІРУ */
+
+  const copyButton =
+    document.createElement("button");
+
+  copyButton.type =
+    "button";
+
+  copyButton.textContent =
+    "📋 Көшіру";
+
+  copyButton.onclick = () => {
+
+    copyAIAnswer(
+      text,
+      copyButton
+    );
+
+  };
+
+
+  /* ҚАЙТА ЖАУАП */
+
+  const regenerateButton =
+    document.createElement("button");
+
+  regenerateButton.type =
+    "button";
+
+  regenerateButton.textContent =
+    "🔄 Қайта жауап";
+
+  regenerateButton.onclick = () => {
+
+    regenerateAnswer();
+
+  };
+
+
+  buttons.appendChild(
+    copyButton
+  );
+
+  buttons.appendChild(
+    regenerateButton
+  );
+
+  message.appendChild(
+    buttons
+  );
+
+}
+
+
+/* ЖАҢА AI ХАБАРЛАМАЛАРЫН АВТОМАТТЫ ТАБУ */
+
+const aiButtonObserver =
+  new MutationObserver(
+    mutations => {
+
+      mutations.forEach(
+        mutation => {
+
+          mutation.addedNodes.forEach(
+            node => {
+
+              if (
+                node.nodeType !== 1
+              ) {
+                return;
+              }
+
+              if (
+                node.classList &&
+                node.classList.contains("message")
+              ) {
+
+                addAIButtons(node);
+
+              }
+
+              if (
+                node.querySelectorAll
+              ) {
+
+                node
+                  .querySelectorAll(
+                    ".message.ai"
+                  )
+                  .forEach(
+                    addAIButtons
+                  );
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+const chatElement =
+  document.getElementById("chat");
+
+
+if (chatElement) {
+
+  aiButtonObserver.observe(
+    chatElement,
+    {
+      childList: true,
+      subtree: true
+    }
+  );
+
+}
 </script>
 
 </body>
