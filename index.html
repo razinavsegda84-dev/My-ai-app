@@ -2201,6 +2201,133 @@ if (chatElement) {
   );
 
 }
+const oldRegenerate =
+  window.regenerateAnswer;
+
+if (typeof oldRegenerate !== "function") {
+
+  window.regenerateAnswer =
+    function () {
+
+      if (
+        typeof history === "undefined" ||
+        history.length < 2
+      ) {
+        return;
+      }
+
+      const last =
+        history[history.length - 1];
+
+      if (
+        !last ||
+        last.role !== "assistant"
+      ) {
+        return;
+      }
+
+      history.pop();
+
+      const user =
+        history[history.length - 1];
+
+      if (
+        !user ||
+        user.role !== "user"
+      ) {
+        return;
+      }
+
+      sending = true;
+
+      fetch(
+        WORKER_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            message:
+              user.content,
+
+            images:
+              user.images || [],
+
+            history:
+              history.slice(-12)
+
+          })
+
+        }
+      )
+      .then(
+        response =>
+          response.json()
+      )
+      .then(data => {
+
+        if (!data.ok) {
+
+          throw new Error(
+            data.error ||
+            "Қате"
+          );
+
+        }
+
+        const answer =
+          data.answer ||
+          "AI жауап бере алмады.";
+
+        addMessage(
+          answer,
+          "ai"
+        );
+
+        history.push({
+
+          role:
+            "assistant",
+
+          content:
+            answer,
+
+          images:
+            []
+
+        });
+
+        history =
+          history.slice(-12);
+
+        updateChat();
+
+      })
+      .catch(error => {
+
+        addMessage(
+          "Қате: " +
+          error.message,
+          "ai"
+        );
+
+      })
+      .finally(() => {
+
+        sending = false;
+
+        setStatus("");
+
+      });
+
+    };
+
+}
 </script>
 
 </body>
