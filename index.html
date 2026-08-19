@@ -111,63 +111,6 @@ header{
   cursor:pointer;
 }
 
-/* =========================
-   FILE CARD
-========================= */
-
-.file-card{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-  margin:4px 0 8px;
-  background:rgba(0,0,0,.22);
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:12px;
-  cursor:pointer;
-  max-width:100%;
-}
-
-.file-icon{
-  width:42px;
-  height:42px;
-  min-width:42px;
-  border-radius:9px;
-  background:#222;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-}
-
-.file-info{
-  min-width:0;
-  flex:1;
-}
-
-.file-name{
-  font-size:14px;
-  font-weight:bold;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.file-type{
-  font-size:11px;
-  color:#aaa;
-  margin-top:3px;
-}
-
-.file-open{
-  font-size:12px;
-  color:#bbb;
-}
-
-/* =========================
-   MESSAGE TOOLS
-========================= */
-
 .message-tools{
   display:flex;
   gap:6px;
@@ -180,6 +123,50 @@ header{
   border-radius:10px;
   padding:7px 10px;
   font-size:13px;
+}
+
+.file-card{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#171717;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:10px;
+  margin:5px 0 10px;
+  max-width:100%;
+}
+
+.file-icon{
+  font-size:25px;
+}
+
+.file-info{
+  min-width:0;
+  flex:1;
+}
+
+.file-name{
+  font-weight:bold;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.file-type{
+  color:#888;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.file-open{
+  background:#333;
+  border-radius:9px;
+  padding:7px 9px;
+  color:#fff;
+  text-decoration:none;
+  font-size:13px;
+  white-space:nowrap;
 }
 
 .bottom-area{
@@ -220,15 +207,6 @@ header{
   align-items:center;
   justify-content:center;
   font-size:24px;
-  overflow:hidden;
-}
-
-.preview-file-name{
-  font-size:8px;
-  text-align:center;
-  padding:3px;
-  word-break:break-all;
-  color:#bbb;
 }
 
 .preview-remove{
@@ -303,6 +281,7 @@ input[type=file]{
   color:#777;
   font-size:12px;
   pointer-events:none;
+  z-index:20;
 }
 
 .overlay{
@@ -423,7 +402,7 @@ input[type=file]{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.92);
+  background:rgba(0,0,0,.9);
   z-index:100;
   align-items:center;
   justify-content:center;
@@ -452,7 +431,6 @@ input[type=file]{
 }
 
 @media(max-width:600px){
-
   #chat{
     padding:13px;
   }
@@ -464,7 +442,6 @@ input[type=file]{
   textarea{
     font-size:15px;
   }
-
 }
 </style>
 </head>
@@ -474,7 +451,6 @@ input[type=file]{
 <div class="app">
 
 <header>
-
   <div class="header-side">
     <button id="menuButton" class="icon-button">☰</button>
   </div>
@@ -484,7 +460,6 @@ input[type=file]{
   <div class="header-side">
     <button id="newChatButton" class="icon-button">＋</button>
   </div>
-
 </header>
 
 <div id="chat"></div>
@@ -499,14 +474,22 @@ input[type=file]{
 
   <div class="controls">
 
-    <!-- БАРЛЫҚ ФАЙЛ ОСЫ БАТЫРМАМЕН -->
     <button id="fileButton" class="control-button">📎</button>
 
     <input
       id="fileInput"
       type="file"
-      accept="image/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.csv"
+      accept="image/*,.pdf,.txt"
       multiple
+    >
+
+    <button id="cameraButton" class="control-button">📷</button>
+
+    <input
+      id="cameraInput"
+      type="file"
+      accept="image/*"
+      capture="environment"
     >
 
     <textarea
@@ -518,7 +501,6 @@ input[type=file]{
     <button id="sendButton" class="send-button">➤</button>
 
   </div>
-
 </div>
 
 </div>
@@ -528,22 +510,11 @@ input[type=file]{
 <div id="panel" class="chat-panel">
 
   <div class="panel-header">
-
-    <div class="panel-title">
-      Чаттар
-    </div>
-
-    <button
-      id="closePanelButton"
-      class="icon-button">
-      ✕
-    </button>
-
+    <div class="panel-title">Чаттар</div>
+    <button id="closePanelButton" class="icon-button">✕</button>
   </div>
 
-  <button
-    id="newChatPanelButton"
-    class="panel-button">
+  <button id="newChatPanelButton" class="panel-button">
     ＋ Жаңа чат
   </button>
 
@@ -558,39 +529,54 @@ input[type=file]{
 </div>
 
 <div id="imageModal" class="modal">
-
-  <button
-    id="modalClose"
-    class="modal-close">
-    ✕
-  </button>
-
-  <img
-    id="modalImage"
-    alt=""
-  >
-
+  <button id="modalClose" class="modal-close">✕</button>
+  <img id="modalImage" alt="">
 </div>
 
-<script>
+
+<!-- PDF ОҚУ КІТАПХАНАСЫ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+        type="module"></script>
+
+
+<script type="module">
+
+/* =====================================================
+   PDF.JS
+===================================================== */
+
+import * as pdfjsLib
+  from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+
+
+/* =====================================================
+   WORKER
+===================================================== */
 
 const WORKER_URL =
   "https://my-ai-backend.razinavsegda84.workers.dev";
 
+
 const STORAGE_KEY =
-  "my_ai_chats_v6";
+  "my_ai_chats_v7";
+
 
 let chats = [];
 let currentChatId = null;
 let history = [];
+
 let selectedImages = [];
 let selectedFiles = [];
+
 let sending = false;
 
 
-/* =========================
+/* =====================================================
    ELEMENTS
-========================= */
+===================================================== */
 
 const chatBox =
   document.getElementById("chat");
@@ -604,6 +590,9 @@ const sendButton =
 const fileInput =
   document.getElementById("fileInput");
 
+const cameraInput =
+  document.getElementById("cameraInput");
+
 const preview =
   document.getElementById("preview");
 
@@ -614,9 +603,9 @@ const status =
   document.getElementById("status");
 
 
-/* =========================
+/* =====================================================
    STORAGE
-========================= */
+===================================================== */
 
 function loadChats(){
 
@@ -637,30 +626,20 @@ function loadChats(){
 
 }
 
+
 function saveChats(){
 
-  try{
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(chats)
-    );
-
-  }catch(error){
-
-    console.error(
-      "STORAGE ERROR:",
-      error
-    );
-
-  }
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(chats)
+  );
 
 }
 
 
-/* =========================
+/* =====================================================
    ID
-========================= */
+===================================================== */
 
 function makeId(){
 
@@ -672,9 +651,9 @@ function makeId(){
 }
 
 
-/* =========================
+/* =====================================================
    CHAT
-========================= */
+===================================================== */
 
 function createChat(){
 
@@ -736,203 +715,9 @@ function updateChat(){
 }
 
 
-/* =========================
-   FILE ICON
-========================= */
-
-function getFileIcon(fileName,type){
-
-  const name =
-    String(fileName || "")
-      .toLowerCase();
-
-  if(type === "application/pdf" ||
-     name.endsWith(".pdf")){
-
-    return "📕";
-
-  }
-
-  if(name.endsWith(".doc") ||
-     name.endsWith(".docx")){
-
-    return "📘";
-
-  }
-
-  if(name.endsWith(".xls") ||
-     name.endsWith(".xlsx") ||
-     name.endsWith(".csv")){
-
-    return "📗";
-
-  }
-
-  if(name.endsWith(".txt")){
-
-    return "📄";
-
-  }
-
-  return "📎";
-
-}
-
-
-/* =========================
-   FILE CARD
-========================= */
-
-function addFileCard(
-  container,
-  fileInfo,
-  isUser = true
-){
-
-  const card =
-    document.createElement("div");
-
-  card.className =
-    "file-card";
-
-  const icon =
-    document.createElement("div");
-
-  icon.className =
-    "file-icon";
-
-  icon.textContent =
-    getFileIcon(
-      fileInfo.name,
-      fileInfo.type
-    );
-
-  const info =
-    document.createElement("div");
-
-  info.className =
-    "file-info";
-
-  const name =
-    document.createElement("div");
-
-  name.className =
-    "file-name";
-
-  name.textContent =
-    fileInfo.name || "Файл";
-
-  const type =
-    document.createElement("div");
-
-  type.className =
-    "file-type";
-
-  type.textContent =
-    fileInfo.type ||
-    "Файл";
-
-  info.appendChild(name);
-  info.appendChild(type);
-
-  const open =
-    document.createElement("div");
-
-  open.className =
-    "file-open";
-
-  open.textContent =
-    "Ашу ›";
-
-  card.appendChild(icon);
-  card.appendChild(info);
-  card.appendChild(open);
-
-  card.addEventListener(
-    "click",
-    () => {
-
-      if(fileInfo.url){
-
-        window.open(
-          fileInfo.url,
-          "_blank"
-        );
-
-        return;
-
-      }
-
-      if(fileInfo.data){
-
-        try{
-
-          const byteString =
-            atob(
-              fileInfo.data.split(",")[1]
-            );
-
-          const mime =
-            fileInfo.type ||
-            "application/octet-stream";
-
-          const array =
-            new Uint8Array(
-              byteString.length
-            );
-
-          for(
-            let i = 0;
-            i < byteString.length;
-            i++
-          ){
-
-            array[i] =
-              byteString.charCodeAt(i);
-
-          }
-
-          const blob =
-            new Blob(
-              [array],
-              {type:mime}
-            );
-
-          const url =
-            URL.createObjectURL(blob);
-
-          window.open(
-            url,
-            "_blank"
-          );
-
-          setTimeout(
-            () => URL.revokeObjectURL(url),
-            60000
-          );
-
-        }catch(error){
-
-          console.error(
-            "FILE OPEN ERROR:",
-            error
-          );
-
-        }
-
-      }
-
-    }
-  );
-
-  container.appendChild(card);
-
-}
-
-
-/* =========================
-   RENDER CURRENT
-========================= */
+/* =====================================================
+   RENDER
+===================================================== */
 
 function renderCurrent(){
 
@@ -949,7 +734,6 @@ function renderCurrent(){
     `;
 
     return;
-
   }
 
   history.forEach(item => {
@@ -957,11 +741,7 @@ function renderCurrent(){
     if(
       item.role !== "user" &&
       item.role !== "assistant"
-    ){
-
-      return;
-
-    }
+    ) return;
 
     addMessage(
       item.content,
@@ -977,10 +757,6 @@ function renderCurrent(){
 }
 
 
-/* =========================
-   MESSAGE
-========================= */
-
 function addMessage(
   text,
   type,
@@ -995,17 +771,107 @@ function addMessage(
     "message " + type;
 
 
-  /* IMAGES */
+  /* =====================================================
+     FILE CARD
+  ===================================================== */
+
+  files.forEach(file => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "file-card";
+
+    const icon =
+      document.createElement("div");
+
+    icon.className =
+      "file-icon";
+
+    icon.textContent =
+      file.mimeType === "application/pdf"
+        ? "📕"
+        : "📄";
+
+
+    const info =
+      document.createElement("div");
+
+    info.className =
+      "file-info";
+
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "file-name";
+
+    name.textContent =
+      file.name || "Файл";
+
+
+    const typeText =
+      document.createElement("div");
+
+    typeText.className =
+      "file-type";
+
+    typeText.textContent =
+      file.mimeType || "";
+
+
+    info.appendChild(name);
+    info.appendChild(typeText);
+
+
+    if(file.url){
+
+      const open =
+        document.createElement("a");
+
+      open.className =
+        "file-open";
+
+      open.href =
+        file.url;
+
+      open.target =
+        "_blank";
+
+      open.rel =
+        "noopener";
+
+      open.textContent =
+        "Ашу ›";
+
+      card.appendChild(icon);
+      card.appendChild(info);
+      card.appendChild(open);
+
+    }else{
+
+      card.appendChild(icon);
+      card.appendChild(info);
+
+    }
+
+
+    div.appendChild(card);
+
+  });
+
+
+  /* =====================================================
+     IMAGES
+  ===================================================== */
 
   images.forEach(src => {
-
-    if(!src) return;
 
     const img =
       document.createElement("img");
 
-    img.src =
-      src;
+    img.src = src;
 
     img.onclick =
       () => openImage(src);
@@ -1014,23 +880,6 @@ function addMessage(
 
   });
 
-
-  /* FILES */
-
-  files.forEach(file => {
-
-    if(!file) return;
-
-    addFileCard(
-      div,
-      file,
-      type === "user"
-    );
-
-  });
-
-
-  /* TEXT */
 
   if(text){
 
@@ -1047,8 +896,6 @@ function addMessage(
 
   }
 
-
-  /* AI TOOLS */
 
   if(type === "ai"){
 
@@ -1083,13 +930,12 @@ function addMessage(
           copy.textContent =
             "✅ Көшірілді";
 
-          setTimeout(
-            () => {
-              copy.textContent =
-                "📋 Көшіру";
-            },
-            1500
-          );
+          setTimeout(() => {
+
+            copy.textContent =
+              "📋 Көшіру";
+
+          },1500);
 
         }catch{
 
@@ -1135,9 +981,9 @@ function addMessage(
 }
 
 
-/* =========================
+/* =====================================================
    CHAT LIST
-========================= */
+===================================================== */
 
 function renderChats(){
 
@@ -1200,15 +1046,12 @@ function renderChats(){
     open.querySelector(".chat-date")
       .textContent =
       new Date(chat.updatedAt)
-        .toLocaleString(
-          "kk-KZ",
-          {
-            day:"2-digit",
-            month:"2-digit",
-            hour:"2-digit",
-            minute:"2-digit"
-          }
-        );
+        .toLocaleString("kk-KZ",{
+          day:"2-digit",
+          month:"2-digit",
+          hour:"2-digit",
+          minute:"2-digit"
+        });
 
     open.onclick =
       () => openChat(chat.id);
@@ -1234,15 +1077,10 @@ function renderChats(){
             chat.title
           );
 
-        if(
-          name &&
-          name.trim()
-        ){
+        if(name && name.trim()){
 
           chat.title =
-            name
-              .trim()
-              .slice(0,80);
+            name.trim().slice(0,80);
 
           chat.updatedAt =
             Date.now();
@@ -1271,25 +1109,15 @@ function renderChats(){
         event.stopPropagation();
 
         if(
-          !confirm(
-            "Бұл чатты өшіру керек пе?"
-          )
-        ){
-
-          return;
-
-        }
+          !confirm("Бұл чатты өшіру керек пе?")
+        ) return;
 
         chats =
           chats.filter(
-            x =>
-              x.id !== chat.id
+            x => x.id !== chat.id
           );
 
-        if(
-          currentChatId ===
-          chat.id
-        ){
+        if(currentChatId === chat.id){
 
           if(chats.length){
 
@@ -1310,6 +1138,7 @@ function renderChats(){
         saveChats();
 
         renderCurrent();
+
         renderChats();
 
       };
@@ -1330,8 +1159,7 @@ function openChat(chatId){
 
   const chat =
     chats.find(
-      x =>
-        x.id === chatId
+      x => x.id === chatId
     );
 
   if(!chat) return;
@@ -1345,15 +1173,17 @@ function openChat(chatId){
       : [];
 
   renderCurrent();
+
   renderChats();
+
   closePanel();
 
 }
 
 
-/* =========================
+/* =====================================================
    PANEL
-========================= */
+===================================================== */
 
 function openPanel(){
 
@@ -1366,6 +1196,7 @@ function openPanel(){
     .classList.add("show");
 
 }
+
 
 function closePanel(){
 
@@ -1380,9 +1211,9 @@ function closePanel(){
 }
 
 
-/* =========================
-   FILE SELECT
-========================= */
+/* =====================================================
+   FILE SELECTION
+===================================================== */
 
 function selectFiles(event){
 
@@ -1391,12 +1222,10 @@ function selectFiles(event){
       event.target.files || []
     );
 
+
   files.forEach(file => {
 
-    if(
-      file.type &&
-      file.type.startsWith("image/")
-    ){
+    if(file.type.startsWith("image/")){
 
       if(
         file.size <=
@@ -1415,6 +1244,7 @@ function selectFiles(event){
 
   });
 
+
   renderPreview();
 
   event.target.value = "";
@@ -1422,13 +1252,14 @@ function selectFiles(event){
 }
 
 
-/* =========================
+/* =====================================================
    PREVIEW
-========================= */
+===================================================== */
 
 function renderPreview(){
 
   previewRow.innerHTML = "";
+
 
   selectedImages.forEach(
     (file,index) => {
@@ -1439,8 +1270,10 @@ function renderPreview(){
       item.className =
         "preview-item";
 
+
       const img =
         document.createElement("img");
+
 
       const reader =
         new FileReader();
@@ -1468,10 +1301,7 @@ function renderPreview(){
       remove.onclick =
         () => {
 
-          selectedImages.splice(
-            index,
-            1
-          );
+          selectedImages.splice(index,1);
 
           renderPreview();
 
@@ -1497,23 +1327,16 @@ function renderPreview(){
         "preview-item";
 
 
-      const box =
+      const icon =
         document.createElement("div");
 
-      box.className =
+      icon.className =
         "preview-file";
 
-      box.innerHTML =
-        `
-        <div>
-          <div style="text-align:center">
-            ${getFileIcon(file.name,file.type)}
-          </div>
-          <div class="preview-file-name">
-            ${escapeHtml(file.name)}
-          </div>
-        </div>
-        `;
+      icon.textContent =
+        file.type === "application/pdf"
+          ? "📕"
+          : "📄";
 
 
       const remove =
@@ -1528,17 +1351,14 @@ function renderPreview(){
       remove.onclick =
         () => {
 
-          selectedFiles.splice(
-            index,
-            1
-          );
+          selectedFiles.splice(index,1);
 
           renderPreview();
 
         };
 
 
-      item.appendChild(box);
+      item.appendChild(icon);
       item.appendChild(remove);
 
       previewRow.appendChild(item);
@@ -1558,6 +1378,10 @@ function renderPreview(){
 }
 
 
+/* =====================================================
+   CLEAR
+===================================================== */
+
 function clearSelection(){
 
   selectedImages = [];
@@ -1568,9 +1392,9 @@ function clearSelection(){
 }
 
 
-/* =========================
+/* =====================================================
    BASE64
-========================= */
+===================================================== */
 
 function fileToBase64(file){
 
@@ -1581,9 +1405,7 @@ function fileToBase64(file){
         new FileReader();
 
       reader.onload =
-        () => resolve(
-          reader.result
-        );
+        () => resolve(reader.result);
 
       reader.onerror =
         reject;
@@ -1596,9 +1418,9 @@ function fileToBase64(file){
 }
 
 
-/* =========================
+/* =====================================================
    IMAGE COMPRESS
-========================= */
+===================================================== */
 
 function compressImage(file){
 
@@ -1608,11 +1430,13 @@ function compressImage(file){
       const reader =
         new FileReader();
 
+
       reader.onload =
         event => {
 
           const img =
             new Image();
+
 
           img.onload =
             () => {
@@ -1625,20 +1449,17 @@ function compressImage(file){
               let height =
                 img.height;
 
+
               if(
                 width > max ||
                 height > max
               ){
 
-                if(
-                  width > height
-                ){
+                if(width > height){
 
                   height =
                     Math.round(
-                      height *
-                      max /
-                      width
+                      height * max / width
                     );
 
                   width = max;
@@ -1647,9 +1468,7 @@ function compressImage(file){
 
                   width =
                     Math.round(
-                      width *
-                      max /
-                      height
+                      width * max / height
                     );
 
                   height = max;
@@ -1658,10 +1477,9 @@ function compressImage(file){
 
               }
 
+
               const canvas =
-                document.createElement(
-                  "canvas"
-                );
+                document.createElement("canvas");
 
               canvas.width =
                 width;
@@ -1669,10 +1487,10 @@ function compressImage(file){
               canvas.height =
                 height;
 
+
               const ctx =
-                canvas.getContext(
-                  "2d"
-                );
+                canvas.getContext("2d");
+
 
               ctx.drawImage(
                 img,
@@ -1681,6 +1499,7 @@ function compressImage(file){
                 width,
                 height
               );
+
 
               resolve(
                 canvas.toDataURL(
@@ -1691,6 +1510,7 @@ function compressImage(file){
 
             };
 
+
           img.onerror =
             reject;
 
@@ -1698,6 +1518,7 @@ function compressImage(file){
             event.target.result;
 
         };
+
 
       reader.onerror =
         reject;
@@ -1710,70 +1531,105 @@ function compressImage(file){
 }
 
 
-/* =========================
-   FILE TO WORKER
-========================= */
+/* =====================================================
+   PDF TEXT EXTRACTION
+===================================================== */
 
-async function processFile(file){
+async function extractPdfText(file){
 
-  const base64 =
-    await fileToBase64(file);
+  setStatus(
+    "PDF оқылып жатыр..."
+  );
 
-  const response =
-    await fetch(
-      WORKER_URL,
-      {
-        method:"POST",
 
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
+  const buffer =
+    await file.arrayBuffer();
 
-        body:JSON.stringify({
 
-          action:"file",
+  const pdf =
+    await pdfjsLib.getDocument({
+      data:buffer
+    }).promise;
 
-          file:base64,
 
-          fileName:file.name,
+  let fullText = "";
 
-          mimeType:
-            file.type ||
-            "application/octet-stream"
 
-        })
-
-      }
+  const maxPages =
+    Math.min(
+      pdf.numPages,
+      50
     );
 
-  const data =
-    await response.json();
 
-  if(!response.ok){
+  for(
+    let pageNumber = 1;
+    pageNumber <= maxPages;
+    pageNumber++
+  ){
 
-    throw new Error(
-      data.error ||
-      "Файл өңделмеді."
+    setStatus(
+      `PDF оқылып жатыр... ${pageNumber}/${maxPages}`
     );
+
+
+    const page =
+      await pdf.getPage(pageNumber);
+
+
+    const content =
+      await page.getTextContent();
+
+
+    const pageText =
+      content.items
+        .map(item =>
+          item.str || ""
+        )
+        .join(" ")
+        .replace(/\s+/g," ")
+        .trim();
+
+
+    if(pageText){
+
+      fullText +=
+        `\n\n--- ${pageNumber}-бет ---\n` +
+        pageText;
+
+    }
 
   }
 
-  return data.text || "";
+
+  return fullText.trim();
 
 }
 
 
-/* =========================
+/* =====================================================
+   NORMAL TEXT FILE
+===================================================== */
+
+async function extractTextFile(file){
+
+  return await file.text();
+
+}
+
+
+/* =====================================================
    SEND
-========================= */
+===================================================== */
 
 async function sendMessage(){
 
   if(sending) return;
 
+
   const text =
     input.value.trim();
+
 
   if(
     !text &&
@@ -1785,22 +1641,23 @@ async function sendMessage(){
 
   }
 
+
   if(!currentChatId){
 
     createChat();
 
   }
 
+
   const welcome =
-    document.querySelector(
-      ".welcome"
-    );
+    document.querySelector(".welcome");
 
   if(welcome){
 
     welcome.remove();
 
   }
+
 
   sending = true;
 
@@ -1809,9 +1666,15 @@ async function sendMessage(){
 
   let loading = null;
 
+
   try{
 
     let imageData = null;
+
+
+    /* =================================================
+       IMAGE
+    ================================================= */
 
     if(selectedImages.length){
 
@@ -1827,14 +1690,14 @@ async function sendMessage(){
     }
 
 
-    /*
-      Файлдарды AI-ға оқыту.
-      Бірақ файлдың өзін чаттан жоғалтпаймыз.
-    */
+    /* =================================================
+       FILE TEXT
+    ================================================= */
 
     let fileText = "";
 
-    const chatFiles = [];
+
+    const fileCards = [];
 
 
     for(
@@ -1842,76 +1705,108 @@ async function sendMessage(){
     ){
 
       setStatus(
-        file.name +
-        " оқылып жатыр..."
+        `${file.name} оқылып жатыр...`
       );
 
 
-      const fileData =
-        await fileToBase64(file);
+      let extracted = "";
+
+
+      if(
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf")
+      ){
+
+        extracted =
+          await extractPdfText(file);
+
+      }
+
+      else if(
+        file.type.startsWith("text/") ||
+        file.name.toLowerCase().endsWith(".txt")
+      ){
+
+        extracted =
+          await extractTextFile(file);
+
+      }
 
 
       /*
-        Файлдың өзін history ішінде сақтау.
-        PDF/мәтін/басқа файл кейін басылып ашылады.
-      */
+       * Файлды экранда ашу үшін уақытша URL.
+       */
 
-      chatFiles.push({
+      const fileUrl =
+        URL.createObjectURL(file);
+
+
+      fileCards.push({
 
         name:file.name,
 
-        type:
+        mimeType:
           file.type ||
           "application/octet-stream",
 
-        data:fileData
+        url:fileUrl
 
       });
 
 
-      /*
-        Worker файлдың мазмұнын оқиды.
-      */
-
-      const result =
-        await processFile(file);
-
-
-      if(result){
+      if(extracted){
 
         fileText +=
-          "\n\n--- " +
-          file.name +
-          " ---\n" +
-          result;
+          `\n\n===== ${file.name} =====\n` +
+          extracted.slice(0,30000);
 
       }
 
     }
 
 
+    /* =================================================
+       USER MESSAGE
+    ================================================= */
+
     let userText =
       text;
 
 
-    /*
-      Қолданушы мәтін жазбаған болса,
-      AI-ға автоматты тапсырма.
-    */
-
     if(!userText){
 
-      if(imageData){
+      if(
+        imageData &&
+        fileText
+      ){
+
+        userText =
+          "Осы сурет пен файлдағы ақпаратты талда.";
+
+      }
+
+      else if(imageData){
 
         userText =
           "Осы суретті талда.";
 
-      }else if(fileText){
+      }
+
+      else if(fileText){
 
         userText =
-          "Осы файлдың ішіндегі ақпаратты талда және түсіндір.";
+          "Осы файлдағы ақпаратты талда және түсіндір.";
 
-      }else{
+      }
+
+      else if(selectedFiles.length){
+
+        userText =
+          "Осы файлды талда.";
+
+      }
+
+      else{
 
         userText =
           "Сәлем.";
@@ -1921,23 +1816,15 @@ async function sendMessage(){
     }
 
 
-    /*
-      USER MESSAGE
-    */
-
     addMessage(
-      text || userText,
+      userText,
       "user",
       imageData
         ? [imageData]
         : [],
-      chatFiles
+      fileCards
     );
 
-
-    /*
-      AI LOADING
-    */
 
     loading =
       addMessage(
@@ -1951,9 +1838,9 @@ async function sendMessage(){
     );
 
 
-    /*
-      AI REQUEST
-    */
+    /* =================================================
+       SEND TO WORKER
+    ================================================= */
 
     const response =
       await fetch(
@@ -1978,7 +1865,14 @@ async function sendMessage(){
                 ? [imageData]
                 : [],
 
-            fileText:fileText,
+            fileText:
+              fileText.slice(0,60000),
+
+            files:
+              fileCards.map(file => ({
+                name:file.name,
+                mimeType:file.mimeType
+              })),
 
             history:
               history.slice(-12)
@@ -1990,6 +1884,7 @@ async function sendMessage(){
 
 
     let data;
+
 
     try{
 
@@ -2019,9 +1914,7 @@ async function sendMessage(){
     const answer =
       typeof data.answer === "string"
         ? data.answer
-        : JSON.stringify(
-            data.answer
-          );
+        : JSON.stringify(data.answer);
 
 
     if(loading){
@@ -2033,10 +1926,6 @@ async function sendMessage(){
     }
 
 
-    /*
-      AI ANSWER
-    */
-
     addMessage(
       answer ||
       "AI жауап бере алмады.",
@@ -2044,9 +1933,9 @@ async function sendMessage(){
     );
 
 
-    /*
-      HISTORY USER
-    */
+    /* =================================================
+       HISTORY
+    ================================================= */
 
     history.push({
 
@@ -2059,14 +1948,17 @@ async function sendMessage(){
           ? [imageData]
           : [],
 
-      files:chatFiles
+      files:
+        fileCards.map(file => ({
+          name:file.name,
+          mimeType:file.mimeType
+        })),
+
+      fileText:
+        fileText.slice(0,30000)
 
     });
 
-
-    /*
-      HISTORY AI
-    */
 
     history.push({
 
@@ -2100,8 +1992,8 @@ async function sendMessage(){
         (
           text ||
           (
-            selectedFiles[0]
-              ? selectedFiles[0].name
+            fileCards.length
+              ? fileCards[0].name
               : "Жаңа сұрақ"
           )
         ).slice(0,45);
@@ -2117,9 +2009,11 @@ async function sendMessage(){
     input.style.height =
       "auto";
 
+
     clearSelection();
 
     setStatus("");
+
 
   }catch(error){
 
@@ -2159,86 +2053,9 @@ async function sendMessage(){
 }
 
 
-/* =========================
-   STATUS
-========================= */
-
-function setStatus(text){
-
-  status.textContent =
-    text || "";
-
-}
-
-
-/* =========================
-   NEW CHAT
-========================= */
-
-function newChat(){
-
-  if(
-    history.length &&
-    !confirm(
-      "Жаңа чат бастаймыз ба?"
-    )
-  ){
-
-    return;
-
-  }
-
-  createChat();
-
-  clearSelection();
-
-  renderCurrent();
-
-}
-
-
-function newChatFromPanel(){
-
-  createChat();
-
-  clearSelection();
-
-  renderCurrent();
-
-  closePanel();
-
-}
-
-
-/* =========================
-   IMAGE MODAL
-========================= */
-
-function openImage(src){
-
-  document.getElementById(
-    "modalImage"
-  ).src = src;
-
-  document.getElementById(
-    "imageModal"
-  ).classList.add("show");
-
-}
-
-
-function closeImage(){
-
-  document.getElementById(
-    "imageModal"
-  ).classList.remove("show");
-
-}
-
-
-/* =========================
+/* =====================================================
    REGENERATE
-========================= */
+===================================================== */
 
 async function regenerateAnswer(){
 
@@ -2246,10 +2063,10 @@ async function regenerateAnswer(){
 
   if(history.length < 2) return;
 
+
   const last =
-    history[
-      history.length - 1
-    ];
+    history[history.length - 1];
+
 
   if(
     !last ||
@@ -2260,10 +2077,10 @@ async function regenerateAnswer(){
 
   }
 
+
   const user =
-    history[
-      history.length - 2
-    ];
+    history[history.length - 2];
+
 
   if(
     !user ||
@@ -2274,11 +2091,12 @@ async function regenerateAnswer(){
 
   }
 
+
   history.pop();
 
-  renderCurrent();
 
   sending = true;
+
 
   setStatus(
     "Жаңа жауап дайындалып жатыр..."
@@ -2308,6 +2126,9 @@ async function regenerateAnswer(){
 
             images:
               user.images || [],
+
+            fileText:
+              user.fileText || "",
 
             history:
               history.slice(-12)
@@ -2349,9 +2170,7 @@ async function regenerateAnswer(){
 
       content:answer,
 
-      images:[],
-
-      files:[]
+      images:[]
 
     });
 
@@ -2385,14 +2204,88 @@ async function regenerateAnswer(){
 }
 
 
-/* =========================
+/* =====================================================
+   STATUS
+===================================================== */
+
+function setStatus(text){
+
+  status.textContent =
+    text || "";
+
+}
+
+
+/* =====================================================
+   NEW CHAT
+===================================================== */
+
+function newChat(){
+
+  if(
+    history.length &&
+    !confirm("Жаңа чат бастаймыз ба?")
+  ){
+
+    return;
+
+  }
+
+
+  createChat();
+
+  clearSelection();
+
+  renderCurrent();
+
+}
+
+
+function newChatFromPanel(){
+
+  createChat();
+
+  clearSelection();
+
+  renderCurrent();
+
+  closePanel();
+
+}
+
+
+/* =====================================================
+   IMAGE MODAL
+===================================================== */
+
+function openImage(src){
+
+  document.getElementById(
+    "modalImage"
+  ).src = src;
+
+  document.getElementById(
+    "imageModal"
+  ).classList.add("show");
+
+}
+
+
+function closeImage(){
+
+  document.getElementById(
+    "imageModal"
+  ).classList.remove("show");
+
+}
+
+
+/* =====================================================
    BUTTONS
-========================= */
+===================================================== */
 
 document
-  .getElementById(
-    "sendButton"
-  )
+  .getElementById("sendButton")
   .addEventListener(
     "click",
     sendMessage
@@ -2400,13 +2293,18 @@ document
 
 
 document
-  .getElementById(
-    "fileButton"
-  )
+  .getElementById("fileButton")
   .addEventListener(
     "click",
-    () =>
-      fileInput.click()
+    () => fileInput.click()
+  );
+
+
+document
+  .getElementById("cameraButton")
+  .addEventListener(
+    "click",
+    () => cameraInput.click()
   );
 
 
@@ -2417,10 +2315,15 @@ fileInput
   );
 
 
+cameraInput
+  .addEventListener(
+    "change",
+    selectFiles
+  );
+
+
 document
-  .getElementById(
-    "menuButton"
-  )
+  .getElementById("menuButton")
   .addEventListener(
     "click",
     openPanel
@@ -2428,9 +2331,7 @@ document
 
 
 document
-  .getElementById(
-    "closePanelButton"
-  )
+  .getElementById("closePanelButton")
   .addEventListener(
     "click",
     closePanel
@@ -2438,9 +2339,7 @@ document
 
 
 document
-  .getElementById(
-    "overlay"
-  )
+  .getElementById("overlay")
   .addEventListener(
     "click",
     closePanel
@@ -2448,9 +2347,7 @@ document
 
 
 document
-  .getElementById(
-    "newChatButton"
-  )
+  .getElementById("newChatButton")
   .addEventListener(
     "click",
     newChat
@@ -2458,9 +2355,7 @@ document
 
 
 document
-  .getElementById(
-    "newChatPanelButton"
-  )
+  .getElementById("newChatPanelButton")
   .addEventListener(
     "click",
     newChatFromPanel
@@ -2468,9 +2363,7 @@ document
 
 
 document
-  .getElementById(
-    "chatSearch"
-  )
+  .getElementById("chatSearch")
   .addEventListener(
     "input",
     renderChats
@@ -2478,9 +2371,7 @@ document
 
 
 document
-  .getElementById(
-    "modalClose"
-  )
+  .getElementById("modalClose")
   .addEventListener(
     "click",
     closeImage
@@ -2488,9 +2379,7 @@ document
 
 
 document
-  .getElementById(
-    "imageModal"
-  )
+  .getElementById("imageModal")
   .addEventListener(
     "click",
     event => {
@@ -2508,9 +2397,9 @@ document
   );
 
 
-/* =========================
+/* =====================================================
    ENTER
-========================= */
+===================================================== */
 
 input.addEventListener(
   "keydown",
@@ -2531,9 +2420,9 @@ input.addEventListener(
 );
 
 
-/* =========================
+/* =====================================================
    TEXTAREA
-========================= */
+===================================================== */
 
 input.addEventListener(
   "input",
@@ -2552,40 +2441,9 @@ input.addEventListener(
 );
 
 
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHtml(text){
-
-  return String(text)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-/* =========================
+/* =====================================================
    START
-========================= */
+===================================================== */
 
 chats =
   loadChats();
@@ -2604,9 +2462,7 @@ if(!chats.length){
     Array.isArray(
       chats[0].history
     )
-      ? chats[0]
-          .history
-          .slice(-12)
+      ? chats[0].history.slice(-12)
       : [];
 
 }
