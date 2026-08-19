@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>My AI</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
 
 <style>
 *{
@@ -155,17 +156,6 @@ header{
   border-radius:10px;
 }
 
-.file-preview{
-  width:64px;
-  height:64px;
-  background:#222;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-}
-
 .preview-remove{
   position:absolute;
   right:-4px;
@@ -175,6 +165,17 @@ header{
   border-radius:50%;
   background:#333;
   font-size:12px;
+}
+
+.file-preview{
+  width:64px;
+  height:64px;
+  background:#222;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
 }
 
 .controls{
@@ -238,6 +239,7 @@ input[type=file]{
   color:#777;
   font-size:12px;
   pointer-events:none;
+  z-index:20;
 }
 
 .overlay{
@@ -387,6 +389,7 @@ input[type=file]{
 }
 
 @media(max-width:600px){
+
   #chat{
     padding:13px;
   }
@@ -398,6 +401,7 @@ input[type=file]{
   textarea{
     font-size:15px;
   }
+
 }
 </style>
 </head>
@@ -407,6 +411,7 @@ input[type=file]{
 <div class="app">
 
 <header>
+
   <div class="header-side">
     <button id="menuButton" class="icon-button">☰</button>
   </div>
@@ -416,6 +421,7 @@ input[type=file]{
   <div class="header-side">
     <button id="newChatButton" class="icon-button">＋</button>
   </div>
+
 </header>
 
 <div id="chat"></div>
@@ -435,7 +441,7 @@ input[type=file]{
     <input
       id="fileInput"
       type="file"
-      accept="image/*,.pdf,.txt,.docx,.xlsx,.csv"
+      accept="image/*,.pdf,.txt,.csv"
       multiple
     >
 
@@ -457,6 +463,7 @@ input[type=file]{
     <button id="sendButton" class="send-button">➤</button>
 
   </div>
+
 </div>
 
 </div>
@@ -466,11 +473,20 @@ input[type=file]{
 <div id="panel" class="chat-panel">
 
   <div class="panel-header">
+
     <div class="panel-title">Чаттар</div>
-    <button id="closePanelButton" class="icon-button">✕</button>
+
+    <button
+      id="closePanelButton"
+      class="icon-button"
+    >✕</button>
+
   </div>
 
-  <button id="newChatPanelButton" class="panel-button">
+  <button
+    id="newChatPanelButton"
+    class="panel-button"
+  >
     ＋ Жаңа чат
   </button>
 
@@ -480,69 +496,105 @@ input[type=file]{
     placeholder="Чатты іздеу..."
   >
 
-  <div id="chatList" class="chat-list"></div>
+  <div
+    id="chatList"
+    class="chat-list"
+  ></div>
 
 </div>
 
 <div id="imageModal" class="modal">
-  <button id="modalClose" class="modal-close">✕</button>
-  <img id="modalImage" alt="">
+
+  <button
+    id="modalClose"
+    class="modal-close"
+  >✕</button>
+
+  <img
+    id="modalImage"
+    alt=""
+  >
+
 </div>
+
 
 <script type="module">
 
+/* =====================================================
+   PDF.JS
+===================================================== */
+
 import * as pdfjsLib from
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
+
+/* =====================================================
+   WORKER
+===================================================== */
 
 const WORKER_URL =
-  "https://my-ai-backend.razinavsegda84.workers.dev";
+"https://my-ai-backend.razinavsegda84.workers.dev";
+
 
 const STORAGE_KEY =
-  "my_ai_chats_v5";
+"my_ai_chats_v6";
+
 
 let chats = [];
+
 let currentChatId = null;
+
 let history = [];
+
 let selectedImages = [];
+
 let selectedFiles = [];
+
 let sending = false;
 
 
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
 const chatBox =
-  document.getElementById("chat");
+document.getElementById("chat");
 
 const input =
-  document.getElementById("input");
+document.getElementById("input");
 
 const sendButton =
-  document.getElementById("sendButton");
+document.getElementById("sendButton");
 
 const fileInput =
-  document.getElementById("fileInput");
+document.getElementById("fileInput");
 
 const cameraInput =
-  document.getElementById("cameraInput");
+document.getElementById("cameraInput");
 
 const preview =
-  document.getElementById("preview");
+document.getElementById("preview");
 
 const previewRow =
-  document.getElementById("previewRow");
+document.getElementById("previewRow");
 
 const status =
-  document.getElementById("status");
+document.getElementById("status");
 
+
+/* =====================================================
+   STORAGE
+===================================================== */
 
 function loadChats(){
 
   try{
 
     const saved =
-      localStorage.getItem(STORAGE_KEY);
+    localStorage.getItem(STORAGE_KEY);
 
     return saved
       ? JSON.parse(saved)
@@ -567,6 +619,10 @@ function saveChats(){
 }
 
 
+/* =====================================================
+   ID
+===================================================== */
+
 function makeId(){
 
   return Date.now().toString(36) +
@@ -576,6 +632,10 @@ function makeId(){
 
 }
 
+
+/* =====================================================
+   CHAT
+===================================================== */
 
 function createChat(){
 
@@ -596,7 +656,7 @@ function createChat(){
   chats.unshift(chat);
 
   currentChatId =
-    chat.id;
+  chat.id;
 
   history = [];
 
@@ -611,7 +671,7 @@ function getCurrentChat(){
 
   return chats.find(
     chat =>
-      chat.id === currentChatId
+    chat.id === currentChatId
   );
 
 }
@@ -620,15 +680,15 @@ function getCurrentChat(){
 function updateChat(){
 
   const chat =
-    getCurrentChat();
+  getCurrentChat();
 
   if(!chat) return;
 
   chat.history =
-    history.slice(-12);
+  history.slice(-12);
 
   chat.updatedAt =
-    Date.now();
+  Date.now();
 
   saveChats();
 
@@ -636,6 +696,10 @@ function updateChat(){
 
 }
 
+
+/* =====================================================
+   RENDER MESSAGE
+===================================================== */
 
 function renderCurrent(){
 
@@ -682,277 +746,309 @@ function addMessage(
 ){
 
   const div =
-    document.createElement("div");
+  document.createElement("div");
 
   div.className =
-    "message " + type;
+  "message " + type;
+
 
   images.forEach(src => {
 
     const img =
-      document.createElement("img");
+    document.createElement("img");
 
     img.src = src;
 
     img.onclick =
-      () => openImage(src);
+    () => openImage(src);
 
     div.appendChild(img);
 
   });
 
+
   if(text){
 
     const textDiv =
-      document.createElement("div");
+    document.createElement("div");
 
     textDiv.className =
-      "message-content";
+    "message-content";
 
     textDiv.textContent =
-      text;
+    text;
 
     div.appendChild(textDiv);
 
   }
 
+
   if(type === "ai"){
 
     const tools =
-      document.createElement("div");
+    document.createElement("div");
 
     tools.className =
-      "message-tools";
+    "message-tools";
+
 
     const copy =
-      document.createElement("button");
+    document.createElement("button");
 
-    copy.type =
-      "button";
+    copy.type = "button";
 
     copy.className =
-      "small-button";
+    "small-button";
 
     copy.textContent =
-      "📋 Көшіру";
+    "📋 Көшіру";
 
     copy.onclick =
-      async () => {
+    async () => {
 
-        try{
+      try{
 
-          await navigator.clipboard.writeText(
-            text || ""
-          );
+        await navigator.clipboard.writeText(
+          text || ""
+        );
 
-          copy.textContent =
-            "✅ Көшірілді";
+        copy.textContent =
+        "✅ Көшірілді";
 
-          setTimeout(() => {
+        setTimeout(
+          () => copy.textContent = "📋 Көшіру",
+          1500
+        );
 
-            copy.textContent =
-              "📋 Көшіру";
+      }catch{
 
-          },1500);
+        copy.textContent =
+        "❌ Қате";
 
-        }catch{
+      }
 
-          copy.textContent =
-            "❌ Қате";
+    };
 
-        }
-
-      };
 
     const regenerate =
-      document.createElement("button");
+    document.createElement("button");
 
-    regenerate.type =
-      "button";
+    regenerate.type = "button";
 
     regenerate.className =
-      "small-button";
+    "small-button";
 
     regenerate.textContent =
-      "🔄 Қайта жауап";
+    "🔄 Қайта жауап";
 
     regenerate.onclick =
-      () => regenerateAnswer();
+    () => regenerateAnswer();
+
 
     tools.appendChild(copy);
+
     tools.appendChild(regenerate);
 
     div.appendChild(tools);
 
   }
 
+
   chatBox.appendChild(div);
 
   chatBox.scrollTop =
-    chatBox.scrollHeight;
+  chatBox.scrollHeight;
 
   return div;
 
 }
 
 
+/* =====================================================
+   CHAT LIST
+===================================================== */
+
 function renderChats(){
 
   const list =
-    document.getElementById("chatList");
+  document.getElementById("chatList");
 
   const search =
-    document.getElementById("chatSearch")
-      .value
-      .toLowerCase()
-      .trim();
+  document.getElementById("chatSearch")
+    .value
+    .toLowerCase()
+    .trim();
 
   list.innerHTML = "";
 
+
   const filtered =
-    chats.filter(chat =>
-      !search ||
-      chat.title
-        .toLowerCase()
-        .includes(search)
-    );
+  chats.filter(chat =>
+    !search ||
+    chat.title
+      .toLowerCase()
+      .includes(search)
+  );
+
 
   if(!filtered.length){
 
     list.innerHTML =
-      `<div class="empty">Чат табылмады.</div>`;
+    `<div class="empty">Чат табылмады.</div>`;
 
     return;
 
   }
 
+
   filtered.forEach(chat => {
 
     const row =
-      document.createElement("div");
+    document.createElement("div");
 
     row.className =
-      "chat-item" +
-      (
-        chat.id === currentChatId
-          ? " active"
-          : ""
-      );
+    "chat-item" +
+    (
+      chat.id === currentChatId
+        ? " active"
+        : ""
+    );
+
 
     const open =
-      document.createElement("button");
+    document.createElement("button");
 
     open.className =
-      "chat-open";
+    "chat-open";
 
     open.innerHTML =
-      `<span class="chat-name"></span>
-       <span class="chat-date"></span>`;
+    `<span class="chat-name"></span>
+     <span class="chat-date"></span>`;
+
 
     open.querySelector(".chat-name")
       .textContent =
       chat.title;
 
+
     open.querySelector(".chat-date")
       .textContent =
       new Date(chat.updatedAt)
-        .toLocaleString("kk-KZ",{
+      .toLocaleString(
+        "kk-KZ",
+        {
           day:"2-digit",
           month:"2-digit",
           hour:"2-digit",
           minute:"2-digit"
-        });
+        }
+      );
+
 
     open.onclick =
-      () => openChat(chat.id);
+    () => openChat(chat.id);
+
 
     const rename =
-      document.createElement("button");
+    document.createElement("button");
 
     rename.className =
-      "chat-action";
+    "chat-action";
 
     rename.textContent =
-      "✏️";
+    "✏️";
+
 
     rename.onclick =
-      event => {
+    event => {
 
-        event.stopPropagation();
+      event.stopPropagation();
 
-        const name =
-          prompt(
-            "Жаңа чат атауы:",
-            chat.title
-          );
+      const name =
+      prompt(
+        "Жаңа чат атауы:",
+        chat.title
+      );
 
-        if(name && name.trim()){
+      if(name && name.trim()){
 
-          chat.title =
-            name.trim().slice(0,80);
+        chat.title =
+        name.trim().slice(0,80);
 
-          chat.updatedAt =
-            Date.now();
-
-          saveChats();
-
-          renderChats();
-
-        }
-
-      };
-
-    const del =
-      document.createElement("button");
-
-    del.className =
-      "chat-action";
-
-    del.textContent =
-      "🗑️";
-
-    del.onclick =
-      event => {
-
-        event.stopPropagation();
-
-        if(
-          !confirm("Бұл чатты өшіру керек пе?")
-        ) return;
-
-        chats =
-          chats.filter(
-            x => x.id !== chat.id
-          );
-
-        if(currentChatId === chat.id){
-
-          if(chats.length){
-
-            currentChatId =
-              chats[0].id;
-
-            history =
-              chats[0].history || [];
-
-          }else{
-
-            createChat();
-
-          }
-
-        }
+        chat.updatedAt =
+        Date.now();
 
         saveChats();
 
-        renderCurrent();
-
         renderChats();
 
-      };
+      }
+
+    };
+
+
+    const del =
+    document.createElement("button");
+
+    del.className =
+    "chat-action";
+
+    del.textContent =
+    "🗑️";
+
+
+    del.onclick =
+    event => {
+
+      event.stopPropagation();
+
+      if(
+        !confirm(
+          "Бұл чатты өшіру керек пе?"
+        )
+      ) return;
+
+
+      chats =
+      chats.filter(
+        x => x.id !== chat.id
+      );
+
+
+      if(
+        currentChatId === chat.id
+      ){
+
+        if(chats.length){
+
+          currentChatId =
+          chats[0].id;
+
+          history =
+          chats[0].history || [];
+
+        }else{
+
+          createChat();
+
+        }
+
+      }
+
+
+      saveChats();
+
+      renderCurrent();
+
+      renderChats();
+
+    };
+
 
     row.appendChild(open);
+
     row.appendChild(rename);
+
     row.appendChild(del);
 
     list.appendChild(row);
@@ -965,19 +1061,21 @@ function renderChats(){
 function openChat(chatId){
 
   const chat =
-    chats.find(
-      x => x.id === chatId
-    );
+  chats.find(
+    x => x.id === chatId
+  );
 
   if(!chat) return;
 
+
   currentChatId =
-    chat.id;
+  chat.id;
 
   history =
-    Array.isArray(chat.history)
-      ? chat.history.slice(-12)
-      : [];
+  Array.isArray(chat.history)
+    ? chat.history.slice(-12)
+    : [];
+
 
   renderCurrent();
 
@@ -987,6 +1085,10 @@ function openChat(chatId){
 
 }
 
+
+/* =====================================================
+   PANEL
+===================================================== */
 
 function openPanel(){
 
@@ -1015,19 +1117,22 @@ function closePanel(){
 
 
 /* =====================================================
-   FILE SELECT
+   FILE SELECTION
 ===================================================== */
 
 function selectFiles(event){
 
   const files =
-    Array.from(
-      event.target.files || []
-    );
+  Array.from(
+    event.target.files || []
+  );
+
 
   files.forEach(file => {
 
-    if(file.type.startsWith("image/")){
+    if(
+      file.type.startsWith("image/")
+    ){
 
       if(
         file.size <=
@@ -1046,6 +1151,7 @@ function selectFiles(event){
 
   });
 
+
   renderPreview();
 
   event.target.value = "";
@@ -1053,54 +1159,70 @@ function selectFiles(event){
 }
 
 
+/* =====================================================
+   PREVIEW
+===================================================== */
+
 function renderPreview(){
 
   previewRow.innerHTML = "";
+
 
   selectedImages.forEach(
     (file,index) => {
 
       const item =
-        document.createElement("div");
+      document.createElement("div");
 
       item.className =
-        "preview-item";
+      "preview-item";
+
 
       const img =
-        document.createElement("img");
+      document.createElement("img");
+
 
       const reader =
-        new FileReader();
+      new FileReader();
+
 
       reader.onload =
-        event => {
+      event => {
 
-          img.src =
-            event.target.result;
+        img.src =
+        event.target.result;
 
-        };
+      };
+
 
       reader.readAsDataURL(file);
 
+
       const remove =
-        document.createElement("button");
+      document.createElement("button");
 
       remove.className =
-        "preview-remove";
+      "preview-remove";
 
       remove.textContent =
-        "✕";
+      "✕";
+
 
       remove.onclick =
-        () => {
+      () => {
 
-          selectedImages.splice(index,1);
+        selectedImages.splice(
+          index,
+          1
+        );
 
-          renderPreview();
+        renderPreview();
 
-        };
+      };
+
 
       item.appendChild(img);
+
       item.appendChild(remove);
 
       previewRow.appendChild(item);
@@ -1113,32 +1235,38 @@ function renderPreview(){
     (file,index) => {
 
       const item =
-        document.createElement("div");
+      document.createElement("div");
 
       item.className =
-        "preview-item";
+      "preview-item";
 
-      item.innerHTML = `
-        <div class="file-preview">📄</div>
-      `;
+
+      item.innerHTML =
+      `<div class="file-preview">📄</div>`;
+
 
       const remove =
-        document.createElement("button");
+      document.createElement("button");
 
       remove.className =
-        "preview-remove";
+      "preview-remove";
 
       remove.textContent =
-        "✕";
+      "✕";
+
 
       remove.onclick =
-        () => {
+      () => {
 
-          selectedFiles.splice(index,1);
+        selectedFiles.splice(
+          index,
+          1
+        );
 
-          renderPreview();
+        renderPreview();
 
-        };
+      };
+
 
       item.appendChild(remove);
 
@@ -1149,12 +1277,12 @@ function renderPreview(){
 
 
   preview.style.display =
-    (
-      selectedImages.length ||
-      selectedFiles.length
-    )
-      ? "block"
-      : "none";
+  (
+    selectedImages.length ||
+    selectedFiles.length
+  )
+    ? "block"
+    : "none";
 
 }
 
@@ -1170,184 +1298,28 @@ function clearSelection(){
 }
 
 
+/* =====================================================
+   BASE64
+===================================================== */
+
 function fileToBase64(file){
 
   return new Promise(
     (resolve,reject) => {
 
       const reader =
-        new FileReader();
+      new FileReader();
 
       reader.onload =
-        () => resolve(reader.result);
+      () => resolve(reader.result);
 
       reader.onerror =
-        reject;
+      reject;
 
       reader.readAsDataURL(file);
 
     }
   );
-
-}
-
-
-/* =====================================================
-   PDF → TEXT
-===================================================== */
-
-async function extractPdfText(file){
-
-  const buffer =
-    await file.arrayBuffer();
-
-  const pdf =
-    await pdfjsLib.getDocument({
-      data:buffer
-    }).promise;
-
-  let fullText = "";
-
-  const totalPages =
-    pdf.numPages;
-
-  for(
-    let pageNumber = 1;
-    pageNumber <= totalPages;
-    pageNumber++
-  ){
-
-    setStatus(
-      `${file.name}: ${pageNumber}/${totalPages} бет оқылып жатыр...`
-    );
-
-    const page =
-      await pdf.getPage(pageNumber);
-
-    const content =
-      await page.getTextContent();
-
-    const pageText =
-      content.items
-        .map(item =>
-          item.str || ""
-        )
-        .join(" ");
-
-    fullText +=
-      `\n\n--- ${pageNumber}-бет ---\n` +
-      pageText;
-
-  }
-
-  return fullText.trim();
-
-}
-
-
-/* =====================================================
-   TXT / CSV
-===================================================== */
-
-async function extractTextFile(file){
-
-  return await file.text();
-
-}
-
-
-/* =====================================================
-   DOCX / XLSX
-===================================================== */
-
-async function extractOfficeFile(file){
-
-  const base64 =
-    await fileToBase64(file);
-
-  const response =
-    await fetch(
-      WORKER_URL,
-      {
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-
-        body:JSON.stringify({
-
-          action:"file",
-
-          file:base64,
-
-          fileName:file.name,
-
-          mimeType:
-            file.type ||
-            "application/octet-stream"
-
-        })
-
-      }
-    );
-
-  const data =
-    await response.json();
-
-  if(!response.ok){
-
-    throw new Error(
-      data.error ||
-      "Файл өңделмеді."
-    );
-
-  }
-
-  return data.text || "";
-
-}
-
-
-/* =====================================================
-   PROCESS FILE
-===================================================== */
-
-async function processFile(file){
-
-  const name =
-    file.name.toLowerCase();
-
-  if(
-    file.type === "application/pdf" ||
-    name.endsWith(".pdf")
-  ){
-
-    return await extractPdfText(file);
-
-  }
-
-  if(
-    file.type === "text/plain" ||
-    name.endsWith(".txt") ||
-    name.endsWith(".csv")
-  ){
-
-    return await extractTextFile(file);
-
-  }
-
-  if(
-    name.endsWith(".docx") ||
-    name.endsWith(".xlsx")
-  ){
-
-    return await extractOfficeFile(file);
-
-  }
-
-  return "";
 
 }
 
@@ -1362,92 +1334,248 @@ function compressImage(file){
     (resolve,reject) => {
 
       const reader =
-        new FileReader();
+      new FileReader();
+
 
       reader.onload =
-        event => {
+      event => {
 
-          const img =
-            new Image();
+        const img =
+        new Image();
 
-          img.onload =
-            () => {
 
-              const max = 1280;
+        img.onload =
+        () => {
 
-              let width =
-                img.width;
+          const max = 1280;
 
-              let height =
-                img.height;
+          let width =
+          img.width;
 
-              if(
-                width > max ||
-                height > max
-              ){
+          let height =
+          img.height;
 
-                if(width > height){
 
-                  height =
-                    Math.round(
-                      height * max / width
-                    );
+          if(
+            width > max ||
+            height > max
+          ){
 
-                  width = max;
+            if(width > height){
 
-                }else{
-
-                  width =
-                    Math.round(
-                      width * max / height
-                    );
-
-                  height = max;
-
-                }
-
-              }
-
-              const canvas =
-                document.createElement("canvas");
-
-              canvas.width = width;
-              canvas.height = height;
-
-              const ctx =
-                canvas.getContext("2d");
-
-              ctx.drawImage(
-                img,
-                0,
-                0,
-                width,
-                height
+              height =
+              Math.round(
+                height * max / width
               );
 
-              resolve(
-                canvas.toDataURL(
-                  "image/jpeg",
-                  0.72
-                )
+              width = max;
+
+            }else{
+
+              width =
+              Math.round(
+                width * max / height
               );
 
-            };
+              height = max;
 
-          img.onerror =
-            reject;
+            }
 
-          img.src =
-            event.target.result;
+          }
+
+
+          const canvas =
+          document.createElement("canvas");
+
+          canvas.width =
+          width;
+
+          canvas.height =
+          height;
+
+
+          const ctx =
+          canvas.getContext("2d");
+
+
+          ctx.drawImage(
+            img,
+            0,
+            0,
+            width,
+            height
+          );
+
+
+          resolve(
+            canvas.toDataURL(
+              "image/jpeg",
+              0.72
+            )
+          );
 
         };
 
-      reader.onerror =
+
+        img.onerror =
         reject;
+
+        img.src =
+        event.target.result;
+
+      };
+
+
+      reader.onerror =
+      reject;
 
       reader.readAsDataURL(file);
 
     }
+  );
+
+}
+
+
+/* =====================================================
+   PDF → TEXT
+===================================================== */
+
+async function readPDF(file){
+
+  setStatus(
+    file.name + " PDF оқылып жатыр..."
+  );
+
+
+  const buffer =
+  await file.arrayBuffer();
+
+
+  const pdf =
+  await pdfjsLib.getDocument({
+    data:buffer
+  }).promise;
+
+
+  let fullText = "";
+
+
+  const maxPages =
+  Math.min(
+    pdf.numPages,
+    30
+  );
+
+
+  for(
+    let pageNumber = 1;
+    pageNumber <= maxPages;
+    pageNumber++
+  ){
+
+    setStatus(
+      file.name +
+      " — " +
+      pageNumber +
+      "/" +
+      maxPages +
+      " бет оқылуда..."
+    );
+
+
+    const page =
+    await pdf.getPage(
+      pageNumber
+    );
+
+
+    const content =
+    await page.getTextContent();
+
+
+    const text =
+    content.items
+      .map(item =>
+        item.str || ""
+      )
+      .join(" ");
+
+
+    if(text.trim()){
+
+      fullText +=
+        `\n\n--- ${pageNumber}-бет ---\n` +
+        text;
+
+    }
+
+  }
+
+
+  return fullText.trim();
+
+}
+
+
+/* =====================================================
+   TEXT / CSV
+===================================================== */
+
+async function readTextFile(file){
+
+  return await file.text();
+
+}
+
+
+/* =====================================================
+   PROCESS FILE
+===================================================== */
+
+async function processFile(file){
+
+  const name =
+  file.name.toLowerCase();
+
+
+  if(
+    file.type === "application/pdf" ||
+    name.endsWith(".pdf")
+  ){
+
+    const text =
+    await readPDF(file);
+
+
+    if(!text){
+
+      throw new Error(
+        "PDF ішінен мәтін табылмады. Бұл сканерленген PDF болуы мүмкін."
+      );
+
+    }
+
+
+    return text;
+
+  }
+
+
+  if(
+    file.type.startsWith("text/") ||
+    name.endsWith(".txt") ||
+    name.endsWith(".csv")
+  ){
+
+    return await readTextFile(file);
+
+  }
+
+
+  throw new Error(
+    "Бұл файл түрі әзірге қолдау таппайды: " +
+    file.name
   );
 
 }
@@ -1461,14 +1589,21 @@ async function sendMessage(){
 
   if(sending) return;
 
+
   const text =
-    input.value.trim();
+  input.value.trim();
+
 
   if(
     !text &&
     !selectedImages.length &&
     !selectedFiles.length
-  ) return;
+  ){
+
+    return;
+
+  }
+
 
   if(!currentChatId){
 
@@ -1476,21 +1611,32 @@ async function sendMessage(){
 
   }
 
-  const welcome =
-    document.querySelector(".welcome");
 
-  if(welcome)
+  const welcome =
+  document.querySelector(".welcome");
+
+
+  if(welcome){
+
     welcome.remove();
+
+  }
+
 
   sending = true;
 
   sendButton.disabled = true;
 
+
   let loading = null;
+
 
   try{
 
     let imageData = null;
+
+
+    /* IMAGE */
 
     if(selectedImages.length){
 
@@ -1498,34 +1644,48 @@ async function sendMessage(){
         "Сурет дайындалып жатыр..."
       );
 
+
       imageData =
-        await compressImage(
-          selectedImages[0]
-        );
+      await compressImage(
+        selectedImages[0]
+      );
 
     }
 
 
+    /* FILE */
+
     let fileText = "";
+
 
     for(
       const file of selectedFiles
     ){
 
-      setStatus(
-        `${file.name} оқылып жатыр...`
-      );
+      try{
 
-      const result =
+        const result =
         await processFile(file);
 
-      if(result){
 
-        fileText +=
+        if(result){
+
+          fileText +=
           "\n\n========== " +
           file.name +
-          " ==========\n" +
+          " ==========\n\n" +
           result;
+
+        }
+
+      }catch(error){
+
+        fileText +=
+        "\n\n========== " +
+        file.name +
+        " ==========\n" +
+        "Файлды оқу қатесі: " +
+        error.message;
 
       }
 
@@ -1533,32 +1693,63 @@ async function sendMessage(){
 
 
     let userText =
-      text;
+    text;
+
 
     if(!userText){
 
       if(imageData){
 
         userText =
-          "Осы суретті талда.";
+        "Осы суретті талда.";
 
       }else if(fileText){
 
         userText =
-          "Осы файлдағы ақпаратты талда және түсіндір.";
+        "Осы файлдағы ақпаратты талда және түсіндір.";
 
       }else{
 
         userText =
-          "Сәлем.";
+        "Сәлем.";
 
       }
 
     }
 
 
+    /*
+       МАҢЫЗДЫ:
+       Файл мәтінін AI-ға хабарламаның
+       ішіне тікелей қосамыз.
+    */
+
+    if(fileText){
+
+      userText +=
+      "\n\n" +
+      "ТӨМЕНДЕ ФАЙЛДЫҢ МАЗМҰНЫ БЕРІЛГЕН. " +
+      "ОСЫ МӘТІНДІ НЕГІЗГЕ АЛЫП ФАЙЛДЫ ТАЛДА:\n\n" +
+      fileText.slice(0,50000);
+
+    }
+
+
     addMessage(
-      text || userText,
+      text ||
+      (
+        selectedFiles.length
+          ? "📄 " +
+            selectedFiles
+              .map(f => f.name)
+              .join(", ") +
+            "\n\n" +
+            (
+              text ||
+              "Осы файлдағы ақпаратты талда және түсіндір."
+            )
+          : userText
+      ),
       "user",
       imageData
         ? [imageData]
@@ -1567,10 +1758,10 @@ async function sendMessage(){
 
 
     loading =
-      addMessage(
-        "AI жауап дайындап жатыр...",
-        "ai"
-      );
+    addMessage(
+      "AI жауап дайындап жатыр...",
+      "ai"
+    );
 
 
     setStatus(
@@ -1579,40 +1770,52 @@ async function sendMessage(){
 
 
     const response =
-      await fetch(
-        WORKER_URL,
-        {
-          method:"POST",
+    await fetch(
+      WORKER_URL,
+      {
 
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
+        method:"POST",
 
-          body:JSON.stringify({
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
 
-            action:"chat",
+        body:JSON.stringify({
 
-            message:userText,
+          action:"chat",
 
-            images:
-              imageData
-                ? [imageData]
-                : [],
+          message:userText,
 
-            fileText:fileText,
+          images:
+          imageData
+            ? [imageData]
+            : [],
 
-            history:
-              history.slice(-12)
+          history:
+          history.slice(-12)
 
-          })
+        })
 
-        }
+      }
+    );
+
+
+    let data;
+
+
+    try{
+
+      data =
+      await response.json();
+
+    }catch{
+
+      throw new Error(
+        "Worker JSON жауап қайтармады."
       );
 
-
-    const data =
-      await response.json();
+    }
 
 
     if(!response.ok){
@@ -1627,9 +1830,9 @@ async function sendMessage(){
 
 
     const answer =
-      typeof data.answer === "string"
-        ? data.answer
-        : JSON.stringify(data.answer);
+    typeof data.answer === "string"
+      ? data.answer
+      : JSON.stringify(data.answer);
 
 
     if(loading){
@@ -1655,9 +1858,9 @@ async function sendMessage(){
       content:userText,
 
       images:
-        imageData
-          ? [imageData]
-          : []
+      imageData
+        ? [imageData]
+        : []
 
     });
 
@@ -1667,8 +1870,8 @@ async function sendMessage(){
       role:"assistant",
 
       content:
-        answer ||
-        "AI жауап бере алмады.",
+      answer ||
+      "AI жауап бере алмады.",
 
       images:[]
 
@@ -1676,11 +1879,12 @@ async function sendMessage(){
 
 
     history =
-      history.slice(-12);
+    history.slice(-12);
 
 
     const chat =
-      getCurrentChat();
+    getCurrentChat();
+
 
     if(
       chat &&
@@ -1688,24 +1892,28 @@ async function sendMessage(){
     ){
 
       chat.title =
-        (
-          text ||
-          "Жаңа сұрақ"
-        ).slice(0,45);
+      (
+        text ||
+        selectedFiles[0]?.name ||
+        "Жаңа сұрақ"
+      ).slice(0,45);
 
     }
 
 
     updateChat();
 
+
     input.value = "";
 
     input.style.height =
-      "auto";
+    "auto";
+
 
     clearSelection();
 
     setStatus("");
+
 
   }catch(error){
 
@@ -1714,8 +1922,13 @@ async function sendMessage(){
       error
     );
 
-    if(loading)
+
+    if(loading){
+
       loading.remove();
+
+    }
+
 
     addMessage(
       "Қате: " +
@@ -1725,6 +1938,7 @@ async function sendMessage(){
       ),
       "ai"
     );
+
 
     setStatus("");
 
@@ -1746,7 +1960,7 @@ async function sendMessage(){
 function setStatus(text){
 
   status.textContent =
-    text || "";
+  text || "";
 
 }
 
@@ -1759,8 +1973,15 @@ function newChat(){
 
   if(
     history.length &&
-    !confirm("Жаңа чат бастаймыз ба?")
-  ) return;
+    !confirm(
+      "Жаңа чат бастаймыз ба?"
+    )
+  ){
+
+    return;
+
+  }
+
 
   createChat();
 
@@ -1794,6 +2015,7 @@ function openImage(src){
     "modalImage"
   ).src = src;
 
+
   document.getElementById(
     "imageModal"
   ).classList.add("show");
@@ -1811,108 +2033,268 @@ function closeImage(){
 
 
 /* =====================================================
+   REGENERATE
+===================================================== */
+
+async function regenerateAnswer(){
+
+  if(sending) return;
+
+  if(history.length < 2) return;
+
+
+  const last =
+  history[history.length - 1];
+
+
+  if(
+    !last ||
+    last.role !== "assistant"
+  ){
+
+    return;
+
+  }
+
+
+  const user =
+  history[history.length - 2];
+
+
+  if(
+    !user ||
+    user.role !== "user"
+  ){
+
+    return;
+
+  }
+
+
+  history.pop();
+
+
+  sending = true;
+
+
+  setStatus(
+    "Жаңа жауап дайындалып жатыр..."
+  );
+
+
+  try{
+
+    const response =
+    await fetch(
+      WORKER_URL,
+      {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          action:"chat",
+
+          message:
+          user.content,
+
+          images:
+          user.images || [],
+
+          history:
+          history.slice(-12)
+
+        })
+
+      }
+    );
+
+
+    const data =
+    await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.error ||
+        "Қайта жауап қатесі."
+      );
+
+    }
+
+
+    const answer =
+    data.answer ||
+    "AI жауап бере алмады.";
+
+
+    addMessage(
+      answer,
+      "ai"
+    );
+
+
+    history.push({
+
+      role:"assistant",
+
+      content:answer,
+
+      images:[]
+
+    });
+
+
+    history =
+    history.slice(-12);
+
+
+    updateChat();
+
+
+  }catch(error){
+
+    addMessage(
+      "Қате: " +
+      (
+        error?.message ||
+        "Белгісіз қате"
+      ),
+      "ai"
+    );
+
+  }finally{
+
+    sending = false;
+
+    setStatus("");
+
+  }
+
+}
+
+
+/* =====================================================
    BUTTONS
 ===================================================== */
 
 document
-  .getElementById("sendButton")
-  .addEventListener(
-    "click",
-    sendMessage
-  );
+.getElementById("sendButton")
+.addEventListener(
+  "click",
+  sendMessage
+);
+
 
 document
-  .getElementById("fileButton")
-  .addEventListener(
-    "click",
-    () => fileInput.click()
-  );
+.getElementById("fileButton")
+.addEventListener(
+  "click",
+  () => fileInput.click()
+);
+
 
 document
-  .getElementById("cameraButton")
-  .addEventListener(
-    "click",
-    () => cameraInput.click()
-  );
+.getElementById("cameraButton")
+.addEventListener(
+  "click",
+  () => cameraInput.click()
+);
+
 
 fileInput
-  .addEventListener(
-    "change",
-    selectFiles
-  );
+.addEventListener(
+  "change",
+  selectFiles
+);
+
 
 cameraInput
-  .addEventListener(
-    "change",
-    selectFiles
-  );
+.addEventListener(
+  "change",
+  selectFiles
+);
+
 
 document
-  .getElementById("menuButton")
-  .addEventListener(
-    "click",
-    openPanel
-  );
+.getElementById("menuButton")
+.addEventListener(
+  "click",
+  openPanel
+);
+
 
 document
-  .getElementById("closePanelButton")
-  .addEventListener(
-    "click",
-    closePanel
-  );
+.getElementById("closePanelButton")
+.addEventListener(
+  "click",
+  closePanel
+);
+
 
 document
-  .getElementById("overlay")
-  .addEventListener(
-    "click",
-    closePanel
-  );
+.getElementById("overlay")
+.addEventListener(
+  "click",
+  closePanel
+);
+
 
 document
-  .getElementById("newChatButton")
-  .addEventListener(
-    "click",
-    newChat
-  );
+.getElementById("newChatButton")
+.addEventListener(
+  "click",
+  newChat
+);
+
 
 document
-  .getElementById("newChatPanelButton")
-  .addEventListener(
-    "click",
-    newChatFromPanel
-  );
+.getElementById("newChatPanelButton")
+.addEventListener(
+  "click",
+  newChatFromPanel
+);
+
 
 document
-  .getElementById("chatSearch")
-  .addEventListener(
-    "input",
-    renderChats
-  );
+.getElementById("chatSearch")
+.addEventListener(
+  "input",
+  renderChats
+);
+
 
 document
-  .getElementById("modalClose")
-  .addEventListener(
-    "click",
-    closeImage
-  );
+.getElementById("modalClose")
+.addEventListener(
+  "click",
+  closeImage
+);
+
 
 document
-  .getElementById("imageModal")
-  .addEventListener(
-    "click",
-    event => {
+.getElementById("imageModal")
+.addEventListener(
+  "click",
+  event => {
 
-      if(
-        event.target.id ===
-        "imageModal"
-      ){
+    if(
+      event.target.id ===
+      "imageModal"
+    ){
 
-        closeImage();
-
-      }
+      closeImage();
 
     }
-  );
+
+  }
+);
 
 
 /* =====================================================
@@ -1938,18 +2320,22 @@ input.addEventListener(
 );
 
 
+/* =====================================================
+   TEXTAREA
+===================================================== */
+
 input.addEventListener(
   "input",
   function(){
 
     this.style.height =
-      "auto";
+    "auto";
 
     this.style.height =
-      Math.min(
-        this.scrollHeight,
-        120
-      ) + "px";
+    Math.min(
+      this.scrollHeight,
+      120
+    ) + "px";
 
   }
 );
@@ -1960,7 +2346,8 @@ input.addEventListener(
 ===================================================== */
 
 chats =
-  loadChats();
+loadChats();
+
 
 if(!chats.length){
 
@@ -1969,138 +2356,21 @@ if(!chats.length){
 }else{
 
   currentChatId =
-    chats[0].id;
+  chats[0].id;
 
   history =
-    Array.isArray(
-      chats[0].history
-    )
-      ? chats[0].history.slice(-12)
-      : [];
+  Array.isArray(
+    chats[0].history
+  )
+    ? chats[0].history.slice(-12)
+    : [];
 
 }
+
 
 renderCurrent();
+
 renderChats();
-
-
-/* =====================================================
-   REGENERATE
-===================================================== */
-
-async function regenerateAnswer(){
-
-  if(sending) return;
-
-  if(history.length < 2) return;
-
-  const last =
-    history[history.length - 1];
-
-  if(!last || last.role !== "assistant")
-    return;
-
-  const user =
-    history[history.length - 2];
-
-  if(!user || user.role !== "user")
-    return;
-
-  history.pop();
-
-  sending = true;
-
-  setStatus(
-    "Жаңа жауап дайындалып жатыр..."
-  );
-
-  try{
-
-    const response =
-      await fetch(
-        WORKER_URL,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-
-            action:"chat",
-
-            message:
-              user.content,
-
-            images:
-              user.images || [],
-
-            history:
-              history.slice(-12)
-
-          })
-
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if(!response.ok){
-
-      throw new Error(
-        data?.error ||
-        "Қайта жауап қатесі."
-      );
-
-    }
-
-    const answer =
-      data.answer ||
-      "AI жауап бере алмады.";
-
-    addMessage(
-      answer,
-      "ai"
-    );
-
-    history.push({
-
-      role:"assistant",
-
-      content:answer,
-
-      images:[]
-
-    });
-
-    history =
-      history.slice(-12);
-
-    updateChat();
-
-  }catch(error){
-
-    addMessage(
-      "Қате: " +
-      (
-        error?.message ||
-        "Белгісіз қате"
-      ),
-      "ai"
-    );
-
-  }finally{
-
-    sending = false;
-
-    setStatus("");
-
-  }
-
-}
 
 </script>
 
