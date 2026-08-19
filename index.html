@@ -1,666 +1,392 @@
 <!DOCTYPE html>
 <html lang="kk">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>My AI</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 html,body{
-margin:0;
-padding:0;
-width:100%;
-height:100%;
-background:#000;
-color:#fff;
-font-family:Arial,sans-serif;
-overflow:hidden
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
 button{
-border:0;
-color:#fff;
-cursor:pointer
+  border:0;
+  color:#fff;
+  cursor:pointer;
 }
 
-button {
-  border: 0;
-  cursor: pointer;
-  color: #fff;
 .app{
-height:100dvh;
-display:flex;
-flex-direction:column
+  width:100%;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
 }
 
-.app {
-  width: 100%;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
 header{
-height:60px;
-min-height:60px;
-border-bottom:1px solid #222;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 12px
+  height:60px;
+  min-height:60px;
+  border-bottom:1px solid #222;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 12px;
 }
 
-/* HEADER */
-
-header {
-  height: 60px;
-  min-height: 60px;
-  border-bottom: 1px solid #222;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
 .header-side{
-width:44px
+  width:44px;
 }
 
-.header-side {
-  width: 44px;
 .header-title{
-font-size:20px;
-font-weight:bold
+  font-size:20px;
+  font-weight:bold;
 }
 
-.header-title {
-  font-size: 20px;
-  font-weight: bold;
 .icon-button{
-width:42px;
-height:42px;
-border-radius:50%;
-background:#222;
-font-size:20px
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#222;
+  font-size:20px;
 }
 
-.icon-button {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #222;
-  font-size: 20px;
 #chat{
-flex:1;
-overflow-y:auto;
-padding:15px;
-padding-bottom:110px
+  flex:1;
+  overflow-y:auto;
+  padding:16px;
+  padding-bottom:110px;
 }
 
-/* CHAT */
-
-#chat {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  padding-bottom: 110px;
 .welcome{
-text-align:center;
-margin-top:21vh;
-color:#888
+  text-align:center;
+  margin-top:21vh;
+  color:#888;
 }
 
-.welcome {
-  text-align: center;
-  margin-top: 21vh;
-  color: #888;
 .welcome h1{
-color:#fff;
-font-size:30px
+  color:#fff;
+  font-size:30px;
 }
 
-.welcome h1 {
-  color: #fff;
-  font-size: 30px;
 .message{
-max-width:92%;
-padding:12px 15px;
-margin:12px 0;
-border-radius:18px;
-line-height:1.5;
-white-space:pre-wrap;
-word-break:break-word
+  max-width:90%;
+  padding:12px 16px;
+  margin:12px 0;
+  border-radius:18px;
+  line-height:1.5;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-.message {
-  max-width: 90%;
-  padding: 12px 16px;
-  margin: 12px 0;
-  border-radius: 18px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
 .user{
-background:#2563eb;
-margin-left:auto;
-border-bottom-right-radius:5px
+  background:#2563eb;
+  margin-left:auto;
+  border-bottom-right-radius:5px;
 }
 
-.user {
-  background: #2563eb;
-  margin-left: auto;
-  border-bottom-right-radius: 5px;
 .ai{
-background:#1d1d1d;
-margin-right:auto;
-border-bottom-left-radius:5px
+  background:#1d1d1d;
+  margin-right:auto;
+  border-bottom-left-radius:5px;
 }
 
-.ai {
-  background: #1d1d1d;
-  margin-right: auto;
-  border-bottom-left-radius: 5px;
 .message img{
-display:block;
-max-width:100%;
-max-height:420px;
-border-radius:14px;
-margin:5px 0
+  display:block;
+  max-width:100%;
+  max-height:420px;
+  border-radius:14px;
+  margin:5px 0;
+  cursor:pointer;
 }
 
-.message img {
-  display: block;
-  max-width: 100%;
-  max-height: 420px;
-  border-radius: 14px;
-  margin: 5px 0;
-  cursor: pointer;
 .message-tools{
-display:flex;
-gap:6px;
-margin-top:9px
+  display:flex;
+  gap:6px;
+  margin-top:10px;
 }
 
-.message-tools {
-  display: flex;
-  gap: 6px;
-  margin-top: 10px;
 .small-button{
-background:#333;
-border-radius:10px;
-padding:7px 10px;
-font-size:13px
+  background:#333;
+  border-radius:10px;
+  padding:7px 10px;
+  font-size:13px;
 }
 
-.small-button {
-  background: #333;
-  border-radius: 10px;
-  padding: 7px 10px;
-  font-size: 13px;
-.bottom{
-border-top:1px solid #222;
-background:#000;
-padding:8px;
-padding-bottom:calc(8px + env(safe-area-inset-bottom))
+.bottom-area{
+  background:#000;
+  border-top:1px solid #222;
+  padding:8px;
+  padding-bottom:calc(8px + env(safe-area-inset-bottom));
 }
 
-/* INPUT */
-
-.bottom-area {
-  background: #000;
-  border-top: 1px solid #222;
-  padding: 8px;
-  padding-bottom:
-    calc(8px + env(safe-area-inset-bottom));
-}
-
-.preview {
-  display: none;
-  overflow-x: auto;
-  padding-bottom: 8px;
 .preview{
-display:none;
-overflow-x:auto;
-padding-bottom:8px
+  display:none;
+  overflow-x:auto;
+  padding-bottom:8px;
 }
 
-.preview-row {
-  display: flex;
-  gap: 7px;
 .preview-row{
-display:flex;
-gap:7px
+  display:flex;
+  gap:7px;
 }
 
-.preview-item {
-  position: relative;
 .preview-item{
-position:relative
+  position:relative;
 }
 
-.preview-item img {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
-  border-radius: 10px;
 .preview-item img{
-width:64px;
-height:64px;
-object-fit:cover;
-border-radius:10px
+  width:64px;
+  height:64px;
+  object-fit:cover;
+  border-radius:10px;
 }
 
-.preview-remove {
-  position: absolute;
-  right: -4px;
-  top: -4px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #333;
-  font-size: 12px;
-.remove{
-position:absolute;
-right:-4px;
-top:-4px;
-width:22px;
-height:22px;
-border-radius:50%;
-background:#333
+.preview-remove{
+  position:absolute;
+  right:-4px;
+  top:-4px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#333;
+  font-size:12px;
 }
 
-.controls {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
 .controls{
-display:flex;
-align-items:flex-end;
-gap:6px
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
 }
 
-textarea {
-  flex: 1;
-  min-width: 0;
-  min-height: 44px;
-  max-height: 120px;
-  resize: none;
-  background: #1b1b1b;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 18px;
-  padding: 12px;
-  font-size: 16px;
-  font-family: Arial, sans-serif;
-  outline: none;
 textarea{
-flex:1;
-min-width:0;
-min-height:44px;
-max-height:120px;
-resize:none;
-background:#1b1b1b;
-color:#fff;
-border:1px solid #333;
-border-radius:18px;
-padding:12px;
-font-size:16px;
-outline:none
+  flex:1;
+  min-width:0;
+  min-height:44px;
+  max-height:120px;
+  resize:none;
+  background:#1b1b1b;
+  color:#fff;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:12px;
+  font-size:16px;
+  font-family:Arial,sans-serif;
+  outline:none;
 }
 
 .control-button,
-.send-button {
-  width: 44px;
-  min-width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 .send-button{
-width:44px;
-min-width:44px;
-height:44px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center
+  width:44px;
+  min-width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.control-button {
-  background: #222;
-  font-size: 18px;
 .control-button{
-background:#222;
-font-size:18px
+  background:#222;
+  font-size:18px;
 }
 
-.send-button {
-  background: #fff;
-  color: #000;
-  font-size: 19px;
 .send-button{
-background:#fff;
-color:#000;
-font-size:20px
+  background:#fff;
+  color:#000;
+  font-size:19px;
 }
 
-input[type=file] {
-  display: none;
-.status{
-position:fixed;
-bottom:70px;
-left:0;
-width:100%;
-text-align:center;
-font-size:12px;
-color:#777;
-pointer-events:none
+.send-button:disabled{
+  opacity:.5;
 }
 
-.status {
-  position: fixed;
-  left: 0;
-  bottom: 73px;
-  width: 100%;
-  text-align: center;
-  color: #777;
-  font-size: 12px;
-  pointer-events: none;
 input[type=file]{
-display:none
+  display:none;
 }
 
-/* PANEL */
+.status{
+  position:fixed;
+  left:0;
+  bottom:73px;
+  width:100%;
+  text-align:center;
+  color:#777;
+  font-size:12px;
+  pointer-events:none;
+}
 
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.65);
-  z-index: 50;
 .overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-z-index:50
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:50;
 }
 
-.overlay.show {
-  display: block;
 .overlay.show{
-display:block
+  display:block;
 }
 
-.chat-panel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: min(340px, 88vw);
-  background: #111;
-  z-index: 60;
-  transform: translateX(-100%);
-  transition: transform .2s;
-  display: flex;
-  flex-direction: column;
-.panel{
-position:fixed;
-top:0;
-left:0;
-bottom:0;
-width:min(340px,88vw);
-background:#111;
-z-index:60;
-transform:translateX(-100%);
-transition:.2s;
-display:flex;
-flex-direction:column
+.chat-panel{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:min(340px,88vw);
+  background:#111;
+  z-index:60;
+  transform:translateX(-100%);
+  transition:transform .2s;
+  display:flex;
+  flex-direction:column;
 }
 
-.chat-panel.show {
-  transform: translateX(0);
-.panel.show{
-transform:translateX(0)
+.chat-panel.show{
+  transform:translateX(0);
 }
 
-.panel-header {
-  height: 60px;
-  border-bottom: 1px solid #292929;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
 .panel-header{
-height:60px;
-border-bottom:1px solid #292929;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 12px
+  height:60px;
+  border-bottom:1px solid #292929;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 12px;
 }
 
-.panel-title {
-  font-size: 18px;
-  font-weight: bold;
 .panel-title{
-font-size:18px;
-font-weight:bold
+  font-size:18px;
+  font-weight:bold;
 }
 
-.panel-button {
-  margin: 10px;
-  padding: 12px;
-  border-radius: 12px;
-  background: #2563eb;
-.new-chat{
-margin:10px;
-padding:12px;
-border-radius:12px;
-background:#2563eb
+.panel-button{
+  margin:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#2563eb;
 }
 
-.search-box {
-  margin: 0 10px 10px;
-  background: #1d1d1d;
-  border: 1px solid #333;
-  color: #fff;
-  border-radius: 12px;
-  padding: 11px;
-  outline: none;
-.search{
-margin:0 10px 10px;
-background:#1d1d1d;
-border:1px solid #333;
-color:#fff;
-border-radius:12px;
-padding:11px;
-outline:none
+.search-box{
+  margin:0 10px 10px;
+  background:#1d1d1d;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:12px;
+  padding:11px;
+  outline:none;
 }
 
-.chat-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 4px 8px 20px;
 .chat-list{
-flex:1;
-overflow-y:auto;
-padding:4px 8px 20px
+  flex:1;
+  overflow-y:auto;
+  padding:4px 8px 20px;
 }
 
-.chat-item {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  border-radius: 12px;
-  margin-bottom: 4px;
 .chat-item{
-display:flex;
-align-items:center;
-gap:3px;
-margin-bottom:4px;
-border-radius:12px
+  display:flex;
+  gap:4px;
+  align-items:center;
+  border-radius:12px;
+  margin-bottom:4px;
 }
 
-.chat-item.active {
-  background: #222;
 .chat-item.active{
-background:#222
+  background:#222;
 }
 
-.chat-open {
-  flex: 1;
-  min-width: 0;
-  background: transparent;
-  text-align: left;
-  padding: 12px 10px;
 .chat-open{
-flex:1;
-min-width:0;
-background:transparent;
-text-align:left;
-padding:12px 10px
+  flex:1;
+  min-width:0;
+  background:transparent;
+  text-align:left;
+  padding:12px 10px;
 }
 
-.chat-name {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 .chat-name{
-display:block;
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
-.chat-date {
-  display: block;
-  margin-top: 4px;
-  color: #666;
-  font-size: 11px;
 .chat-date{
-display:block;
-color:#666;
-font-size:11px;
-margin-top:4px
+  display:block;
+  margin-top:4px;
+  color:#666;
+  font-size:11px;
 }
 
-.chat-action {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: transparent;
 .chat-action{
-width:38px;
-height:38px;
-border-radius:50%;
-background:transparent
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:transparent;
 }
 
-.empty {
-  text-align: center;
-  color: #666;
-  padding: 30px 15px;
 .empty{
-text-align:center;
-color:#666;
-padding:30px
+  text-align:center;
+  color:#666;
+  padding:30px 15px;
 }
 
-/* MODAL */
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.9);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.9);
-z-index:100;
-align-items:center;
-justify-content:center;
-padding:15px
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
 }
 
-.modal.show {
-  display: flex;
 .modal.show{
-display:flex
+  display:flex;
 }
 
-.modal img {
-  max-width: 100%;
-  max-height: 90vh;
-  object-fit: contain;
 .modal img{
-max-width:100%;
-max-height:90vh
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
 }
 
-.modal-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #222;
-  font-size: 20px;
 .modal-close{
-position:absolute;
-right:15px;
-top:15px;
-width:42px;
-height:42px;
-border-radius:50%;
-background:#222
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#222;
+  font-size:20px;
 }
 
-@media(max-width:600px) {
-
-  #chat {
-    padding: 13px;
+@media(max-width:600px){
+  #chat{
+    padding:13px;
   }
 
-  .message {
-    max-width: 93%;
+  .message{
+    max-width:93%;
   }
 
-  textarea {
-    font-size: 15px;
+  textarea{
+    font-size:15px;
   }
-
 }
-
 </style>
-
 </head>
 
 <body>
@@ -668,396 +394,201 @@ background:#222
 <div class="app">
 
 <header>
-<div class="header-side">
-<button id="menuBtn" class="icon-button">☰</button>
-</div>
+  <div class="header-side">
+    <button id="menuButton" class="icon-button">☰</button>
+  </div>
+
+  <div class="header-title">🤖 My AI</div>
 
   <div class="header-side">
-
-    <button
-      class="icon-button"
-      onclick="openPanel()">
-      ☰
-    </button>
-
+    <button id="newChatButton" class="icon-button">＋</button>
   </div>
-
-  <div class="header-title">
-    🤖 My AI
-  </div>
-
-  <div class="header-side">
-
-    <button
-      class="icon-button"
-      onclick="newChat()">
-      ＋
-    </button>
-
-  </div>
-<div class="header-title">🤖 My AI</div>
-
-<div class="header-side">
-<button id="newBtn" class="icon-button">＋</button>
-</div>
 </header>
 
-
-<div id="chat">
-
-  <div
-    class="welcome"
-    id="welcome">
-
-    <h1>Сәлем! 👋</h1>
-
-    <p>Мен — My AI</p>
-
-    <p>
-      Сұрақ қойыңыз немесе сурет/файл жіберіңіз.
-    </p>
-
-  </div>
-
-<div id="welcome" class="welcome">
-<h1>Сәлем! 👋</h1>
-<p>Мен — My AI</p>
-<p>Сұрақ қойыңыз немесе сурет/файл жіберіңіз.</p>
-</div>
-
-
-<div
-  id="status"
-  class="status">
-</div>
+<div id="chat"></div>
 
 <div id="status" class="status"></div>
 
 <div class="bottom-area">
 
-  <div
-    id="preview"
-    class="preview">
-
-    <div
-      id="previewRow"
-      class="preview-row">
-    </div>
-
+  <div id="preview" class="preview">
+    <div id="previewRow" class="preview-row"></div>
   </div>
-
 
   <div class="controls">
 
-    <button
-      class="control-button"
-      onclick="fileInput.click()">
-      📎
-    </button>
+    <button id="fileButton" class="control-button">📎</button>
 
     <input
       id="fileInput"
       type="file"
       accept="image/*,.pdf,.txt,.docx,.xlsx,.csv"
       multiple
-      onchange="selectFiles(event)">
-<div class="bottom">
+    >
 
-<div id="preview" class="preview">
-<div id="previewRow" class="preview-row"></div>
-</div>
-
-    <button
-      class="control-button"
-      onclick="cameraInput.click()">
-      📷
-    </button>
-<div class="controls">
+    <button id="cameraButton" class="control-button">📷</button>
 
     <input
       id="cameraInput"
       type="file"
       accept="image/*"
       capture="environment"
-      onchange="selectFiles(event)">
-<button id="fileBtn" class="control-button">📎</button>
-
-<input
-id="fileInput"
-type="file"
-accept="image/*,.txt,.csv,.pdf,.doc,.docx,.xlsx"
-multiple
->
+    >
 
     <textarea
       id="input"
       rows="1"
-      placeholder="Хабарлама жазыңыз...">
-    </textarea>
-<button id="cameraBtn" class="control-button">📷</button>
+      placeholder="Хабарлама жазыңыз..."
+    ></textarea>
 
-<input
-id="cameraInput"
-type="file"
-accept="image/*"
-capture="environment"
->
-
-    <button
-      class="send-button"
-      onclick="sendMessage()">
-      ➤
-    </button>
-<textarea
-id="input"
-rows="1"
-placeholder="Хабарлама жазыңыз..."
-></textarea>
+    <button id="sendButton" class="send-button">➤</button>
 
   </div>
-<button id="sendBtn" class="send-button">➤</button>
-
 </div>
 
-</div>
-
-
-<!-- PANEL -->
-
-<div
-  id="overlay"
-  class="overlay"
-  onclick="closePanel()">
 </div>
 
 <div id="overlay" class="overlay"></div>
 
-<div
-  id="panel"
-  class="chat-panel">
+<div id="panel" class="chat-panel">
 
   <div class="panel-header">
-
-    <div class="panel-title">
-      Чаттар
-    </div>
-
-    <button
-      class="icon-button"
-      onclick="closePanel()">
-      ✕
-    </button>
-
+    <div class="panel-title">Чаттар</div>
+    <button id="closePanelButton" class="icon-button">✕</button>
   </div>
 
-
-  <button
-    class="panel-button"
-    onclick="newChatFromPanel()">
+  <button id="newChatPanelButton" class="panel-button">
     ＋ Жаңа чат
   </button>
-
 
   <input
     id="chatSearch"
     class="search-box"
     placeholder="Чатты іздеу..."
-    oninput="renderChats()">
+  >
 
-
-  <div
-    id="chatList"
-    class="chat-list">
-  </div>
-<div id="panel" class="panel">
-
-<div class="panel-header">
-<div class="panel-title">Чаттар</div>
-<button id="closePanel" class="icon-button">✕</button>
-</div>
-
-<button id="panelNew" class="new-chat">＋ Жаңа чат</button>
-
-<!-- IMAGE MODAL -->
-
-<div
-  id="imageModal"
-  class="modal"
-  onclick="closeImage()">
-<input
-id="search"
-class="search"
-placeholder="Чатты іздеу..."
->
-
-  <button
-    class="modal-close"
-    onclick="closeImage()">
-    ✕
-  </button>
-
-  <img
-    id="modalImage">
-<div id="chatList" class="chat-list"></div>
+  <div id="chatList" class="chat-list"></div>
 
 </div>
 
-<div id="modal" class="modal">
-<button id="modalClose" class="modal-close">✕</button>
-<img id="modalImage">
+<div id="imageModal" class="modal">
+  <button id="modalClose" class="modal-close">✕</button>
+  <img id="modalImage" alt="">
 </div>
+
 
 <script>
-
-/* =========================================================
-   WORKER
-========================================================= */
 
 const WORKER_URL =
   "https://my-ai-backend.razinavsegda84.workers.dev";
 
-
-/* =========================================================
-   STORAGE
-========================================================= */
-"https://my-ai-backend.razinavsegda84.workers.dev";
-
 const STORAGE_KEY =
-  "my_ai_chats_v4";
+  "my_ai_chats_v5";
+
+let chats = [];
+let currentChatId = null;
+let history = [];
+let selectedImages = [];
+let selectedFiles = [];
+let sending = false;
 
 
-let chats =
-  loadChats();
-
-let currentChatId =
-  null;
-
-let history =
-  [];
-"my_ai_chats_final_v1";
-
-let selectedImages =
-  [];
-let chats=[];
-let currentChatId=null;
-let history=[];
-let selectedImages=[];
-let selectedFiles=[];
-let sending=false;
-
-let selectedFiles =
-  [];
-
-let sending =
-  false;
-
-
-/* =========================================================
 /* =========================
-   STORAGE
-========================================================= */
-
-function loadChats() {
-
-  try {
-
-    const data =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
+   ELEMENTS
 ========================= */
 
-    return data
-      ? JSON.parse(data)
+const chatBox =
+  document.getElementById("chat");
+
+const input =
+  document.getElementById("input");
+
+const sendButton =
+  document.getElementById("sendButton");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const cameraInput =
+  document.getElementById("cameraInput");
+
+const preview =
+  document.getElementById("preview");
+
+const previewRow =
+  document.getElementById("previewRow");
+
+const status =
+  document.getElementById("status");
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function loadChats(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
+
+    return saved
+      ? JSON.parse(saved)
       : [];
 
-  }
-
-  catch {
+  }catch{
 
     return [];
 
   }
-function loadChats(){
-
-try{
-return JSON.parse(
-localStorage.getItem(STORAGE_KEY)
-)||[];
-}catch{
-return[];
-}
-
-
-function saveChats() {
-
-  try {
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(chats)
-    );
-
-  }
-
-  catch {
-
-    alert(
-      "Телефон жады толып қалды. Кейбір ескі чаттарды өшіріңіз."
-    );
-
-  }
-
 }
 
 function saveChats(){
 
-/* =========================================================
-   CHAT
-========================================================= */
-
-function id() {
-
-  return (
-    Date.now().toString(36) +
-    Math.random()
-      .toString(36)
-      .slice(2)
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(chats)
   );
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(chats)
-);
 
 }
 
 
-function createChat() {
-
-  const chat = {
-
-    id: id(),
-
-    title:
-      "Жаңа чат",
-
-    history: [],
-
-    createdAt:
-      Date.now(),
-
-    updatedAt:
-      Date.now()
 /* =========================
    ID
 ========================= */
 
-  };
 function makeId(){
 
-  chats.unshift(
-    chat
-  );
+  return Date.now().toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(2);
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+function createChat(){
+
+  const chat = {
+
+    id:makeId(),
+
+    title:"Жаңа чат",
+
+    history:[],
+
+    createdAt:Date.now(),
+
+    updatedAt:Date.now()
+
+  };
+
+  chats.unshift(chat);
 
   currentChatId =
     chat.id;
@@ -1067,224 +598,77 @@ function makeId(){
   saveChats();
 
   renderChats();
-return Date.now().toString(36)+
-Math.random().toString(36).slice(2);
 
 }
 
 
-function currentChat() {
+function getCurrentChat(){
 
   return chats.find(
-    x =>
-      x.id ===
-      currentChatId
+    chat =>
+      chat.id === currentChatId
   );
-/* =========================
-   CHAT
-========================= */
 
 }
-function createChat(){
 
-const chat={
-id:makeId(),
-title:"Жаңа чат",
-history:[],
-createdAt:Date.now(),
-updatedAt:Date.now()
-};
 
-function updateChat() {
-chats.unshift(chat);
+function updateChat(){
 
   const chat =
-    currentChat();
-currentChatId=chat.id;
-history=[];
+    getCurrentChat();
 
-  if (!chat) return;
-saveChats();
-renderChats();
-renderCurrent();
+  if(!chat) return;
 
   chat.history =
     history.slice(-12);
-}
 
   chat.updatedAt =
     Date.now();
 
   saveChats();
-function currentChat(){
-
-  renderChats();
-return chats.find(
-x=>x.id===currentChatId
-);
-
-}
-
-
-function newChat() {
-function updateChat(){
-
-  if (
-    history.length &&
-    !confirm(
-      "Жаңа чат бастаймыз ба?"
-    )
-  ) {
-    return;
-  }
-const chat=currentChat();
-
-  createChat();
-if(!chat)return;
-
-  clearSelection();
-chat.history=history.slice(-12);
-chat.updatedAt=Date.now();
-
-  renderCurrent();
-saveChats();
-renderChats();
-
-}
-
-
-function newChatFromPanel() {
-
-  createChat();
-
-  clearSelection();
-function newChat(){
-
-  renderCurrent();
-if(
-history.length &&
-!confirm("Жаңа чат бастаймыз ба?")
-)return;
-
-  closePanel();
-clearSelection();
-createChat();
-
-}
-
-
-function openChat(chatId) {
-function openChat(id){
-
-  const chat =
-    chats.find(
-      x =>
-        x.id === chatId
-    );
-const chat=chats.find(
-x=>x.id===id
-);
-
-  if (!chat) return;
-if(!chat)return;
-
-  currentChatId =
-    chat.id;
-currentChatId=id;
-
-  history =
-    Array.isArray(chat.history)
-      ? chat.history.slice(-12)
-      : [];
-history=Array.isArray(chat.history)
-?chat.history.slice(-12)
-:[];
-
-  renderCurrent();
 
   renderChats();
 
-  closePanel();
-renderCurrent();
-renderChats();
-closePanel();
-
 }
 
 
-/* =========================================================
-   CHAT RENDER
-========================================================= */
-
-function renderCurrent() {
 /* =========================
    RENDER
 ========================= */
 
-  const box =
-    document.getElementById(
-      "chat"
-    );
 function renderCurrent(){
 
-  box.innerHTML = "";
-const box=document.getElementById("chat");
+  chatBox.innerHTML = "";
 
-  if (!history.length) {
-box.innerHTML="";
+  if(!history.length){
 
-    box.innerHTML = `
-      <div class="welcome" id="welcome">
+    chatBox.innerHTML = `
+      <div class="welcome">
         <h1>Сәлем! 👋</h1>
         <p>Мен — My AI</p>
         <p>Сұрақ қойыңыз немесе сурет/файл жіберіңіз.</p>
       </div>
     `;
-if(!history.length){
 
     return;
-box.innerHTML=`
-<div id="welcome" class="welcome">
-<h1>Сәлем! 👋</h1>
-<p>Мен — My AI</p>
-<p>Сұрақ қойыңыз немесе сурет/файл жіберіңіз.</p>
-</div>
-`;
-
   }
-return;
 
-}
+  history.forEach(item => {
 
-  history.forEach(
-    item => {
-history.forEach(item=>{
+    if(
+      item.role !== "user" &&
+      item.role !== "assistant"
+    ) return;
 
-      if (
-        item.role !== "user" &&
-        item.role !== "assistant"
-      ) return;
-if(
-item.role!=="user" &&
-item.role!=="assistant"
-)return;
+    addMessage(
+      item.content,
+      item.role === "user"
+        ? "user"
+        : "ai",
+      item.images || []
+    );
 
-      addMessage(
-        item.content,
-        item.role === "user"
-          ? "user"
-          : "ai",
-        item.images || []
-      );
-addMessage(
-item.content,
-item.role==="user"?"user":"ai",
-item.images||[]
-);
-
-    }
-  );
-});
+  });
 
 }
 
@@ -1292,962 +676,417 @@ item.images||[]
 function addMessage(
   text,
   type,
-  images = []
-) {
-text,
-type,
-images=[]
+  images=[]
 ){
 
-  const box =
-    document.getElementById(
-      "chat"
-    );
-const box=document.getElementById("chat");
-
   const div =
-    document.createElement(
-      "div"
-    );
-const div=document.createElement("div");
+    document.createElement("div");
 
   div.className =
     "message " + type;
-div.className="message "+type;
 
-images.forEach(src=>{
+  images.forEach(src => {
 
-  images.forEach(
-    src => {
-const img=document.createElement("img");
+    const img =
+      document.createElement("img");
 
-      const img =
-        document.createElement(
-          "img"
-        );
-img.src=src;
+    img.src = src;
 
-      img.src =
-        src;
-img.onclick=()=>{
-openImage(src);
-};
+    img.onclick =
+      () => openImage(src);
 
-      img.onclick =
-        function() {
-div.appendChild(img);
+    div.appendChild(img);
 
-          openImage(
-            src
-          );
-});
+  });
 
-        };
-if(text){
-
-      div.appendChild(
-        img
-      );
-const t=document.createElement("div");
-
-    }
-  );
-t.textContent=text;
-
-div.appendChild(t);
-
-  if (text) {
+  if(text){
 
     const textDiv =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     textDiv.textContent =
       text;
 
-    div.appendChild(
-      textDiv
-    );
-}
+    div.appendChild(textDiv);
 
   }
-if(type==="ai" && text){
 
-const tools=document.createElement("div");
-
-  if (type === "ai") {
-tools.className="message-tools";
+  if(type === "ai"){
 
     const tools =
-      document.createElement(
-        "div"
-      );
-const copy=document.createElement("button");
+      document.createElement("div");
 
     tools.className =
       "message-tools";
-copy.className="small-button";
-copy.textContent="📋 Көшіру";
-
-copy.onclick=()=>{
-navigator.clipboard?.writeText(text);
-};
 
     const copy =
-      document.createElement(
-        "button"
-      );
-tools.appendChild(copy);
+      document.createElement("button");
 
     copy.className =
       "small-button";
-div.appendChild(tools);
 
     copy.textContent =
       "📋 Көшіру";
-}
 
     copy.onclick =
-      function() {
-box.appendChild(div);
+      async () => {
 
-        navigator.clipboard
-          ?.writeText(text);
-box.scrollTop=box.scrollHeight;
+        try{
+
+          await navigator.clipboard.writeText(
+            text || ""
+          );
+
+        }catch{}
 
       };
-return div;
+
+    tools.appendChild(copy);
+
+    div.appendChild(tools);
+
+  }
+
+  chatBox.appendChild(div);
+
+  chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+  return div;
 
 }
 
-    const regenerate =
-      document.createElement(
-        "button"
-      );
 
-    regenerate.className =
-      "small-button";
 /* =========================
    CHAT LIST
 ========================= */
 
-    regenerate.textContent =
-      "🔄 Қайта";
 function renderChats(){
 
-    regenerate.onclick =
-      function() {
-const list=document.getElementById("chatList");
-
-        regenerateAnswer(
-          text
-        );
-const q=document.getElementById("search").value
-.toLowerCase()
-.trim();
-
-      };
-list.innerHTML="";
-
-const filtered=chats.filter(chat=>
-!q ||
-chat.title.toLowerCase().includes(q)
-);
-
-    tools.appendChild(
-      copy
-    );
-if(!filtered.length){
-
-    tools.appendChild(
-      regenerate
-    );
-list.innerHTML=
-'<div class="empty">Чат табылмады.</div>';
-
-    div.appendChild(
-      tools
-    );
-return;
-
-  }
-}
-
-filtered.forEach(chat=>{
-
-  box.appendChild(
-    div
-  );
-const row=document.createElement("div");
-
-  box.scrollTop =
-    box.scrollHeight;
-row.className=
-"chat-item "+
-(chat.id===currentChatId?"active":"");
-
-  return div;
-const open=document.createElement("button");
-
-}
-open.className="chat-open";
-
-open.innerHTML=
-`<span class="chat-name"></span>
-<span class="chat-date"></span>`;
-
-/* =========================================================
-   CHAT LIST
-========================================================= */
-open.querySelector(".chat-name")
-.textContent=chat.title;
-
-function renderChats() {
-open.querySelector(".chat-date")
-.textContent=
-new Date(chat.updatedAt)
-.toLocaleString("kk-KZ");
-
   const list =
-    document.getElementById(
-      "chatList"
-    );
-open.onclick=()=>{
-openChat(chat.id);
-};
+    document.getElementById("chatList");
 
   const search =
-    document.getElementById(
-      "chatSearch"
-    ).value
+    document.getElementById("chatSearch")
+      .value
       .toLowerCase()
       .trim();
-const del=document.createElement("button");
-
-del.className="chat-action";
-del.textContent="🗑️";
 
   list.innerHTML = "";
-del.onclick=e=>{
-e.stopPropagation();
-
-if(confirm("Бұл чатты өшіру керек пе?")){
 
   const filtered =
-    chats.filter(
-      chat =>
-        !search ||
-        chat.title
-          .toLowerCase()
-          .includes(search)
+    chats.filter(chat =>
+      !search ||
+      chat.title
+        .toLowerCase()
+        .includes(search)
     );
-chats=chats.filter(
-x=>x.id!==chat.id
-);
 
-if(currentChatId===chat.id){
-
-  if (!filtered.length) {
-if(chats.length){
+  if(!filtered.length){
 
     list.innerHTML =
-      `<div class="empty">
-        Чат табылмады.
-      </div>`;
-currentChatId=chats[0].id;
-history=chats[0].history||[];
+      `<div class="empty">Чат табылмады.</div>`;
 
     return;
-}else{
 
   }
-createChat();
-return;
+
+  filtered.forEach(chat => {
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "chat-item" +
+      (
+        chat.id === currentChatId
+          ? " active"
+          : ""
+      );
+
+    const open =
+      document.createElement("button");
+
+    open.className =
+      "chat-open";
+
+    open.innerHTML =
+      `<span class="chat-name"></span>
+       <span class="chat-date"></span>`;
+
+    open.querySelector(".chat-name")
+      .textContent =
+      chat.title;
+
+    open.querySelector(".chat-date")
+      .textContent =
+      new Date(chat.updatedAt)
+        .toLocaleString("kk-KZ",{
+          day:"2-digit",
+          month:"2-digit",
+          hour:"2-digit",
+          minute:"2-digit"
+        });
+
+    open.onclick =
+      () => openChat(chat.id);
+
+    const rename =
+      document.createElement("button");
+
+    rename.className =
+      "chat-action";
+
+    rename.textContent =
+      "✏️";
+
+    rename.onclick =
+      event => {
+
+        event.stopPropagation();
+
+        const name =
+          prompt(
+            "Жаңа чат атауы:",
+            chat.title
+          );
+
+        if(name && name.trim()){
+
+          chat.title =
+            name.trim().slice(0,80);
+
+          chat.updatedAt =
+            Date.now();
+
+          saveChats();
+
+          renderChats();
+
+        }
+
+      };
+
+    const del =
+      document.createElement("button");
+
+    del.className =
+      "chat-action";
+
+    del.textContent =
+      "🗑️";
+
+    del.onclick =
+      event => {
+
+        event.stopPropagation();
+
+        if(
+          !confirm("Бұл чатты өшіру керек пе?")
+        ) return;
+
+        chats =
+          chats.filter(
+            x => x.id !== chat.id
+          );
+
+        if(currentChatId === chat.id){
+
+          if(chats.length){
+
+            currentChatId =
+              chats[0].id;
+
+            history =
+              chats[0].history || [];
+
+          }else{
+
+            createChat();
+
+          }
+
+        }
+
+        saveChats();
+
+        renderCurrent();
+
+        renderChats();
+
+      };
+
+    row.appendChild(open);
+    row.appendChild(rename);
+    row.appendChild(del);
+
+    list.appendChild(row);
+
+  });
 
 }
 
-  filtered.forEach(
-    chat => {
+
+function openChat(chatId){
+
+  const chat =
+    chats.find(
+      x => x.id === chatId
+    );
+
+  if(!chat) return;
+
+  currentChatId =
+    chat.id;
+
+  history =
+    Array.isArray(chat.history)
+      ? chat.history.slice(-12)
+      : [];
+
+  renderCurrent();
+
+  renderChats();
+
+  closePanel();
+
 }
 
-      const row =
-        document.createElement(
-          "div"
-        );
-saveChats();
-renderCurrent();
-renderChats();
 
-      row.className =
-        "chat-item" +
-        (
-          chat.id === currentChatId
-            ? " active"
-            : ""
-        );
+/* =========================
+   PANEL
+========================= */
+
+function openPanel(){
+
+  document
+    .getElementById("overlay")
+    .classList.add("show");
+
+  document
+    .getElementById("panel")
+    .classList.add("show");
+
 }
 
-};
+function closePanel(){
 
-      const open =
-        document.createElement(
-          "button"
-        );
-row.appendChild(open);
-row.appendChild(del);
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
 
-      open.className =
-        "chat-open";
-list.appendChild(row);
+  document
+    .getElementById("panel")
+    .classList.remove("show");
 
-});
-
-      const name =
-        document.createElement(
-          "span"
-        );
 }
 
-      name.className =
-        "chat-name";
 
-      name.textContent =
-        chat.title;
 /* =========================
    FILES
 ========================= */
 
 function selectFiles(event){
 
-      const date =
-        document.createElement(
-          "span"
-        );
-const files=[
-...event.target.files
-];
-
-      date.className =
-        "chat-date";
-files.forEach(file=>{
-
-      date.textContent =
-        new Date(
-          chat.updatedAt
-        ).toLocaleString(
-          "kk-KZ",
-          {
-            day: "2-digit",
-            month: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit"
-          }
-        );
-if(file.type.startsWith("image/")){
-
-if(file.size<=20*1024*1024){
-
-      open.appendChild(
-        name
-      );
-selectedImages.push(file);
-
-      open.appendChild(
-        date
-      );
-}
-
-}else{
-
-      open.onclick =
-        () =>
-          openChat(
-            chat.id
-          );
-selectedFiles.push(file);
-
-}
-
-      const rename =
-        document.createElement(
-          "button"
-        );
-});
-
-      rename.className =
-        "chat-action";
-event.target.value="";
-
-      rename.textContent =
-        "✏️";
-renderPreview();
-
-      rename.onclick =
-        event => {
-}
-
-          event.stopPropagation();
-
-          renameChat(
-            chat.id
-          );
-function renderPreview(){
-
-        };
-const preview=document.getElementById("preview");
-const row=document.getElementById("previewRow");
-
-row.innerHTML="";
-
-      const del =
-        document.createElement(
-          "button"
-        );
-selectedImages.forEach((file,index)=>{
-
-      del.className =
-        "chat-action";
-const item=document.createElement("div");
-
-      del.textContent =
-        "🗑️";
-item.className="preview-item";
-
-      del.onclick =
-        event => {
-const img=document.createElement("img");
-
-          event.stopPropagation();
-const reader=new FileReader();
-
-          deleteChat(
-            chat.id
-          );
-reader.onload=e=>{
-img.src=e.target.result;
-};
-
-        };
-reader.readAsDataURL(file);
-
-const remove=document.createElement("button");
-
-      row.appendChild(
-        open
-      );
-remove.className="remove";
-remove.textContent="✕";
-
-      row.appendChild(
-        rename
-      );
-remove.onclick=()=>{
-
-      row.appendChild(
-        del
-      );
-selectedImages.splice(index,1);
-renderPreview();
-
-      list.appendChild(
-        row
-      );
-};
-
-    }
-  );
-item.appendChild(img);
-item.appendChild(remove);
-row.appendChild(item);
-
-}
-});
-
-
-/* =========================================================
-   RENAME
-========================================================= */
-selectedFiles.forEach((file,index)=>{
-
-function renameChat(
-  chatId
-) {
-const item=document.createElement("div");
-
-  const chat =
-    chats.find(
-      x =>
-        x.id === chatId
-    );
-item.className="preview-item";
-
-  if (!chat) return;
-item.innerHTML=
-`<div style="
-width:64px;
-height:64px;
-background:#222;
-border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px
-">📄</div>`;
-
-const remove=document.createElement("button");
-
-  const name =
-    prompt(
-      "Жаңа чат атауы:",
-      chat.title
-    );
-remove.className="remove";
-remove.textContent="✕";
-
-remove.onclick=()=>{
-
-  if (
-    name &&
-    name.trim()
-  ) {
-selectedFiles.splice(index,1);
-renderPreview();
-
-    chat.title =
-      name.trim()
-        .slice(0, 80);
-};
-
-    chat.updatedAt =
-      Date.now();
-item.appendChild(remove);
-row.appendChild(item);
-
-    saveChats();
-});
-
-    renderChats();
-
-  }
-preview.style.display=
-selectedImages.length||selectedFiles.length
-?"block":"none";
-
-}
-
-
-/* =========================================================
-   DELETE
-========================================================= */
-function clearSelection(){
-
-function deleteChat(
-  chatId
-) {
-selectedImages=[];
-selectedFiles=[];
-
-  if (
-    !confirm(
-      "Бұл чатты өшіру керек пе?"
-    )
-  ) {
-    return;
-  }
-renderPreview();
-
-}
-
-  chats =
-    chats.filter(
-      x =>
-        x.id !== chatId
-    );
-
-/* =========================
-   IMAGE
-========================= */
-
-  if (
-    currentChatId === chatId
-  ) {
-function compressImage(file){
-
-    if (chats.length) {
-return new Promise((resolve,reject)=>{
-
-      currentChatId =
-        chats[0].id;
-const reader=new FileReader();
-
-      history =
-        chats[0].history || [];
-reader.onload=e=>{
-
-    }
-const img=new Image();
-
-    else {
-img.onload=()=>{
-
-      createChat();
-const max=1280;
-
-    }
-let w=img.width;
-let h=img.height;
-
-  }
-if(w>max||h>max){
-
-if(w>h){
-
-  saveChats();
-h=Math.round(h*max/w);
-w=max;
-
-  renderCurrent();
-}else{
-
-  renderChats();
-w=Math.round(w*max/h);
-h=max;
-
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-function openPanel() {
-
-  document
-    .getElementById(
-      "overlay"
-    )
-    .classList.add(
-      "show"
-    );
-
-  document
-    .getElementById(
-      "panel"
-    )
-    .classList.add(
-      "show"
-    );
-
-}
-
-const canvas=document.createElement("canvas");
-
-function closePanel() {
-canvas.width=w;
-canvas.height=h;
-
-  document
-    .getElementById(
-      "overlay"
-    )
-    .classList.remove(
-      "show"
-    );
-const ctx=canvas.getContext("2d");
-
-  document
-    .getElementById(
-      "panel"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-ctx.drawImage(img,0,0,w,h);
-
-resolve(
-canvas.toDataURL("image/jpeg",.75)
-);
-
-/* =========================================================
-   FILE SELECTION
-========================================================= */
-};
-
-function selectFiles(
-  event
-) {
-img.onerror=reject;
-img.src=e.target.result;
-
   const files =
     Array.from(
       event.target.files || []
     );
-};
 
-reader.onerror=reject;
-reader.readAsDataURL(file);
+  files.forEach(file => {
 
-  if (!files.length) {
-    return;
-  }
-});
+    if(file.type.startsWith("image/")){
 
-}
+      if(
+        file.size <=
+        20 * 1024 * 1024
+      ){
 
-  files.forEach(
-    file => {
-
-      if (
-        file.type.startsWith(
-          "image/"
-        )
-      ) {
-
-        if (
-          file.size <=
-          20 * 1024 * 1024
-        ) {
-/* =========================
-   FILE TEXT
-========================= */
-
-          selectedImages.push(
-            file
-          );
-async function readTextFile(file){
-
-        }
-if(
-file.type==="text/plain" ||
-file.type==="text/csv" ||
-file.name.toLowerCase().endsWith(".txt") ||
-file.name.toLowerCase().endsWith(".csv")
-){
+        selectedImages.push(file);
 
       }
-return await file.text();
 
-      else {
-}
+    }else{
 
-        selectedFiles.push(
-          file
-        );
-return "";
-
-      }
-}
+      selectedFiles.push(file);
 
     }
-  );
 
-/* =========================
-   SEND
-========================= */
+  });
 
   renderPreview();
-async function sendMessage(){
 
-  event.target.value =
-    "";
-if(sending)return;
+  event.target.value = "";
 
 }
-const input=document.getElementById("input");
 
-const text=input.value.trim();
 
-/* =========================================================
-   PREVIEW
-========================================================= */
-if(
-!text &&
-!selectedImages.length &&
-!selectedFiles.length
-)return;
+function renderPreview(){
 
-function renderPreview() {
-if(!currentChatId){
-
-  const preview =
-    document.getElementById(
-      "preview"
-    );
-createChat();
-
-  const row =
-    document.getElementById(
-      "previewRow"
-    );
-}
-
-const welcome=document.getElementById("welcome");
-
-  row.innerHTML = "";
-if(welcome)welcome.remove();
-
-sending=true;
+  previewRow.innerHTML = "";
 
   selectedImages.forEach(
-    (file, index) => {
-setStatus("Дайындалып жатыр...");
+    (file,index) => {
 
       const item =
-        document.createElement(
-          "div"
-        );
-let loading=null;
+        document.createElement("div");
 
       item.className =
         "preview-item";
-try{
-
-const images=[];
 
       const img =
-        document.createElement(
-          "img"
-        );
-for(const file of selectedImages){
-
-images.push(
-await compressImage(file)
-);
+        document.createElement("img");
 
       const reader =
         new FileReader();
-}
-
-let fileText="";
 
       reader.onload =
         event => {
-for(const file of selectedFiles){
 
           img.src =
             event.target.result;
-if(
-file.type==="text/plain" ||
-file.type==="text/csv" ||
-file.name.toLowerCase().endsWith(".txt") ||
-file.name.toLowerCase().endsWith(".csv")
-){
 
         };
-fileText+=
-"\n\n--- "+file.name+" ---\n"+
-await readTextFile(file);
 
-}
-
-      reader.readAsDataURL(
-        file
-      );
-}
-
-const userText=
-text ||
-(images.length
-?"Осы суретті қазақ тілінде талда."
-:"Осы файлды талда.");
+      reader.readAsDataURL(file);
 
       const remove =
-        document.createElement(
-          "button"
-        );
-addMessage(
-userText,
-"user",
-images
-);
+        document.createElement("button");
 
       remove.className =
         "preview-remove";
-setStatus("AI жауап дайындап жатыр...");
 
       remove.textContent =
         "✕";
-loading=addMessage(
-"AI жауап дайындап жатыр...",
-"ai"
-);
-
 
       remove.onclick =
         () => {
-const response=await fetch(
-WORKER_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
 
-          selectedImages.splice(
-            index,
-            1
-          );
-action:"chat",
+          selectedImages.splice(index,1);
 
           renderPreview();
-message:
-fileText
-?userText+
-"\n\nҚұжат:\n"+
-fileText
-:userText,
 
         };
-images:images,
 
-history:history.slice(-12)
+      item.appendChild(img);
+      item.appendChild(remove);
 
-      item.appendChild(
-        img
-      );
-})
-}
-);
-
-      item.appendChild(
-        remove
-      );
-
-      row.appendChild(
-        item
-      );
-let data;
+      previewRow.appendChild(item);
 
     }
   );
-try{
-
-data=await response.json();
 
   selectedFiles.forEach(
-    (file, index) => {
-}catch{
+    (file,index) => {
 
       const item =
-        document.createElement(
-          "div"
-        );
-throw new Error(
-"Worker JSON жауап қайтармады."
-);
+        document.createElement("div");
 
       item.className =
         "preview-item";
-}
 
-
-      item.innerHTML =
-        `<div style="
+      item.innerHTML = `
+        <div style="
           width:64px;
           height:64px;
           background:#222;
@@ -2257,66 +1096,33 @@ throw new Error(
           justify-content:center;
           font-size:24px;">
           📄
-        </div>`;
-if(!response.ok || data.ok===false){
-
-throw new Error(
-data.error ||
-"Сервер қатесі: "+
-response.status
-);
+        </div>
+      `;
 
       const remove =
-        document.createElement(
-          "button"
-        );
-}
+        document.createElement("button");
 
       remove.className =
         "preview-remove";
 
       remove.textContent =
         "✕";
-if(loading){
-
-loading.remove();
-loading=null;
 
       remove.onclick =
         () => {
-}
 
-          selectedFiles.splice(
-            index,
-            1
-          );
+          selectedFiles.splice(index,1);
 
           renderPreview();
-const answer=
-typeof data.answer==="string"
-?data.answer
-:JSON.stringify(data.answer);
 
         };
 
-addMessage(answer,"ai");
+      item.appendChild(remove);
 
-      item.appendChild(
-        remove
-      );
-
-      row.appendChild(
-        item
-      );
-history.push({
+      previewRow.appendChild(item);
 
     }
   );
-role:"user",
-content:userText,
-images:images
-
-});
 
   preview.style.display =
     (
@@ -2325,227 +1131,119 @@ images:images
     )
       ? "block"
       : "none";
-history.push({
 
 }
-role:"assistant",
-content:answer,
-images:[]
 
-});
 
-/* =========================================================
-   CLEAR
-========================================================= */
-history=history.slice(-12);
+function clearSelection(){
 
-function clearSelection() {
+  selectedImages = [];
 
-  selectedImages =
-    [];
-const chat=currentChat();
-
-  selectedFiles =
-    [];
-if(
-chat &&
-chat.title==="Жаңа чат"
-){
+  selectedFiles = [];
 
   renderPreview();
-chat.title=
-userText.length>45
-?userText.slice(0,45)+"..."
-:userText;
 
 }
 
-updateChat();
 
-/* =========================================================
-   FILE → BASE64
-========================================================= */
+/* =========================
+   BASE64
+========================= */
 
-function fileToBase64(
-  file
-) {
-input.value="";
-input.style.height="auto";
+function fileToBase64(file){
 
   return new Promise(
-    (resolve, reject) => {
-clearSelection();
+    (resolve,reject) => {
 
       const reader =
         new FileReader();
-setStatus("");
-
-}catch(error){
 
       reader.onload =
-        () =>
-          resolve(
-            reader.result
-          );
-console.error(error);
-
-if(loading){
+        () => resolve(reader.result);
 
       reader.onerror =
         reject;
 
-
-      reader.readAsDataURL(
-        file
-      );
+      reader.readAsDataURL(file);
 
     }
   );
-loading.remove();
 
 }
 
-addMessage(
-"Қате: "+
-(error.message||"Белгісіз қате"),
-"ai"
-);
 
-/* =========================================================
+/* =========================
    IMAGE COMPRESS
-========================================================= */
+========================= */
 
-function compressImage(
-  file
-) {
+function compressImage(file){
 
   return new Promise(
-    (resolve, reject) => {
-setStatus("");
+    (resolve,reject) => {
 
       const reader =
         new FileReader();
-}finally{
-
-sending=false;
 
       reader.onload =
         event => {
 
           const img =
             new Image();
-}
-
-}
 
           img.onload =
             () => {
 
-              const max =
-                1280;
-/* =========================
-   UI
-========================= */
+              const max = 1280;
 
-function setStatus(text){
-
-              let w =
+              let width =
                 img.width;
-document.getElementById(
-"status"
-).textContent=text;
 
-              let h =
+              let height =
                 img.height;
-}
 
+              if(
+                width > max ||
+                height > max
+              ){
 
-              if (
-                w > max ||
-                h > max
-              ) {
-function openPanel(){
+                if(width > height){
 
-                if (
-                  w > h
-                ) {
-document.getElementById("overlay")
-.classList.add("show");
-
-                  h =
+                  height =
                     Math.round(
-                      h * max / w
+                      height * max / width
                     );
-document.getElementById("panel")
-.classList.add("show");
 
-                  w =
-                    max;
-}
+                  width = max;
+
+                }else{
+
+                  width =
+                    Math.round(
+                      width * max / height
+                    );
+
+                  height = max;
 
                 }
-
-                else {
-function closePanel(){
-
-                  w =
-                    Math.round(
-                      w * max / h
-                    );
-document.getElementById("overlay")
-.classList.remove("show");
-
-                  h =
-                    max;
-document.getElementById("panel")
-.classList.remove("show");
-
-                }
-}
 
               }
 
-function openImage(src){
-
               const canvas =
-                document.createElement(
-                  "canvas"
-                );
-document.getElementById("modalImage")
-.src=src;
+                document.createElement("canvas");
 
-document.getElementById("modal")
-.classList.add("show");
-
-              canvas.width =
-                w;
-}
-
-              canvas.height =
-                h;
-
-function closeImage(){
+              canvas.width = width;
+              canvas.height = height;
 
               const ctx =
-                canvas.getContext(
-                  "2d"
-                );
-document.getElementById("modal")
-.classList.remove("show");
-
-}
+                canvas.getContext("2d");
 
               ctx.drawImage(
                 img,
                 0,
                 0,
-                w,
-                h
+                width,
+                height
               );
-
-/* =========================
-   BUTTONS
-========================= */
 
               resolve(
                 canvas.toDataURL(
@@ -2553,179 +1251,649 @@ document.getElementById("modal")
                   0.72
                 )
               );
-document.getElementById("sendBtn")
-.addEventListener("click",sendMessage);
 
             };
-document.getElementById("fileBtn")
-.addEventListener("click",()=>{
-document.getElementById("fileInput").click();
-});
-
-document.getElementById("cameraBtn")
-.addEventListener("click",()=>{
-document.getElementById("cameraInput").click();
-});
 
           img.onerror =
             reject;
-document.getElementById("fileInput")
-.addEventListener("change",selectFiles);
-
-document.getElementById("cameraInput")
-.addEventListener("change",selectFiles);
 
           img.src =
             event.target.result;
-document.getElementById("menuBtn")
-.addEventListener("click",openPanel);
 
         };
-document.getElementById("closePanel")
-.addEventListener("click",closePanel);
-
-document.getElementById("overlay")
-.addEventListener("click",closePanel);
 
       reader.onerror =
         reject;
-document.getElementById("newBtn")
-.addEventListener("click",newChat);
 
-document.getElementById("panelNew")
-.addEventListener("click",()=>{
-createChat();
-closePanel();
-});
-
-      reader.readAsDataURL(
-        file
-      );
-document.getElementById("search")
-.addEventListener("input",renderChats);
+      reader.readAsDataURL(file);
 
     }
   );
-document.getElementById("modalClose")
-.addEventListener("click",closeImage);
 
-document.getElementById("modal")
-.addEventListener("click",e=>{
-if(e.target.id==="modal"){
-closeImage();
 }
-});
 
 
-/* =========================================================
-   SEND FILE TO WORKER
-========================================================= */
 /* =========================
-   ENTER
+   FILE → WORKER
 ========================= */
 
-async function processFile(
-  file
-) {
-document.getElementById("input")
-.addEventListener(
-"keydown",
-e=>{
+async function processFile(file){
 
   const base64 =
-    await fileToBase64(
-      file
-    );
-if(
-e.key==="Enter" &&
-!e.shiftKey
-){
-
-e.preventDefault();
-sendMessage();
+    await fileToBase64(file);
 
   const response =
     await fetch(
       WORKER_URL,
       {
+        method:"POST",
 
-        method:
-          "POST",
-}
-
-        headers: {
+        headers:{
           "Content-Type":
             "application/json"
         },
-});
 
-        body:
-          JSON.stringify({
+        body:JSON.stringify({
 
-            action:
-              "file",
-/* =========================
-   TEXTAREA HEIGHT
-========================= */
+          action:"file",
 
-            file:
-              base64,
-document.getElementById("input")
-.addEventListener(
-"input",
-function(){
+          file:base64,
 
-            fileName:
-              file.name,
-this.style.height="auto";
+          fileName:file.name,
 
-            mimeType:
-              file.type ||
-              "application/octet-stream"
-this.style.height=
-Math.min(this.scrollHeight,120)+"px";
+          mimeType:
+            file.type ||
+            "application/octet-stream"
 
-          })
-});
+        })
 
       }
     );
 
-/* =========================
-   START
-========================= */
-
   const data =
     await response.json();
-chats=loadChats();
 
-if(!chats.length){
-
-  if (!response.ok) {
-createChat();
+  if(!response.ok){
 
     throw new Error(
       data.error ||
       "Файл өңделмеді."
     );
-}else{
 
   }
-currentChatId=chats[0].id;
-
-history=
-chats[0].history||[];
 
   return data.text || "";
-renderCurrent();
-renderChats();
 
 }
 
+
+/* =========================
+   SEND MESSAGE
+========================= */
+
+async function sendMessage(){
+
+  if(sending) return;
+
+  const text =
+    input.value.trim();
+
+  if(
+    !text &&
+    !selectedImages.length &&
+    !selectedFiles.length
+  ){
+
+    return;
+
+  }
+
+  if(!currentChatId){
+
+    createChat();
+
+  }
+
+  const welcome =
+    document.querySelector(".welcome");
+
+  if(welcome){
+
+    welcome.remove();
+
+  }
+
+  sending = true;
+
+  sendButton.disabled = true;
+
+  setStatus(
+    "Дайындалып жатыр..."
+  );
+
+  let loading = null;
+
+  try{
+
+    let imageData = null;
+
+    if(selectedImages.length){
+
+      setStatus(
+        "Сурет дайындалып жатыр..."
+      );
+
+      imageData =
+        await compressImage(
+          selectedImages[0]
+        );
+
+    }
+
+
+    let fileText = "";
+
+    for(
+      const file of selectedFiles
+    ){
+
+      setStatus(
+        file.name +
+        " оқылып жатыр..."
+      );
+
+      const result =
+        await processFile(file);
+
+      if(result){
+
+        fileText +=
+          "\n\n--- " +
+          file.name +
+          " ---\n" +
+          result;
+
+      }
+
+    }
+
+
+    let userText =
+      text;
+
+    if(!userText){
+
+      if(imageData){
+
+        userText =
+          "Осы суретті талда.";
+
+      }else if(fileText){
+
+        userText =
+          "Осы файлды талда.";
+
+      }else{
+
+        userText =
+          "Сәлем.";
+
+      }
+
+    }
+
+
+    addMessage(
+      text || userText,
+      "user",
+      imageData
+        ? [imageData]
+        : []
+    );
+
+
+    loading =
+      addMessage(
+        "AI жауап дайындап жатыр...",
+        "ai"
+      );
+
+
+    setStatus(
+      "AI жауап дайындап жатыр..."
+    );
+
+
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            action:"chat",
+
+            message:userText,
+
+            images:
+              imageData
+                ? [imageData]
+                : [],
+
+            fileText:fileText,
+
+            history:
+              history.slice(-12)
+
+          })
+
+        }
+      );
+
+
+    let data;
+
+    try{
+
+      data =
+        await response.json();
+
+    }catch{
+
+      throw new Error(
+        "Worker JSON жауап қайтармады."
+      );
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.error ||
+        "Сервер қатесі: " +
+        response.status
+      );
+
+    }
+
+
+    const answer =
+      typeof data.answer === "string"
+        ? data.answer
+        : JSON.stringify(data.answer);
+
+
+    if(loading){
+
+      loading.remove();
+
+      loading = null;
+
+    }
+
+
+    addMessage(
+      answer ||
+      "AI жауап бере алмады.",
+      "ai"
+    );
+
+
+    history.push({
+
+      role:"user",
+
+      content:userText,
+
+      images:
+        imageData
+          ? [imageData]
+          : []
+
+    });
+
+
+    history.push({
+
+      role:"assistant",
+
+      content:
+        answer ||
+        "AI жауап бере алмады.",
+
+      images:[]
+
+    });
+
+
+    history =
+      history.slice(-12);
+
+
+    const chat =
+      getCurrentChat();
+
+    if(
+      chat &&
+      chat.title === "Жаңа чат"
+    ){
+
+      chat.title =
+        (
+          text ||
+          "Жаңа сұрақ"
+        ).slice(0,45);
+
+    }
+
+
+    updateChat();
+
+
+    input.value = "";
+
+    input.style.height =
+      "auto";
+
+    clearSelection();
+
+    setStatus("");
+
+  }catch(error){
+
+    console.error(
+      "SEND ERROR:",
+      error
+    );
+
+    if(loading){
+
+      loading.remove();
+
+    }
+
+    addMessage(
+      "Қате: " +
+      (
+        error?.message ||
+        "Белгісіз қате"
+      ),
+      "ai"
+    );
+
+    setStatus("");
+
+  }finally{
+
+    sending = false;
+
+    sendButton.disabled = false;
+
+  }
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setStatus(text){
+
+  status.textContent =
+    text || "";
+
+}
+
+
+/* =========================
+   NEW CHAT
+========================= */
+
+function newChat(){
+
+  if(
+    history.length &&
+    !confirm("Жаңа чат бастаймыз ба?")
+  ){
+
+    return;
+
+  }
+
+  createChat();
+
+  clearSelection();
+
+  renderCurrent();
+
+}
+
+
+function newChatFromPanel(){
+
+  createChat();
+
+  clearSelection();
+
+  renderCurrent();
+
+  closePanel();
+
+}
+
+
+/* =========================
+   IMAGE MODAL
+========================= */
+
+function openImage(src){
+
+  document.getElementById(
+    "modalImage"
+  ).src = src;
+
+  document.getElementById(
+    "imageModal"
+  ).classList.add("show");
+
+}
+
+function closeImage(){
+
+  document.getElementById(
+    "imageModal"
+  ).classList.remove("show");
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+document
+  .getElementById("sendButton")
+  .addEventListener(
+    "click",
+    sendMessage
+  );
+
+document
+  .getElementById("fileButton")
+  .addEventListener(
+    "click",
+    () => fileInput.click()
+  );
+
+document
+  .getElementById("cameraButton")
+  .addEventListener(
+    "click",
+    () => cameraInput.click()
+  );
+
+fileInput
+  .addEventListener(
+    "change",
+    selectFiles
+  );
+
+cameraInput
+  .addEventListener(
+    "change",
+    selectFiles
+  );
+
+document
+  .getElementById("menuButton")
+  .addEventListener(
+    "click",
+    openPanel
+  );
+
+document
+  .getElementById("closePanelButton")
+  .addEventListener(
+    "click",
+    closePanel
+  );
+
+document
+  .getElementById("overlay")
+  .addEventListener(
+    "click",
+    closePanel
+  );
+
+document
+  .getElementById("newChatButton")
+  .addEventListener(
+    "click",
+    newChat
+  );
+
+document
+  .getElementById("newChatPanelButton")
+  .addEventListener(
+    "click",
+    newChatFromPanel
+  );
+
+document
+  .getElementById("chatSearch")
+  .addEventListener(
+    "input",
+    renderChats
+  );
+
+document
+  .getElementById("modalClose")
+  .addEventListener(
+    "click",
+    closeImage
+  );
+
+document
+  .getElementById("imageModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target.id ===
+        "imageModal"
+      ){
+
+        closeImage();
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   ENTER
+========================= */
+
+input.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Enter" &&
+      !event.shiftKey
+    ){
+
+      event.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   TEXTAREA HEIGHT
+========================= */
+
+input.addEventListener(
+  "input",
+  function(){
+
+    this.style.height =
+      "auto";
+
+    this.style.height =
+      Math.min(
+        this.scrollHeight,
+        120
+      ) + "px";
+
+  }
+);
+
+
+/* =========================
+   START
+========================= */
+
+chats =
+  loadChats();
+
+if(!chats.length){
+
+  createChat();
+
+}else{
+
+  currentChatId =
+    chats[0].id;
+
+  history =
+    Array.isArray(
+      chats[0].history
+    )
+      ? chats[0].history.slice(-12)
+      : [];
+
+}
+
+renderCurrent();
+renderChats();
+
 </script>
 
-/* =========================================================
-   SEND MESSAGE
-========================================================= */
 </body>
 </html>
