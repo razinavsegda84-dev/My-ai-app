@@ -1936,7 +1936,121 @@ if(!chats.length){
 
 renderCurrent();
 renderChats();
+async function regenerateAnswer(){
 
+  if(sending) return;
+
+  if(history.length < 2) return;
+
+  const last =
+    history[history.length - 1];
+
+  if(!last || last.role !== "assistant"){
+    return;
+  }
+
+  const user =
+    history[history.length - 2];
+
+  if(!user || user.role !== "user"){
+    return;
+  }
+
+  history.pop();
+
+  sending = true;
+
+  setStatus(
+    "Жаңа жауап дайындалып жатыр..."
+  );
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            action:"chat",
+
+            message:
+              user.content,
+
+            images:
+              user.images || [],
+
+            history:
+              history.slice(-12)
+
+          })
+
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.error ||
+        "Қайта жауап қатесі."
+      );
+
+    }
+
+    const answer =
+      data.answer ||
+      "AI жауап бере алмады.";
+
+    addMessage(
+      answer,
+      "ai"
+    );
+
+    history.push({
+
+      role:"assistant",
+
+      content:answer,
+
+      images:[]
+
+    });
+
+    history =
+      history.slice(-12);
+
+    updateChat();
+
+  }catch(error){
+
+    addMessage(
+      "Қате: " +
+      (
+        error?.message ||
+        "Белгісіз қате"
+      ),
+      "ai"
+    );
+
+  }finally{
+
+    sending = false;
+
+    setStatus("");
+
+  }
+
+}
 
 </script>
 
