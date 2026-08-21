@@ -15,21 +15,22 @@
 html,
 body{
   margin:0;
+  padding:0;
   width:100%;
   height:100%;
   background:#0b0b0f;
   color:#fff;
   font-family:Arial,sans-serif;
-}
-
-body{
   overflow:hidden;
 }
 
 button{
   font-family:inherit;
-  cursor:pointer;
 }
+
+/* =========================
+   APP
+========================= */
 
 .app{
   width:100%;
@@ -38,17 +39,17 @@ button{
   flex-direction:column;
 }
 
-
-/* =====================================================
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
 header{
   height:58px;
   min-height:58px;
+  width:100%;
   display:flex;
   align-items:center;
-  padding:0 10px;
+  padding:0 12px;
   background:#101014;
   border-bottom:1px solid #29292f;
   position:relative;
@@ -58,6 +59,8 @@ header{
 .menu-button{
   width:42px;
   height:42px;
+  padding:0;
+  margin:0;
   border:0;
   border-radius:10px;
   background:transparent;
@@ -66,14 +69,15 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
+  cursor:pointer;
 }
 
 .menu-button:active{
-  background:#29292f;
+  background:#25252c;
 }
 
 .logo{
-  margin-left:5px;
+  margin-left:6px;
   font-size:20px;
   font-weight:bold;
 }
@@ -88,24 +92,30 @@ header{
   color:#54d17a;
 }
 
-
-/* =====================================================
+/* =========================
    SIDEBAR
-===================================================== */
+========================= */
 
 .sidebar{
   position:fixed;
   top:0;
   left:0;
-  width:290px;
+
+  width:300px;
+  max-width:88vw;
   height:100vh;
+
   background:#111116;
   border-right:1px solid #303038;
-  z-index:100;
+
   transform:translateX(-100%);
   transition:transform .25s ease;
+
+  z-index:1000;
+
   display:flex;
   flex-direction:column;
+
   padding:12px;
 }
 
@@ -113,15 +123,20 @@ header{
   transform:translateX(0);
 }
 
+/* sidebar header */
+
 .sidebar-header{
+  width:100%;
   height:48px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   margin-bottom:10px;
 }
 
-.sidebar-title{
+.sidebar-logo{
   font-size:20px;
   font-weight:bold;
 }
@@ -129,36 +144,81 @@ header{
 .close-button{
   width:40px;
   height:40px;
+
   border:0;
   border-radius:10px;
-  background:#27272e;
+
+  background:#25252c;
   color:#fff;
+
   font-size:22px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
 }
 
 .close-button:active{
-  background:#38383f;
+  background:#35353e;
 }
 
+/* =========================
+   NEW CHAT
+========================= */
 
-/* =====================================================
+.new-chat-button{
+  width:100%;
+  min-height:46px;
+
+  border:0;
+  border-radius:12px;
+
+  background:#fff;
+  color:#000;
+
+  font-size:15px;
+  font-weight:bold;
+
+  cursor:pointer;
+
+  margin-bottom:10px;
+}
+
+.new-chat-button:active{
+  background:#ddd;
+}
+
+/* =========================
    MENU ITEMS
-===================================================== */
+========================= */
+
+.menu-section{
+  width:100%;
+  margin-bottom:6px;
+}
 
 .menu-item{
   width:100%;
   min-height:48px;
+
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:10px 12px;
-  margin-bottom:5px;
+
+  padding:0 12px;
+  margin:3px 0;
+
   border:0;
   border-radius:11px;
+
   background:transparent;
   color:#fff;
+
   text-align:left;
   font-size:15px;
+
+  cursor:pointer;
 }
 
 .menu-item:hover{
@@ -170,48 +230,53 @@ header{
 }
 
 .menu-icon{
-  width:28px;
-  text-align:center;
+  width:30px;
+  min-width:30px;
   font-size:19px;
+  text-align:center;
+  margin-right:8px;
 }
 
 .menu-text{
   flex:1;
 }
 
-
-/* =====================================================
+/* =========================
    HISTORY
-===================================================== */
+========================= */
 
-.history-heading{
-  margin-top:12px;
-  padding:8px 8px;
+.history-title{
   color:#888;
   font-size:12px;
+  padding:12px 8px 7px;
 }
 
-.history-list{
+.history{
   flex:1;
-  overflow-y:auto;
   min-height:0;
+  overflow-y:auto;
+  padding-bottom:8px;
 }
 
-.no-history{
+.history-empty{
   color:#666;
-  padding:10px 8px;
   font-size:13px;
+  padding:12px 8px;
 }
 
 .history-item{
   width:100%;
   padding:11px;
+
   margin-bottom:4px;
-  border:0;
+
   border-radius:10px;
+
   background:transparent;
   color:#ddd;
-  text-align:left;
+
+  cursor:pointer;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -221,75 +286,81 @@ header{
   background:#222229;
 }
 
-.history-item.active{
-  background:#292930;
-}
+/* =========================
+   DELETE HISTORY
+========================= */
 
-
-/* =====================================================
-   DELETE BUTTON
-===================================================== */
-
-.delete-history{
+.delete-history-button{
   width:100%;
   min-height:45px;
-  margin-top:10px;
-  margin-bottom:4px;
-  border:1px solid #3a3030;
-  border-radius:10px;
-  background:#21191b;
-  color:#ff7777;
-  font-size:14px;
+
   flex-shrink:0;
+
+  border:1px solid #3a3030;
+  border-radius:11px;
+
+  background:#21181a;
+  color:#ff8a8a;
+
+  font-size:14px;
+
+  cursor:pointer;
+
+  margin-top:8px;
 }
 
-.delete-history:hover{
-  background:#2b1d1f;
+.delete-history-button:hover{
+  background:#302022;
 }
 
-
-/* =====================================================
+/* =========================
    OVERLAY
-===================================================== */
+========================= */
 
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:90;
-  display:none;
+
+  background:rgba(0,0,0,.60);
+
+  z-index:900;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:
+    opacity .2s ease,
+    visibility .2s ease;
 }
 
 .overlay.show{
-  display:block;
+  opacity:1;
+  visibility:visible;
 }
 
-
-/* =====================================================
+/* =========================
    CHAT
-===================================================== */
+========================= */
 
 #chat{
   flex:1;
+  min-height:0;
+
   overflow-y:auto;
-  padding:20px 12px 150px;
-}
 
-.welcome{
-  max-width:850px;
-  margin:80px auto;
-  text-align:center;
-  color:#777;
-}
-
-.welcome h2{
-  color:#fff;
-  margin-bottom:8px;
+  padding:
+    20px
+    14px
+    150px;
 }
 
 .message{
+  width:100%;
   max-width:850px;
-  margin:0 auto 18px;
+
+  margin:
+    0 auto 18px;
+
   display:flex;
   flex-direction:column;
 }
@@ -303,10 +374,14 @@ header{
 }
 
 .bubble{
-  max-width:88%;
+  max-width:85%;
+
   padding:12px 15px;
+
   border-radius:16px;
-  line-height:1.55;
+
+  line-height:1.5;
+
   white-space:pre-wrap;
   word-break:break-word;
 }
@@ -320,10 +395,9 @@ header{
   border:1px solid #29292f;
 }
 
-
-/* =====================================================
-   MESSAGE ACTIONS
-===================================================== */
+/* =========================
+   MESSAGE BUTTONS
+========================= */
 
 .message-actions{
   display:flex;
@@ -332,12 +406,17 @@ header{
 }
 
 .message-actions button{
-  padding:6px 9px;
-  border-radius:8px;
   border:1px solid #303038;
+  border-radius:8px;
+
   background:#202027;
   color:#bbb;
+
+  padding:6px 9px;
+
   font-size:12px;
+
+  cursor:pointer;
 }
 
 .message-actions button:hover{
@@ -345,123 +424,130 @@ header{
   color:#fff;
 }
 
-
-/* =====================================================
-   IMAGE
-===================================================== */
+/* =========================
+   IMAGES
+========================= */
 
 .generated-image{
   display:block;
+
   max-width:100%;
+
   border-radius:14px;
+
+  margin-top:2px;
 }
 
 .preview-image{
   max-width:100px;
   max-height:100px;
+
   border-radius:10px;
 }
 
+/* =========================
+   WELCOME
+========================= */
 
-/* =====================================================
-   FILE
-===================================================== */
+.welcome{
+  max-width:850px;
 
-.file-card{
-  max-width:88%;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:#17171c;
-  border:1px solid #303038;
-  border-radius:14px;
-}
+  margin:
+    80px auto;
 
-.file-icon{
-  font-size:28px;
-}
+  text-align:center;
 
-.file-info{
-  min-width:0;
-}
-
-.file-name{
-  font-size:14px;
-  font-weight:bold;
-  word-break:break-word;
-}
-
-.file-type{
-  margin-top:4px;
   color:#888;
-  font-size:12px;
 }
 
+.welcome h2{
+  color:#fff;
+  margin-bottom:8px;
+}
 
-/* =====================================================
+/* =========================
    COMPOSER
-===================================================== */
+========================= */
 
 .composer{
   position:fixed;
+
   left:0;
   right:0;
   bottom:0;
-  z-index:20;
-  padding:35px 12px 12px;
-  background:linear-gradient(
-    transparent,
-    #0b0b0f 25%
-  );
+
+  z-index:50;
+
+  padding:
+    35px
+    12px
+    12px;
+
+  background:
+    linear-gradient(
+      transparent,
+      #0b0b0f 25%
+    );
 }
 
 .composer-inner{
   max-width:850px;
-  margin:auto;
-  padding:8px;
-  background:#15151a;
-  border:1px solid #303038;
-  border-radius:18px;
-}
 
-.preview{
-  display:none;
+  margin:auto;
+
+  background:#15151a;
+
+  border:1px solid #303038;
+
+  border-radius:18px;
+
   padding:8px;
-  border-bottom:1px solid #29292f;
-  margin-bottom:5px;
 }
 
 textarea{
   width:100%;
+
   min-height:48px;
   max-height:150px;
+
   resize:none;
-  padding:10px;
+
   border:0;
   outline:0;
+
   background:transparent;
+
   color:#fff;
+
   font-size:16px;
+
+  padding:10px;
+
   font-family:inherit;
 }
 
 .toolbar{
   display:flex;
   align-items:center;
+
   gap:7px;
+
   padding:5px;
 }
 
 .tool-button{
   width:42px;
   height:40px;
-  padding:0;
+
   border:0;
   border-radius:10px;
+
   background:#27272e;
   color:#fff;
+
   font-size:18px;
+
+  cursor:pointer;
 }
 
 .tool-button:hover{
@@ -470,14 +556,20 @@ textarea{
 
 .send-button{
   margin-left:auto;
-  width:45px;
+
+  width:44px;
   height:40px;
+
   border:0;
   border-radius:10px;
+
   background:#fff;
   color:#000;
+
   font-size:18px;
   font-weight:bold;
+
+  cursor:pointer;
 }
 
 .send-button:hover{
@@ -493,101 +585,172 @@ input[type=file]{
   display:none;
 }
 
+/* =========================
+   PREVIEW
+========================= */
 
-/* =====================================================
+.preview{
+  display:none;
+
+  padding:8px;
+
+  border-bottom:1px solid #29292f;
+}
+
+.file-preview{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:8px;
+
+  background:#202027;
+
+  border-radius:10px;
+}
+
+.file-preview-icon{
+  font-size:28px;
+}
+
+.file-preview-name{
+  font-size:13px;
+  color:#ddd;
+
+  word-break:break-word;
+}
+
+/* =========================
    MODAL
-===================================================== */
+========================= */
 
 .modal{
   position:fixed;
+
   inset:0;
-  z-index:200;
-  display:none;
+
+  z-index:2000;
+
+  display:flex;
   align-items:center;
   justify-content:center;
+
   padding:20px;
-  background:rgba(0,0,0,.65);
+
+  background:rgba(0,0,0,.70);
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:
+    opacity .2s ease,
+    visibility .2s ease;
 }
 
 .modal.show{
-  display:flex;
+  opacity:1;
+  visibility:visible;
 }
 
 .modal-box{
   width:100%;
-  max-width:430px;
-  max-height:80vh;
-  overflow-y:auto;
-  padding:20px;
-  background:#17171c;
+  max-width:420px;
+
+  background:#15151a;
+
   border:1px solid #303038;
-  border-radius:16px;
+
+  border-radius:18px;
+
+  padding:20px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.5);
 }
 
-.modal-title{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:15px;
-}
-
-.modal-text{
-  color:#bbb;
-  line-height:1.6;
-  white-space:pre-wrap;
-}
-
-.modal-close{
-  width:100%;
-  margin-top:18px;
-  padding:11px;
-  border:0;
-  border-radius:10px;
-  background:#fff;
-  color:#000;
-  font-weight:bold;
-}
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-.setting-row{
+.modal-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:13px 0;
-  border-bottom:1px solid #29292f;
+
+  margin-bottom:16px;
 }
 
-.setting-name{
+.modal-title{
+  font-size:19px;
+  font-weight:bold;
+}
+
+.modal-close{
+  width:38px;
+  height:38px;
+
+  border:0;
+  border-radius:9px;
+
+  background:#27272e;
+  color:#fff;
+
+  font-size:20px;
+
+  cursor:pointer;
+}
+
+.modal-content{
+  color:#aaa;
+
   font-size:14px;
+
+  line-height:1.6;
 }
 
-.setting-value{
-  color:#888;
-  font-size:13px;
+.setting-row{
+  width:100%;
+
+  padding:13px;
+
+  margin-bottom:8px;
+
+  border-radius:11px;
+
+  background:#202027;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  color:#fff;
 }
 
+.setting-row button{
+  border:0;
+  border-radius:8px;
 
-/* =====================================================
+  background:#303038;
+  color:#fff;
+
+  padding:7px 10px;
+
+  cursor:pointer;
+}
+
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 @media(max-width:600px){
-
-  .sidebar{
-    width:285px;
-  }
 
   #chat{
     padding-left:8px;
     padding-right:8px;
   }
 
-  .bubble,
-  .file-card{
-    max-width:93%;
+  .bubble{
+    max-width:92%;
+  }
+
+  .sidebar{
+    width:290px;
   }
 
   .composer{
@@ -609,10 +772,9 @@ input[type=file]{
 
 <div class="app">
 
-
-<!-- =====================================================
+<!-- =========================
      SIDEBAR
-===================================================== -->
+========================= -->
 
 <aside
   id="sidebar"
@@ -621,14 +783,14 @@ input[type=file]{
 
   <div class="sidebar-header">
 
-    <div class="sidebar-title">
+    <div class="sidebar-logo">
       My AI
     </div>
 
     <button
+      id="closeSidebarButton"
       class="close-button"
       type="button"
-      onclick="closeSidebar()"
     >
       ×
     </button>
@@ -637,121 +799,128 @@ input[type=file]{
 
 
   <button
-    class="menu-item"
+    id="newChatButton"
+    class="new-chat-button"
     type="button"
-    onclick="newChat()"
   >
-
-    <span class="menu-icon">＋</span>
-
-    <span class="menu-text">
-      Жаңа чат
-    </span>
-
+    ＋ Жаңа чат
   </button>
 
 
-  <button
-    class="menu-item"
-    type="button"
-    onclick="openImages()"
-  >
+  <div class="menu-section">
 
-    <span class="menu-icon">🖼️</span>
+    <button
+      id="imagesMenuButton"
+      class="menu-item"
+      type="button"
+    >
 
-    <span class="menu-text">
-      Суреттер
-    </span>
+      <span class="menu-icon">
+        🖼️
+      </span>
 
-  </button>
+      <span class="menu-text">
+        Суреттер
+      </span>
 
-
-  <button
-    class="menu-item"
-    type="button"
-    onclick="openDocuments()"
-  >
-
-    <span class="menu-icon">📄</span>
-
-    <span class="menu-text">
-      Құжаттар
-    </span>
-
-  </button>
+    </button>
 
 
-  <button
-    class="menu-item"
-    type="button"
-    onclick="openSettings()"
-  >
+    <button
+      id="documentsMenuButton"
+      class="menu-item"
+      type="button"
+    >
 
-    <span class="menu-icon">⚙️</span>
+      <span class="menu-icon">
+        📄
+      </span>
 
-    <span class="menu-text">
-      Баптаулар
-    </span>
+      <span class="menu-text">
+        Құжаттар
+      </span>
 
-  </button>
-
-
-  <button
-    class="menu-item"
-    type="button"
-    onclick="openAbout()"
-  >
-
-    <span class="menu-icon">ℹ️</span>
-
-    <span class="menu-text">
-      My AI туралы
-    </span>
-
-  </button>
+    </button>
 
 
-  <div class="history-heading">
+    <button
+      id="settingsMenuButton"
+      class="menu-item"
+      type="button"
+    >
+
+      <span class="menu-icon">
+        ⚙️
+      </span>
+
+      <span class="menu-text">
+        Баптаулар
+      </span>
+
+    </button>
+
+
+    <button
+      id="aboutMenuButton"
+      class="menu-item"
+      type="button"
+    >
+
+      <span class="menu-icon">
+        ℹ️
+      </span>
+
+      <span class="menu-text">
+        My AI туралы
+      </span>
+
+    </button>
+
+  </div>
+
+
+  <div class="history-title">
     Чат тарихы
   </div>
 
 
   <div
     id="historyList"
-    class="history-list"
+    class="history"
   ></div>
 
 
   <button
-    class="delete-history"
+    id="deleteHistoryButton"
+    class="delete-history-button"
     type="button"
-    onclick="clearHistory()"
   >
-    🗑️ Чат тарихын толық өшіру
+    🗑️ Барлық чат тарихын өшіру
   </button>
 
 </aside>
 
 
-<!-- OVERLAY -->
+<!-- =========================
+     OVERLAY
+========================= -->
 
 <div
   id="overlay"
   class="overlay"
-  onclick="closeSidebar()"
 ></div>
 
 
-<!-- =====================================================
+<!-- =========================
      HEADER
-===================================================== -->
+========================= -->
 
 <header>
 
   <button
+    id="menuButton"
     class="menu-button"
     type="button"
-    onclick="openSidebar()"
   >
     ☰
   </button>
@@ -770,9 +939,9 @@ input[type=file]{
 </header>
 
 
-<!-- =====================================================
+<!-- =========================
      CHAT
-===================================================== -->
+========================= -->
 
 <main id="chat">
 
@@ -794,9 +963,9 @@ input[type=file]{
 </main>
 
 
-<!-- =====================================================
+<!-- =========================
      COMPOSER
-===================================================== -->
+========================= -->
 
 <div class="composer">
 
@@ -819,10 +988,9 @@ input[type=file]{
 
 
       <button
+        id="imageSelectButton"
         class="tool-button"
         type="button"
-        onclick="chooseImage()"
-        title="Сурет жіберу"
       >
         📷
       </button>
@@ -836,10 +1004,9 @@ input[type=file]{
 
 
       <button
+        id="fileSelectButton"
         class="tool-button"
         type="button"
-        onclick="chooseFile()"
-        title="Құжат жіберу"
       >
         📎
       </button>
@@ -853,21 +1020,18 @@ input[type=file]{
 
 
       <button
+        id="generateImageButton"
         class="tool-button"
         type="button"
-        onclick="generateImage()"
-        title="Сурет жасау"
       >
         🖼️
       </button>
 
 
       <button
-        class="send-button"
         id="sendButton"
+        class="send-button"
         type="button"
-        onclick="sendMessage()"
-        title="Жіберу"
       >
         ➤
       </button>
@@ -881,38 +1045,138 @@ input[type=file]{
 </div>
 
 
-<!-- =====================================================
-     MODAL
-===================================================== -->
+<!-- =========================
+     SETTINGS MODAL
+========================= -->
 
 <div
-  id="modal"
+  id="settingsModal"
   class="modal"
-  onclick="closeModal(event)"
 >
 
-  <div
-    class="modal-box"
-    onclick="event.stopPropagation()"
-  >
+  <div class="modal-box">
 
-    <div
-      id="modalTitle"
-      class="modal-title"
-    ></div>
+    <div class="modal-header">
 
-    <div
-      id="modalContent"
-      class="modal-text"
-    ></div>
+      <div class="modal-title">
+        ⚙️ Баптаулар
+      </div>
 
-    <button
-      class="modal-close"
-      type="button"
-      onclick="hideModal()"
-    >
-      Жабу
-    </button>
+      <button
+        id="closeSettingsButton"
+        class="modal-close"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-content">
+
+      <div class="setting-row">
+
+        <span>
+          Тіл
+        </span>
+
+        <button
+          type="button"
+          id="languageButton"
+        >
+          Қазақша
+        </button>
+
+      </div>
+
+
+      <div class="setting-row">
+
+        <span>
+          Тақырып
+        </span>
+
+        <button
+          type="button"
+          id="themeButton"
+        >
+          Қараңғы
+        </button>
+
+      </div>
+
+
+      <div class="setting-row">
+
+        <span>
+          Дауыс
+        </span>
+
+        <button
+          type="button"
+          id="voiceButton"
+        >
+          Әзірге өшірулі
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ABOUT MODAL
+========================= -->
+
+<div
+  id="aboutModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <div class="modal-title">
+        ℹ️ My AI туралы
+      </div>
+
+      <button
+        id="closeAboutButton"
+        class="modal-close"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-content">
+
+      <p>
+        <strong>My AI</strong>
+      </p>
+
+      <p>
+        Сұрақтарға жауап беруге,
+        суреттерді талдауға,
+        құжаттарды өңдеуге және
+        басқа AI функцияларымен
+        жұмыс істеуге арналған жеке
+        AI қосымша.
+      </p>
+
+      <p>
+        Нұсқа: 1.0
+      </p>
+
+    </div>
 
   </div>
 
@@ -920,7 +1184,6 @@ input[type=file]{
 
 
 <script>
-
 
 /* =====================================================
    API
@@ -934,57 +1197,142 @@ const API_URL =
    ELEMENTS
 ===================================================== */
 
-const chatElement =
-  document.getElementById("chat");
-
-const messageElement =
-  document.getElementById("message");
-
-const sendButton =
-  document.getElementById("sendButton");
-
-const statusElement =
-  document.getElementById("status");
-
-const imageInput =
-  document.getElementById("imageInput");
-
-const fileInput =
-  document.getElementById("fileInput");
-
-const previewElement =
-  document.getElementById("preview");
-
 const sidebar =
   document.getElementById("sidebar");
 
 const overlay =
   document.getElementById("overlay");
 
+const menuButton =
+  document.getElementById("menuButton");
+
+const closeSidebarButton =
+  document.getElementById(
+    "closeSidebarButton"
+  );
+
+const newChatButton =
+  document.getElementById(
+    "newChatButton"
+  );
+
+const imagesMenuButton =
+  document.getElementById(
+    "imagesMenuButton"
+  );
+
+const documentsMenuButton =
+  document.getElementById(
+    "documentsMenuButton"
+  );
+
+const settingsMenuButton =
+  document.getElementById(
+    "settingsMenuButton"
+  );
+
+const aboutMenuButton =
+  document.getElementById(
+    "aboutMenuButton"
+  );
+
+const deleteHistoryButton =
+  document.getElementById(
+    "deleteHistoryButton"
+  );
+
 const historyList =
-  document.getElementById("historyList");
+  document.getElementById(
+    "historyList"
+  );
 
-const modal =
-  document.getElementById("modal");
+const chatElement =
+  document.getElementById(
+    "chat"
+  );
 
-const modalTitle =
-  document.getElementById("modalTitle");
+const messageElement =
+  document.getElementById(
+    "message"
+  );
 
-const modalContent =
-  document.getElementById("modalContent");
+const sendButton =
+  document.getElementById(
+    "sendButton"
+  );
+
+const statusElement =
+  document.getElementById(
+    "status"
+  );
+
+const imageInput =
+  document.getElementById(
+    "imageInput"
+  );
+
+const fileInput =
+  document.getElementById(
+    "fileInput"
+  );
+
+const imageSelectButton =
+  document.getElementById(
+    "imageSelectButton"
+  );
+
+const fileSelectButton =
+  document.getElementById(
+    "fileSelectButton"
+  );
+
+const generateImageButton =
+  document.getElementById(
+    "generateImageButton"
+  );
+
+const previewElement =
+  document.getElementById(
+    "preview"
+  );
 
 
 /* =====================================================
-   STATE
+   MODALS
 ===================================================== */
+
+const settingsModal =
+  document.getElementById(
+    "settingsModal"
+  );
+
+const aboutModal =
+  document.getElementById(
+    "aboutModal"
+  );
+
+const closeSettingsButton =
+  document.getElementById(
+    "closeSettingsButton"
+  );
+
+const closeAboutButton =
+  document.getElementById(
+    "closeAboutButton"
+  );
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let history = [];
 
 let selectedImages = [];
 
 let selectedFileText = "";
 
 let selectedFile = null;
-
-let history = [];
 
 let chatSessions = [];
 
@@ -1009,16 +1357,88 @@ try{
 
 
 /* =====================================================
-   START
+   SIDEBAR
 ===================================================== */
 
-window.addEventListener(
-  "load",
-  async function(){
+function openSidebar(){
 
-    renderHistory();
+  sidebar.classList.add("open");
 
-    await checkBackend();
+  overlay.classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+  sidebar.classList.remove("open");
+
+  overlay.classList.remove("show");
+
+}
+
+
+menuButton.addEventListener(
+  "click",
+  openSidebar
+);
+
+
+closeSidebarButton.addEventListener(
+  "click",
+  closeSidebar
+);
+
+
+overlay.addEventListener(
+  "click",
+  closeSidebar
+);
+
+
+/* =====================================================
+   NEW CHAT
+===================================================== */
+
+newChatButton.addEventListener(
+  "click",
+  function(){
+
+    history = [];
+
+    selectedImages = [];
+
+    selectedFileText = "";
+
+    selectedFile = null;
+
+    messageElement.value = "";
+
+    previewElement.innerHTML = "";
+
+    previewElement.style.display =
+      "none";
+
+    chatElement.innerHTML = `
+
+      <div
+        id="welcome"
+        class="welcome"
+      >
+
+        <h2>
+          My AI
+        </h2>
+
+        <div>
+          Сұрағыңызды жазыңыз
+        </div>
+
+      </div>
+
+    `;
+
+    closeSidebar();
 
     messageElement.focus();
 
@@ -1027,260 +1447,170 @@ window.addEventListener(
 
 
 /* =====================================================
-   SIDEBAR OPEN
-===================================================== */
-
-function openSidebar(){
-
-  sidebar.classList.add(
-    "open"
-  );
-
-  overlay.classList.add(
-    "show"
-  );
-
-}
-
-
-/* =====================================================
-   SIDEBAR CLOSE
-===================================================== */
-
-function closeSidebar(){
-
-  sidebar.classList.remove(
-    "open"
-  );
-
-  overlay.classList.remove(
-    "show"
-  );
-
-}
-
-
-/* =====================================================
-   NEW CHAT
-===================================================== */
-
-function newChat(){
-
-  history = [];
-
-  selectedImages = [];
-
-  selectedFileText = "";
-
-  selectedFile = null;
-
-  chatElement.innerHTML = `
-
-    <div
-      id="welcome"
-      class="welcome"
-    >
-
-      <h2>My AI</h2>
-
-      <div>
-        Сұрағыңызды жазыңыз
-      </div>
-
-    </div>
-
-  `;
-
-  messageElement.value = "";
-
-  previewElement.style.display =
-    "none";
-
-  previewElement.innerHTML = "";
-
-  imageInput.value = "";
-
-  fileInput.value = "";
-
-  closeSidebar();
-
-  messageElement.focus();
-
-}
-
-
-/* =====================================================
-   IMAGE MENU
-===================================================== */
-
-function openImages(){
-
-  closeSidebar();
-
-  chooseImage();
-
-}
-
-
-/* =====================================================
-   DOCUMENT MENU
-===================================================== */
-
-function openDocuments(){
-
-  closeSidebar();
-
-  chooseFile();
-
-}
-
-
-/* =====================================================
    SETTINGS
 ===================================================== */
 
-function openSettings(){
+settingsMenuButton.addEventListener(
+  "click",
+  function(){
 
-  showModal(
-    "⚙️ Баптаулар",
-    `
-Жалпы баптаулар
+    closeSidebar();
 
-• Тіл: Қазақша
-• Интерфейс: Қараңғы режим
-• Сервер: Cloudflare Workers
-• AI моделі: Workers AI
+    settingsModal.classList.add(
+      "show"
+    );
 
-Бұл бөлімді кейін кеңейтеміз.
-    `
-  );
+  }
+);
 
-}
+
+closeSettingsButton.addEventListener(
+  "click",
+  function(){
+
+    settingsModal.classList.remove(
+      "show"
+    );
+
+  }
+);
 
 
 /* =====================================================
    ABOUT
 ===================================================== */
 
-function openAbout(){
+aboutMenuButton.addEventListener(
+  "click",
+  function(){
 
-  showModal(
-    "ℹ️ My AI туралы",
-    `
-My AI
+    closeSidebar();
 
-Жеке AI көмекші қосымшасы.
+    aboutModal.classList.add(
+      "show"
+    );
 
-Қазіргі функциялар:
+  }
+);
 
-• AI чат
-• Суретті талдау
-• Құжат жіберу
-• PDF файлын AI арқылы талдау
-• Сурет генерациясы
-• Чат тарихы
-• Жауапты көшіру
-• Қайта жауап алу
 
-Келесі функцияларды кейін қосуға болады.
-    `
-  );
+closeAboutButton.addEventListener(
+  "click",
+  function(){
 
-}
+    aboutModal.classList.remove(
+      "show"
+    );
+
+  }
+);
 
 
 /* =====================================================
-   MODAL
+   MODAL BACKGROUND CLOSE
 ===================================================== */
 
-function showModal(
-  title,
-  content
-){
+settingsModal.addEventListener(
+  "click",
+  function(event){
 
-  modalTitle.textContent =
-    title;
+    if(
+      event.target ===
+      settingsModal
+    ){
 
-  modalContent.textContent =
-    content;
+      settingsModal.classList.remove(
+        "show"
+      );
 
-  modal.classList.add(
-    "show"
-  );
-
-}
-
-
-function hideModal(){
-
-  modal.classList.remove(
-    "show"
-  );
-
-}
-
-
-function closeModal(event){
-
-  if(
-    event.target === modal
-  ){
-
-    hideModal();
+    }
 
   }
+);
 
-}
+
+aboutModal.addEventListener(
+  "click",
+  function(event){
+
+    if(
+      event.target ===
+      aboutModal
+    ){
+
+      aboutModal.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
 
 
 /* =====================================================
-   CLEAR HISTORY
+   IMAGES MENU
 ===================================================== */
 
-function clearHistory(){
+imagesMenuButton.addEventListener(
+  "click",
+  function(){
 
-  if(
-    chatSessions.length === 0
-  ){
+    closeSidebar();
 
-    alert(
-      "Чат тарихы бос."
-    );
-
-    return;
+    messageElement.focus();
 
   }
+);
 
 
-  const confirmed =
-    confirm(
-      "Барлық чат тарихын өшіру керек пе?"
-    );
+/* =====================================================
+   DOCUMENTS MENU
+===================================================== */
 
+documentsMenuButton.addEventListener(
+  "click",
+  function(){
 
-  if(!confirmed){
+    closeSidebar();
 
-    return;
+    fileInput.click();
 
   }
+);
 
 
-  chatSessions = [];
+/* =====================================================
+   DELETE HISTORY
+===================================================== */
 
-  history = [];
+deleteHistoryButton.addEventListener(
+  "click",
+  function(){
 
+    const answer =
+      confirm(
+        "Барлық чат тарихын өшіру керек пе?"
+      );
 
-  localStorage.removeItem(
-    "myAI_chat_sessions"
-  );
+    if(!answer){
+      return;
+    }
 
+    chatSessions = [];
 
-  renderHistory();
+    history = [];
 
+    localStorage.removeItem(
+      "myAI_chat_sessions"
+    );
 
-  newChat();
+    renderHistory();
 
-}
+    closeSidebar();
+
+  }
+);
 
 
 /* =====================================================
@@ -1291,15 +1621,14 @@ function renderHistory(){
 
   historyList.innerHTML = "";
 
-
   if(
     !chatSessions.length
   ){
 
     historyList.innerHTML = `
 
-      <div class="no-history">
-        Әзірге чат тарихы жоқ.
+      <div class="history-empty">
+        Әзірге чат тарихы жоқ
       </div>
 
     `;
@@ -1308,40 +1637,142 @@ function renderHistory(){
 
   }
 
-
   chatSessions.forEach(
     function(session){
 
-      const button =
+      const item =
         document.createElement(
-          "button"
+          "div"
         );
 
-      button.className =
+      item.className =
         "history-item";
 
-      button.type =
-        "button";
-
-      button.textContent =
+      item.textContent =
         session.title ||
         "Жаңа чат";
 
-      button.onclick =
+      item.addEventListener(
+        "click",
         function(){
 
           loadChat(
             session.id
           );
 
-        };
+        }
+      );
 
       historyList.appendChild(
-        button
+        item
       );
 
     }
   );
+
+}
+
+
+/* =====================================================
+   SAVE CURRENT CHAT
+===================================================== */
+
+function saveCurrentChat(){
+
+  if(
+    !history.length
+  ){
+    return;
+  }
+
+  const firstUser =
+    history.find(
+      function(item){
+
+        return (
+          item.role ===
+          "user"
+        );
+
+      }
+    );
+
+  if(!firstUser){
+    return;
+  }
+
+  const title =
+    String(
+      firstUser.content ||
+      "Жаңа чат"
+    ).slice(0,60);
+
+
+  const existing =
+    chatSessions.find(
+      function(session){
+
+        return (
+          session.active ===
+          true
+        );
+
+      }
+    );
+
+
+  if(existing){
+
+    existing.title =
+      title;
+
+    existing.messages =
+      [...history];
+
+  }else{
+
+    chatSessions.forEach(
+      function(session){
+
+        session.active =
+          false;
+
+      }
+    );
+
+    chatSessions.unshift({
+
+      id:Date.now(),
+
+      title:title,
+
+      active:true,
+
+      messages:[
+        ...history
+      ]
+
+    });
+
+  }
+
+
+  chatSessions =
+    chatSessions.slice(
+      0,
+      30
+    );
+
+
+  localStorage.setItem(
+    "myAI_chat_sessions",
+    JSON.stringify(
+      chatSessions
+    )
+  );
+
+
+  renderHistory();
 
 }
 
@@ -1356,25 +1787,36 @@ function loadChat(id){
     chatSessions.find(
       function(item){
 
-        return item.id === id;
+        return (
+          item.id === id
+        );
 
       }
     );
 
-
   if(!session){
-
     return;
-
   }
+
+  chatSessions.forEach(
+    function(item){
+
+      item.active =
+        item.id === id;
+
+    }
+  );
+
+  localStorage.setItem(
+    "myAI_chat_sessions",
+    JSON.stringify(
+      chatSessions
+    )
+  );
 
 
   history =
-    Array.isArray(
-      session.messages
-    )
-      ? [...session.messages]
-      : [];
+    [...session.messages];
 
 
   chatElement.innerHTML =
@@ -1385,14 +1827,28 @@ function loadChat(id){
     function(item){
 
       if(
-        item.role === "user" ||
-        item.role === "assistant"
+        item.role ===
+        "user"
       ){
 
         addMessage(
-          item.role,
+          "user",
           item.content,
           false
+        );
+
+      }
+
+
+      if(
+        item.role ===
+        "assistant"
+      ){
+
+        addMessage(
+          "assistant",
+          item.content,
+          true
         );
 
       }
@@ -1403,136 +1859,7 @@ function loadChat(id){
 
   closeSidebar();
 
-
   scrollChat();
-
-}
-
-
-/* =====================================================
-   SAVE HISTORY
-===================================================== */
-
-function saveHistory(){
-
-  if(
-    !history.length
-  ){
-
-    return;
-
-  }
-
-
-  const firstUser =
-    history.find(
-      function(item){
-
-        return item.role === "user";
-
-      }
-    );
-
-
-  if(!firstUser){
-
-    return;
-
-  }
-
-
-  let title =
-    firstUser.content ||
-    "Жаңа чат";
-
-
-  title =
-    title.substring(
-      0,
-      60
-    );
-
-
-  let session =
-    chatSessions.find(
-      function(item){
-
-        return item.active === true;
-
-      }
-    );
-
-
-  if(session){
-
-    session.messages =
-      [...history];
-
-    session.title =
-      title;
-
-  }else{
-
-    chatSessions.forEach(
-      function(item){
-
-        item.active = false;
-
-      }
-    );
-
-
-    session = {
-
-      id:
-        Date.now(),
-
-      title:
-        title,
-
-      active:
-        true,
-
-      messages:
-        [...history]
-
-    };
-
-
-    chatSessions.unshift(
-      session
-    );
-
-  }
-
-
-  chatSessions =
-    chatSessions.slice(
-      0,
-      30
-    );
-
-
-  try{
-
-    localStorage.setItem(
-      "myAI_chat_sessions",
-      JSON.stringify(
-        chatSessions
-      )
-    );
-
-  }catch(error){
-
-    console.error(
-      "History save error:",
-      error
-    );
-
-  }
-
-
-  renderHistory();
 
 }
 
@@ -1581,6 +1908,7 @@ async function checkBackend(){
   }catch(error){
 
     console.error(
+      "Backend check:",
       error
     );
 
@@ -1593,26 +1921,18 @@ async function checkBackend(){
 
 
 /* =====================================================
-   FILE CHOOSERS
-===================================================== */
-
-function chooseImage(){
-
-  imageInput.click();
-
-}
-
-
-function chooseFile(){
-
-  fileInput.click();
-
-}
-
-
-/* =====================================================
    IMAGE SELECT
 ===================================================== */
+
+imageSelectButton.addEventListener(
+  "click",
+  function(){
+
+    imageInput.click();
+
+  }
+);
+
 
 imageInput.addEventListener(
   "change",
@@ -1621,11 +1941,8 @@ imageInput.addEventListener(
     const file =
       this.files[0];
 
-
     if(!file){
-
       return;
-
     }
 
 
@@ -1650,7 +1967,6 @@ imageInput.addEventListener(
           <img
             class="preview-image"
             src="${event.target.result}"
-            alt="Preview"
           >
 
         `;
@@ -1658,9 +1974,7 @@ imageInput.addEventListener(
       };
 
 
-    reader.readAsDataURL(
-      file
-    );
+    reader.readAsDataURL(file);
 
   }
 );
@@ -1670,6 +1984,16 @@ imageInput.addEventListener(
    FILE SELECT
 ===================================================== */
 
+fileSelectButton.addEventListener(
+  "click",
+  function(){
+
+    fileInput.click();
+
+  }
+);
+
+
 fileInput.addEventListener(
   "change",
   async function(){
@@ -1677,20 +2001,13 @@ fileInput.addEventListener(
     const file =
       this.files[0];
 
-
     if(!file){
-
       return;
-
     }
 
 
     selectedFile =
       file;
-
-
-    selectedFileText =
-      "";
 
 
     previewElement.style.display =
@@ -1699,25 +2016,14 @@ fileInput.addEventListener(
 
     previewElement.innerHTML = `
 
-      <div class="file-card">
+      <div class="file-preview">
 
-        <div class="file-icon">
+        <div class="file-preview-icon">
           📄
         </div>
 
-        <div class="file-info">
-
-          <div class="file-name">
-            ${escapeHtml(file.name)}
-          </div>
-
-          <div class="file-type">
-            ${escapeHtml(
-              file.type ||
-              "Құжат"
-            )}
-          </div>
-
+        <div class="file-preview-name">
+          ${escapeHtml(file.name)}
         </div>
 
       </div>
@@ -1725,19 +2031,18 @@ fileInput.addEventListener(
     `;
 
 
-    const name =
-      file.name.toLowerCase();
-
-
     const isText =
-      name.endsWith(".txt") ||
-      name.endsWith(".md") ||
-      name.endsWith(".json") ||
-      name.endsWith(".csv") ||
-      name.endsWith(".html") ||
-      name.endsWith(".js") ||
-      name.endsWith(".css") ||
-      name.endsWith(".xml");
+      file.type ===
+        "text/plain" ||
+
+      file.name.endsWith(".txt") ||
+      file.name.endsWith(".md") ||
+      file.name.endsWith(".json") ||
+      file.name.endsWith(".csv") ||
+      file.name.endsWith(".html") ||
+      file.name.endsWith(".js") ||
+      file.name.endsWith(".css") ||
+      file.name.endsWith(".xml");
 
 
     if(isText){
@@ -1749,11 +2054,17 @@ fileInput.addEventListener(
 
       }catch(error){
 
-        console.error(
-          error
-        );
+        console.error(error);
+
+        selectedFileText =
+          "";
 
       }
+
+    }else{
+
+      selectedFileText =
+        "";
 
     }
 
@@ -1762,15 +2073,22 @@ fileInput.addEventListener(
 
 
 /* =====================================================
-   ENTER
+   SEND MESSAGE
 ===================================================== */
+
+sendButton.addEventListener(
+  "click",
+  sendMessage
+);
+
 
 messageElement.addEventListener(
   "keydown",
   function(event){
 
     if(
-      event.key === "Enter" &&
+      event.key ===
+        "Enter" &&
       !event.shiftKey
     ){
 
@@ -1783,10 +2101,6 @@ messageElement.addEventListener(
   }
 );
 
-
-/* =====================================================
-   SEND MESSAGE
-===================================================== */
 
 async function sendMessage(){
 
@@ -1805,9 +2119,7 @@ async function sendMessage(){
   }
 
 
-  setLoading(
-    true
-  );
+  setLoading(true);
 
 
   if(message){
@@ -1824,12 +2136,12 @@ async function sendMessage(){
     [...selectedImages];
 
 
-  const currentFile =
-    selectedFile;
-
-
   const currentFileText =
     selectedFileText;
+
+
+  const currentFile =
+    selectedFile;
 
 
   messageElement.value =
@@ -1840,28 +2152,19 @@ async function sendMessage(){
     [];
 
 
-  selectedFile =
-    null;
-
-
   selectedFileText =
     "";
 
 
-  previewElement.style.display =
-    "none";
+  selectedFile =
+    null;
 
 
   previewElement.innerHTML =
     "";
 
-
-  imageInput.value =
-    "";
-
-
-  fileInput.value =
-    "";
+  previewElement.style.display =
+    "none";
 
 
   try{
@@ -1887,7 +2190,7 @@ async function sendMessage(){
                 message ||
                 (
                   currentFile
-                    ? "Құжатты талдаңыз."
+                    ? `Файлды талдаңыз: ${currentFile.name}`
                     : "Суретті талдаңыз."
                 ),
 
@@ -1952,7 +2255,7 @@ async function sendMessage(){
         message ||
         (
           currentFile
-            ? "Құжатты талдау"
+            ? `Файл: ${currentFile.name}`
             : "Суретті талдау"
         )
 
@@ -1963,26 +2266,21 @@ async function sendMessage(){
 
       role:"assistant",
 
-      content:
-        answer
+      content:answer
 
     });
 
 
     history =
-      history.slice(
-        -20
-      );
+      history.slice(-20);
 
 
-    saveHistory();
+    saveCurrentChat();
 
 
   }catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     addMessage(
@@ -1994,9 +2292,7 @@ async function sendMessage(){
 
   }finally{
 
-    setLoading(
-      false
-    );
+    setLoading(false);
 
   }
 
@@ -2004,8 +2300,14 @@ async function sendMessage(){
 
 
 /* =====================================================
-   IMAGE GENERATION
+   GENERATE IMAGE
 ===================================================== */
+
+generateImageButton.addEventListener(
+  "click",
+  generateImage
+);
+
 
 async function generateImage(){
 
@@ -2025,9 +2327,7 @@ async function generateImage(){
   }
 
 
-  setLoading(
-    true
-  );
+  setLoading(true);
 
 
   addMessage(
@@ -2059,14 +2359,11 @@ async function generateImage(){
 
               action:"image",
 
-              prompt:
-                prompt,
+              prompt:prompt,
 
-              width:
-                1024,
+              width:1024,
 
-              height:
-                1024
+              height:1024
 
             })
 
@@ -2107,9 +2404,7 @@ async function generateImage(){
 
   }catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     addMessage(
@@ -2121,9 +2416,7 @@ async function generateImage(){
 
   }finally{
 
-    setLoading(
-      false
-    );
+    setLoading(false);
 
   }
 
@@ -2137,7 +2430,7 @@ async function generateImage(){
 function addMessage(
   role,
   text,
-  actions = true
+  showActions = true
 ){
 
   const wrapper =
@@ -2147,7 +2440,7 @@ function addMessage(
 
 
   wrapper.className =
-    "message " + role;
+    `message ${role}`;
 
 
   const bubble =
@@ -2171,16 +2464,16 @@ function addMessage(
 
   if(
     role === "assistant" &&
-    actions
+    showActions
   ){
 
-    const actionBar =
+    const actions =
       document.createElement(
         "div"
       );
 
 
-    actionBar.className =
+    actions.className =
       "message-actions";
 
 
@@ -2198,7 +2491,8 @@ function addMessage(
       "📋 Көшіру";
 
 
-    copyButton.onclick =
+    copyButton.addEventListener(
+      "click",
       async function(){
 
         try{
@@ -2206,7 +2500,6 @@ function addMessage(
           await navigator.clipboard.writeText(
             text
           );
-
 
           copyButton.textContent =
             "✓ Көшірілді";
@@ -2231,7 +2524,8 @@ function addMessage(
 
         }
 
-      };
+      }
+    );
 
 
     const retryButton =
@@ -2248,26 +2542,24 @@ function addMessage(
       "🔄 Қайта жауап";
 
 
-    retryButton.onclick =
-      function(){
-
-        retryLast();
-
-      };
+    retryButton.addEventListener(
+      "click",
+      retryLast
+    );
 
 
-    actionBar.appendChild(
+    actions.appendChild(
       copyButton
     );
 
 
-    actionBar.appendChild(
+    actions.appendChild(
       retryButton
     );
 
 
     wrapper.appendChild(
-      actionBar
+      actions
     );
 
   }
@@ -2367,7 +2659,8 @@ async function retryLast(){
   ){
 
     if(
-      history[i].role === "user"
+      history[i].role ===
+      "user"
     ){
 
       lastUser =
@@ -2381,9 +2674,7 @@ async function retryLast(){
 
 
   if(!lastUser){
-
     return;
-
   }
 
 
@@ -2412,10 +2703,23 @@ function setLoading(
     loading;
 
 
+  imageSelectButton.disabled =
+    loading;
+
+
+  fileSelectButton.disabled =
+    loading;
+
+
+  generateImageButton.disabled =
+    loading;
+
+
   if(loading){
 
     statusElement.textContent =
       "Жауап дайындалуда...";
+
 
     statusElement.classList.remove(
       "online"
@@ -2425,6 +2729,7 @@ function setLoading(
 
     statusElement.textContent =
       "Онлайн";
+
 
     statusElement.classList.add(
       "online"
@@ -2490,6 +2795,46 @@ function escapeHtml(
     );
 
 }
+
+
+/* =====================================================
+   START
+===================================================== */
+
+renderHistory();
+
+checkBackend();
+
+messageElement.focus();
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeSidebar();
+
+      settingsModal.classList.remove(
+        "show"
+      );
+
+      aboutModal.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
 
 </script>
 
