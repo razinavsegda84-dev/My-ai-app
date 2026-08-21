@@ -3,24 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>My AI</title>
 
 <style>
-
 *{
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
   background:#0b0b0f;
   color:#fff;
   font-family:Arial,sans-serif;
-  height:100vh;
   overflow:hidden;
 }
 
+button{
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+
 .app{
+  width:100%;
   height:100vh;
   display:flex;
   flex-direction:column;
@@ -30,29 +39,45 @@ body{
 
 header{
   height:58px;
+  min-height:58px;
   display:flex;
   align-items:center;
   padding:0 12px;
-  border-bottom:1px solid #292929;
   background:#101014;
-  flex-shrink:0;
-  z-index:10;
+  border-bottom:1px solid #292929;
+  position:relative;
+  z-index:200;
 }
 
 .menu-btn{
   width:42px;
   height:42px;
-  border:0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:transparent;
-  font-size:25px;
   color:#fff;
+  border:0;
+  border-radius:10px;
+  font-size:25px;
   cursor:pointer;
+  position:relative;
+  z-index:210;
+}
+
+.menu-btn:hover{
+  background:#222229;
+}
+
+.menu-btn:active{
+  background:#303038;
 }
 
 .logo{
+  margin-left:6px;
   font-size:20px;
   font-weight:bold;
-  margin-left:5px;
 }
 
 .status{
@@ -70,27 +95,32 @@ header{
 .sidebar{
   position:fixed;
   top:0;
-  left:-300px;
-  width:290px;
+  left:0;
+  width:285px;
   height:100vh;
   background:#111116;
   border-right:1px solid #29292f;
-  z-index:100;
-  transition:left .25s ease;
+
+  transform:translateX(-100%);
+  transition:transform .25s ease;
+
+  z-index:1000;
+
   display:flex;
   flex-direction:column;
+
   padding:12px;
 }
 
 .sidebar.open{
-  left:0;
+  transform:translateX(0);
 }
 
 .sidebar-top{
+  height:48px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:5px;
   margin-bottom:10px;
 }
 
@@ -100,57 +130,45 @@ header{
 }
 
 .close-menu{
-  background:#25252c;
-  border:0;
-  color:#fff;
-  border-radius:10px;
   width:38px;
   height:38px;
-  font-size:20px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#25252c;
+  color:#fff;
+  border:0;
+  border-radius:10px;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+.close-menu:active{
+  background:#35353e;
 }
 
 .new-chat{
   width:100%;
   padding:12px;
+
   background:#fff;
   color:#000;
-  font-weight:bold;
+
   border:0;
   border-radius:12px;
-  cursor:pointer;
-  margin-bottom:10px;
-}
 
-/* ================= MENU ITEMS ================= */
-
-.menu-section{
-  margin-bottom:8px;
-}
-
-.menu-item{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  margin-bottom:4px;
-  border:0;
-  border-radius:10px;
-  background:transparent;
-  color:#fff;
-  text-align:left;
+  font-weight:bold;
   font-size:14px;
+
   cursor:pointer;
+  margin-bottom:12px;
 }
 
-.menu-item:hover{
-  background:#222229;
-}
-
-.menu-icon{
-  width:25px;
-  text-align:center;
-  font-size:18px;
+.new-chat:active{
+  transform:scale(.98);
 }
 
 .history-title{
@@ -162,6 +180,7 @@ header{
 .history{
   flex:1;
   overflow-y:auto;
+  min-height:0;
 }
 
 .history-item{
@@ -169,24 +188,41 @@ header{
   border-radius:10px;
   cursor:pointer;
   margin-bottom:4px;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  font-size:14px;
+
+  color:#ddd;
 }
 
 .history-item:hover{
   background:#222229;
 }
 
+.no-history{
+  color:#666;
+  padding:10px;
+  font-size:14px;
+}
+
 .clear-history{
   width:100%;
+
   background:#25252c;
   color:#fff;
+
   border:0;
   border-radius:10px;
+
   padding:11px;
   margin-top:10px;
+
+  cursor:pointer;
+}
+
+.clear-history:hover{
+  background:#35353e;
 }
 
 /* ================= OVERLAY ================= */
@@ -194,13 +230,22 @@ header{
 .overlay{
   position:fixed;
   inset:0;
+
   background:rgba(0,0,0,.55);
-  z-index:90;
-  display:none;
+
+  z-index:900;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
 }
 
 .overlay.show{
-  display:block;
+  opacity:1;
+  visibility:visible;
 }
 
 /* ================= CHAT ================= */
@@ -208,12 +253,17 @@ header{
 #chat{
   flex:1;
   overflow-y:auto;
-  padding:20px 14px 145px;
+
+  padding:20px 14px 150px;
+
+  position:relative;
+  z-index:1;
 }
 
 .message{
   max-width:850px;
   margin:0 auto 18px;
+
   display:flex;
   flex-direction:column;
 }
@@ -228,11 +278,16 @@ header{
 
 .bubble{
   max-width:85%;
+
   padding:12px 15px;
+
   border-radius:16px;
+
   line-height:1.5;
+
   white-space:pre-wrap;
   word-wrap:break-word;
+  overflow-wrap:anywhere;
 }
 
 .assistant .bubble{
@@ -244,6 +299,8 @@ header{
   background:#303036;
 }
 
+/* ================= MESSAGE BUTTONS ================= */
+
 .message-actions{
   display:flex;
   gap:6px;
@@ -254,9 +311,14 @@ header{
   background:#202027;
   border:1px solid #303038;
   color:#bbb;
+
   border-radius:8px;
+
   padding:6px 9px;
+
   font-size:12px;
+
+  cursor:pointer;
 }
 
 .message-actions button:hover{
@@ -268,17 +330,23 @@ header{
 
 .file-card{
   max-width:85%;
+
   background:#17171c;
   border:1px solid #303038;
+
   border-radius:14px;
+
   padding:12px;
+
   display:flex;
   align-items:center;
+
   gap:10px;
 }
 
 .file-icon{
   font-size:30px;
+  flex-shrink:0;
 }
 
 .file-info{
@@ -297,17 +365,33 @@ header{
   margin-top:3px;
 }
 
-/* ================= IMAGE ================= */
+.file-open{
+  margin-left:auto;
+
+  background:#27272e;
+  color:#fff;
+
+  border:0;
+  border-radius:8px;
+
+  padding:7px 9px;
+}
+
+/* ================= IMAGES ================= */
 
 .generated-image{
   max-width:100%;
+  height:auto;
+
   border-radius:14px;
+
   display:block;
 }
 
 .preview-image{
   max-width:100px;
   max-height:100px;
+
   border-radius:10px;
 }
 
@@ -315,83 +399,119 @@ header{
 
 .welcome{
   max-width:850px;
+
   margin:80px auto;
+
   text-align:center;
+
   color:#888;
 }
 
 .welcome h2{
   color:#fff;
+  margin-bottom:8px;
 }
 
 /* ================= COMPOSER ================= */
 
 .composer{
   position:fixed;
+
   bottom:0;
   left:0;
   right:0;
-  background:linear-gradient(
-    transparent,
-    #0b0b0f 22%
-  );
+
+  background:
+    linear-gradient(
+      transparent,
+      #0b0b0f 22%
+    );
+
   padding:35px 12px 12px;
-  z-index:20;
+
+  z-index:100;
 }
 
 .composer-inner{
   max-width:850px;
+
   margin:auto;
+
   background:#15151a;
+
   border:1px solid #303038;
+
   border-radius:18px;
+
   padding:8px;
 }
 
 textarea{
   width:100%;
+
   resize:none;
+
   min-height:48px;
   max-height:150px;
+
   background:transparent;
+
   border:0;
   outline:0;
+
   color:white;
+
   font-size:16px;
+
   padding:10px;
+
   font-family:inherit;
+}
+
+textarea::placeholder{
+  color:#777;
 }
 
 .toolbar{
   display:flex;
   align-items:center;
+
   gap:7px;
+
   padding:5px;
 }
 
-button{
+.toolbar button{
   border:0;
+
   cursor:pointer;
+
   color:white;
+
   background:#27272e;
+
   border-radius:10px;
+
   padding:9px 12px;
+
   font-size:14px;
 }
 
-button:hover{
+.toolbar button:hover{
   background:#35353e;
 }
 
-button:disabled{
+.toolbar button:disabled{
   opacity:.5;
   cursor:not-allowed;
 }
 
 .send{
   margin-left:auto;
-  background:#fff;
-  color:#000;
+
+  background:#fff !important;
+  color:#000 !important;
+
   font-weight:bold;
 }
 
@@ -401,90 +521,19 @@ input[type=file]{
 
 .preview{
   display:none;
+
   padding:8px;
+
   border-bottom:1px solid #29292f;
-}
-
-/* ================= PAGES ================= */
-
-.page{
-  position:fixed;
-  inset:0;
-  background:#0b0b0f;
-  z-index:80;
-  display:none;
-  overflow-y:auto;
-  padding:20px;
-}
-
-.page.open{
-  display:block;
-}
-
-.page-inner{
-  max-width:850px;
-  margin:auto;
-}
-
-.page-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:25px;
-}
-
-.page-header h2{
-  margin:0;
-}
-
-.back-btn{
-  background:#27272e;
-  border-radius:10px;
-  padding:9px 12px;
-}
-
-.page-card{
-  background:#17171c;
-  border:1px solid #29292f;
-  border-radius:15px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.page-card h3{
-  margin-top:0;
-}
-
-.empty-page{
-  text-align:center;
-  color:#777;
-  padding:50px 10px;
-}
-
-.setting-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:13px 0;
-  border-bottom:1px solid #29292f;
-}
-
-.setting-row:last-child{
-  border-bottom:0;
-}
-
-.setting-label{
-  font-size:14px;
-}
-
-.setting-value{
-  color:#777;
-  font-size:13px;
 }
 
 /* ================= MOBILE ================= */
 
 @media(max-width:600px){
+
+  .sidebar{
+    width:290px;
+  }
 
   .bubble,
   .file-card{
@@ -500,12 +549,7 @@ input[type=file]{
     font-size:16px;
   }
 
-  .sidebar{
-    width:285px;
-  }
-
 }
-
 </style>
 </head>
 
@@ -513,9 +557,7 @@ input[type=file]{
 
 <div class="app">
 
-<!-- ================================================= -->
-<!-- SIDEBAR -->
-<!-- ================================================= -->
+<!-- ================= SIDEBAR ================= -->
 
 <aside
   id="sidebar"
@@ -529,6 +571,7 @@ input[type=file]{
     </div>
 
     <button
+      type="button"
       class="close-menu"
       onclick="closeSidebar()"
     >
@@ -539,53 +582,12 @@ input[type=file]{
 
 
   <button
+    type="button"
     class="new-chat"
     onclick="newChat()"
   >
     ＋ Жаңа чат
   </button>
-
-
-  <!-- EXTRA MENU -->
-
-  <div class="menu-section">
-
-    <button
-      class="menu-item"
-      onclick="openPage('imagesPage')"
-    >
-      <span class="menu-icon">🖼️</span>
-      <span>Суреттер</span>
-    </button>
-
-
-    <button
-      class="menu-item"
-      onclick="openPage('documentsPage')"
-    >
-      <span class="menu-icon">📄</span>
-      <span>Құжаттар</span>
-    </button>
-
-
-    <button
-      class="menu-item"
-      onclick="openPage('settingsPage')"
-    >
-      <span class="menu-icon">⚙️</span>
-      <span>Баптаулар</span>
-    </button>
-
-
-    <button
-      class="menu-item"
-      onclick="openPage('aboutPage')"
-    >
-      <span class="menu-icon">ℹ️</span>
-      <span>My AI туралы</span>
-    </button>
-
-  </div>
 
 
   <div class="history-title">
@@ -600,6 +602,7 @@ input[type=file]{
 
 
   <button
+    type="button"
     class="clear-history"
     onclick="clearHistory()"
   >
@@ -609,6 +612,8 @@ input[type=file]{
 </aside>
 
 
+<!-- ================= OVERLAY ================= -->
+
 <div
   id="overlay"
   class="overlay"
@@ -616,22 +621,24 @@ input[type=file]{
 ></div>
 
 
-<!-- ================================================= -->
-<!-- HEADER -->
-<!-- ================================================= -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
   <button
+    type="button"
     class="menu-btn"
     onclick="openSidebar()"
+    aria-label="Мәзір"
   >
     ☰
   </button>
 
+
   <div class="logo">
     My AI
   </div>
+
 
   <div
     id="status"
@@ -643,9 +650,7 @@ input[type=file]{
 </header>
 
 
-<!-- ================================================= -->
-<!-- CHAT -->
-<!-- ================================================= -->
+<!-- ================= CHAT ================= -->
 
 <main id="chat">
 
@@ -667,13 +672,12 @@ input[type=file]{
 </main>
 
 
-<!-- ================================================= -->
-<!-- COMPOSER -->
-<!-- ================================================= -->
+<!-- ================= COMPOSER ================= -->
 
 <div class="composer">
 
   <div class="composer-inner">
+
 
     <div
       id="preview"
@@ -690,17 +694,15 @@ input[type=file]{
 
     <div class="toolbar">
 
+
+      <!-- IMAGE -->
+
       <button
         type="button"
-        onclick="
-          document
-          .getElementById('imageInput')
-          .click()
-        "
+        onclick="document.getElementById('imageInput').click()"
       >
         📷
       </button>
-
 
       <input
         id="imageInput"
@@ -709,17 +711,14 @@ input[type=file]{
       >
 
 
+      <!-- FILE -->
+
       <button
         type="button"
-        onclick="
-          document
-          .getElementById('fileInput')
-          .click()
-        "
+        onclick="document.getElementById('fileInput').click()"
       >
         📎
       </button>
-
 
       <input
         id="fileInput"
@@ -728,6 +727,8 @@ input[type=file]{
       >
 
 
+      <!-- IMAGE GENERATION -->
+
       <button
         type="button"
         onclick="generateImage()"
@@ -735,6 +736,8 @@ input[type=file]{
         🖼️
       </button>
 
+
+      <!-- SEND -->
 
       <button
         type="button"
@@ -750,239 +753,6 @@ input[type=file]{
   </div>
 
 </div>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- IMAGES PAGE -->
-<!-- ================================================= -->
-
-<div
-  id="imagesPage"
-  class="page"
->
-
-  <div class="page-inner">
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        onclick="closePage('imagesPage')"
-      >
-        ←
-      </button>
-
-      <h2>
-        🖼️ Суреттер
-      </h2>
-
-    </div>
-
-
-    <div
-      id="imagesContent"
-      class="page-card"
-    >
-
-      <div class="empty-page">
-        Әзірге жасалған суреттер жоқ.
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- DOCUMENTS PAGE -->
-<!-- ================================================= -->
-
-<div
-  id="documentsPage"
-  class="page"
->
-
-  <div class="page-inner">
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        onclick="closePage('documentsPage')"
-      >
-        ←
-      </button>
-
-      <h2>
-        📄 Құжаттар
-      </h2>
-
-    </div>
-
-
-    <div
-      id="documentsContent"
-      class="page-card"
-    >
-
-      <div class="empty-page">
-        Әзірге құжаттар жоқ.
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- SETTINGS PAGE -->
-<!-- ================================================= -->
-
-<div
-  id="settingsPage"
-  class="page"
->
-
-  <div class="page-inner">
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        onclick="closePage('settingsPage')"
-      >
-        ←
-      </button>
-
-      <h2>
-        ⚙️ Баптаулар
-      </h2>
-
-    </div>
-
-
-    <div class="page-card">
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          AI моделі
-        </div>
-
-        <div class="setting-value">
-          Cloudflare AI
-        </div>
-
-      </div>
-
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          Интерфейс тілі
-        </div>
-
-        <div class="setting-value">
-          Қазақша
-        </div>
-
-      </div>
-
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          Тақырып
-        </div>
-
-        <div class="setting-value">
-          Қараңғы
-        </div>
-
-      </div>
-
-
-      <div class="setting-row">
-
-        <div class="setting-label">
-          Дауыстық функция
-        </div>
-
-        <div class="setting-value">
-          Кейін қосылады
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- ABOUT PAGE -->
-<!-- ================================================= -->
-
-<div
-  id="aboutPage"
-  class="page"
->
-
-  <div class="page-inner">
-
-    <div class="page-header">
-
-      <button
-        class="back-btn"
-        onclick="closePage('aboutPage')"
-      >
-        ←
-      </button>
-
-      <h2>
-        ℹ️ My AI туралы
-      </h2>
-
-    </div>
-
-
-    <div class="page-card">
-
-      <h3>
-        My AI
-      </h3>
-
-      <p>
-        Қазақ тілінде жұмыс істеуге арналған
-        жеке AI көмекші.
-      </p>
-
-      <p>
-        My AI мәтіндермен, суреттермен
-        және құжаттармен жұмыс істеуге
-        мүмкіндік береді.
-      </p>
-
-      <p>
-        AI сервері Cloudflare Workers
-        технологиясы арқылы жұмыс істейді.
-      </p>
-
-      <p>
-        Нұсқа: 1.0
-      </p>
-
-    </div>
-
-  </div>
 
 </div>
 
@@ -1033,7 +803,7 @@ const historyList =
 
 
 /* =====================================================
-   STATE
+   VARIABLES
 ===================================================== */
 
 let selectedImages = [];
@@ -1044,26 +814,27 @@ let selectedFile = null;
 
 let history = [];
 
-let generatedImages =
-  JSON.parse(
-    localStorage.getItem(
-      "myAI_generated_images"
-    ) || "[]"
-  );
 
-let documents =
-  JSON.parse(
-    localStorage.getItem(
-      "myAI_documents"
-    ) || "[]"
-  );
+let chatSessions = [];
 
-let chatSessions =
-  JSON.parse(
-    localStorage.getItem(
-      "myAI_chat_sessions"
-    ) || "[]"
-  );
+try{
+
+  chatSessions =
+    JSON.parse(
+      localStorage.getItem(
+        "myAI_chat_sessions"
+      ) || "[]"
+    );
+
+  if(!Array.isArray(chatSessions)){
+    chatSessions = [];
+  }
+
+}catch(error){
+
+  chatSessions = [];
+
+}
 
 
 /* =====================================================
@@ -1072,13 +843,9 @@ let chatSessions =
 
 window.addEventListener(
   "load",
-  async () => {
+  async function(){
 
     renderHistory();
-
-    renderImages();
-
-    renderDocuments();
 
     await checkBackend();
 
@@ -1094,72 +861,18 @@ window.addEventListener(
 
 function openSidebar(){
 
-  sidebar.classList.add(
-    "open"
-  );
+  sidebar.classList.add("open");
 
-  overlay.classList.add(
-    "show"
-  );
+  overlay.classList.add("show");
 
 }
 
 
 function closeSidebar(){
 
-  sidebar.classList.remove(
-    "open"
-  );
+  sidebar.classList.remove("open");
 
-  overlay.classList.remove(
-    "show"
-  );
-
-}
-
-
-/* =====================================================
-   PAGES
-===================================================== */
-
-function openPage(
-  pageId
-){
-
-  closeSidebar();
-
-  const page =
-    document.getElementById(
-      pageId
-    );
-
-  if(page){
-
-    page.classList.add(
-      "open"
-    );
-
-  }
-
-}
-
-
-function closePage(
-  pageId
-){
-
-  const page =
-    document.getElementById(
-      pageId
-    );
-
-  if(page){
-
-    page.classList.remove(
-      "open"
-    );
-
-  }
+  overlay.classList.remove("show");
 
 }
 
@@ -1170,7 +883,7 @@ function closePage(
 
 function newChat(){
 
-  saveHistoryLocally();
+  saveCurrentChat();
 
   history = [];
 
@@ -1187,9 +900,7 @@ function newChat(){
       class="welcome"
     >
 
-      <h2>
-        My AI
-      </h2>
+      <h2>My AI</h2>
 
       <div>
         Сұрағыңызды жазыңыз
@@ -1214,134 +925,35 @@ function newChat(){
 
 
 /* =====================================================
-   HISTORY
+   SAVE CURRENT CHAT
 ===================================================== */
 
-function renderHistory(){
-
-  historyList.innerHTML = "";
-
-  if(!chatSessions.length){
-
-    historyList.innerHTML = `
-
-      <div
-        style="
-          color:#666;
-          padding:10px;
-        "
-      >
-        Әзірге чат тарихы жоқ.
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  chatSessions.forEach(
-    session => {
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-      item.className =
-        "history-item";
-
-      item.textContent =
-        session.title;
-
-      item.onclick =
-        () =>
-          loadChat(
-            session.id
-          );
-
-      historyList.appendChild(
-        item
-      );
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   LOAD CHAT
-===================================================== */
-
-function loadChat(
-  id
-){
-
-  const session =
-    chatSessions.find(
-      x =>
-        x.id === id
-    );
-
-  if(!session){
-    return;
-  }
-
-  history =
-    [...session.messages];
-
-  chatElement.innerHTML = "";
-
-  history.forEach(
-    item => {
-
-      addMessage(
-        item.role,
-        item.content,
-        false
-      );
-
-    }
-  );
-
-  closeSidebar();
-
-}
-
-
-/* =====================================================
-   SAVE CHAT
-===================================================== */
-
-function saveHistoryLocally(){
+function saveCurrentChat(){
 
   if(!history.length){
     return;
   }
 
-
-  const first =
+  const firstUser =
     history.find(
-      x =>
-        x.role === "user"
+      item =>
+        item.role === "user"
     );
 
-  if(!first){
+  if(!firstUser){
     return;
   }
 
-
   const title =
-    first.content
-      .slice(0,60);
+    String(
+      firstUser.content || ""
+    ).slice(0,60);
 
 
-  let existing =
+  const existing =
     chatSessions.find(
-      x =>
-        x.active === true
+      session =>
+        session.active === true
     );
 
 
@@ -1356,15 +968,16 @@ function saveHistoryLocally(){
   }else{
 
     chatSessions.forEach(
-      x =>
-        x.active = false
+      session =>
+        session.active = false
     );
+
 
     chatSessions.unshift({
 
       id:Date.now(),
 
-      title,
+      title:title,
 
       active:true,
 
@@ -1378,10 +991,7 @@ function saveHistoryLocally(){
 
 
   chatSessions =
-    chatSessions.slice(
-      0,
-      30
-    );
+    chatSessions.slice(0,30);
 
 
   localStorage.setItem(
@@ -1398,19 +1008,163 @@ function saveHistoryLocally(){
 
 
 /* =====================================================
+   RENDER HISTORY
+===================================================== */
+
+function renderHistory(){
+
+  historyList.innerHTML = "";
+
+
+  if(!chatSessions.length){
+
+    historyList.innerHTML = `
+
+      <div class="no-history">
+        Әзірге чат тарихы жоқ.
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  chatSessions.forEach(
+    session => {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "history-item";
+
+
+      item.textContent =
+        session.title ||
+        "Жаңа чат";
+
+
+      item.onclick =
+        function(){
+
+          loadChat(
+            session.id
+          );
+
+        };
+
+
+      historyList.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   LOAD CHAT
+===================================================== */
+
+function loadChat(id){
+
+  const session =
+    chatSessions.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!session){
+    return;
+  }
+
+
+  chatSessions.forEach(
+    item =>
+      item.active = false
+  );
+
+
+  session.active = true;
+
+
+  history =
+    Array.isArray(
+      session.messages
+    )
+      ? [...session.messages]
+      : [];
+
+
+  chatElement.innerHTML = "";
+
+
+  history.forEach(
+    item => {
+
+      if(
+        item.role === "user"
+      ){
+
+        addMessage(
+          "user",
+          item.content,
+          false
+        );
+
+      }
+
+
+      if(
+        item.role === "assistant"
+      ){
+
+        addMessage(
+          "assistant",
+          item.content,
+          true
+        );
+
+      }
+
+    }
+  );
+
+
+  localStorage.setItem(
+    "myAI_chat_sessions",
+    JSON.stringify(
+      chatSessions
+    )
+  );
+
+
+  closeSidebar();
+
+}
+
+
+/* =====================================================
    CLEAR HISTORY
 ===================================================== */
 
 function clearHistory(){
 
-  if(
-    !confirm(
+  const confirmed =
+    window.confirm(
       "Барлық чат тарихын өшіру керек пе?"
-    )
-  ){
+    );
 
+
+  if(!confirmed){
     return;
-
   }
 
 
@@ -1427,48 +1181,86 @@ function clearHistory(){
   renderHistory();
 
 
-  chatElement.innerHTML = `
-
-    <div
-      id="welcome"
-      class="welcome"
-    >
-
-      <h2>
-        My AI
-      </h2>
-
-      <div>
-        Сұрағыңызды жазыңыз
-      </div>
-
-    </div>
-
-  `;
+  newChat();
 
 }
 
 
 /* =====================================================
-   BACKEND
+   BACKEND CHECK
 ===================================================== */
 
 async function checkBackend(){
 
+  statusElement.textContent =
+    "Қосылуда...";
+
+  statusElement.classList.remove(
+    "online"
+  );
+
+
   try{
+
+    const controller =
+      new AbortController();
+
+
+    const timeout =
+      setTimeout(
+        () => controller.abort(),
+        8000
+      );
+
 
     const response =
       await fetch(
-        API_URL
+        API_URL,
+        {
+          method:"GET",
+          cache:"no-store",
+          signal:controller.signal
+        }
       );
 
-    const data =
-      await response.json();
+
+    clearTimeout(timeout);
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    let data = null;
+
+
+    try{
+
+      data =
+        JSON.parse(text);
+
+    }catch{
+
+      throw new Error(
+        "Backend JSON жауап қайтармады."
+      );
+
+    }
 
 
     if(
       data &&
-      data.ok
+      data.ok === true
     ){
 
       statusElement.textContent =
@@ -1485,9 +1277,14 @@ async function checkBackend(){
 
     }
 
+
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Backend check:",
+      error
+    );
+
 
     statusElement.textContent =
       "Backend қосылмады";
@@ -1531,6 +1328,7 @@ imageInput.addEventListener(
     const file =
       this.files[0];
 
+
     if(!file){
       return;
     }
@@ -1543,10 +1341,9 @@ imageInput.addEventListener(
     reader.onload =
       function(event){
 
-        selectedImages =
-          [
-            event.target.result
-          ];
+        selectedImages = [
+          event.target.result
+        ];
 
 
         previewElement.style.display =
@@ -1558,6 +1355,7 @@ imageInput.addEventListener(
           <img
             class="preview-image"
             src="${event.target.result}"
+            alt="Таңдалған сурет"
           >
 
         `;
@@ -1565,9 +1363,7 @@ imageInput.addEventListener(
       };
 
 
-    reader.readAsDataURL(
-      file
-    );
+    reader.readAsDataURL(file);
 
   }
 );
@@ -1584,6 +1380,7 @@ fileInput.addEventListener(
     const file =
       this.files[0];
 
+
     if(!file){
       return;
     }
@@ -1591,51 +1388,6 @@ fileInput.addEventListener(
 
     selectedFile =
       file;
-
-
-    /* SAVE DOCUMENT */
-
-    const documentInfo = {
-
-      name:
-        file.name,
-
-      type:
-        file.type ||
-        "Файл",
-
-      size:
-        file.size,
-
-      date:
-        new Date().toLocaleString(
-          "kk-KZ"
-        )
-
-    };
-
-
-    documents.unshift(
-      documentInfo
-    );
-
-
-    documents =
-      documents.slice(
-        0,
-        50
-      );
-
-
-    localStorage.setItem(
-      "myAI_documents",
-      JSON.stringify(
-        documents
-      )
-    );
-
-
-    renderDocuments();
 
 
     previewElement.style.display =
@@ -1653,18 +1405,13 @@ fileInput.addEventListener(
         <div class="file-info">
 
           <div class="file-name">
-            ${escapeHtml(
-              file.name
-            )}
+            ${escapeHtml(file.name)}
           </div>
 
           <div class="file-type">
-            ${
-              escapeHtml(
-                file.type ||
-                "PDF / файл"
-              )
-            }
+            ${escapeHtml(
+              file.type || "PDF / файл"
+            )}
           </div>
 
         </div>
@@ -1674,44 +1421,23 @@ fileInput.addEventListener(
     `;
 
 
-    if(
+    const lowerName =
+      file.name.toLowerCase();
 
-      file.type ===
-      "text/plain" ||
 
-      file.name.endsWith(
-        ".txt"
-      ) ||
+    const textFile =
+      file.type === "text/plain" ||
+      lowerName.endsWith(".txt") ||
+      lowerName.endsWith(".md") ||
+      lowerName.endsWith(".json") ||
+      lowerName.endsWith(".csv") ||
+      lowerName.endsWith(".js") ||
+      lowerName.endsWith(".css") ||
+      lowerName.endsWith(".html") ||
+      lowerName.endsWith(".xml");
 
-      file.name.endsWith(
-        ".md"
-      ) ||
 
-      file.name.endsWith(
-        ".json"
-      ) ||
-
-      file.name.endsWith(
-        ".csv"
-      ) ||
-
-      file.name.endsWith(
-        ".js"
-      ) ||
-
-      file.name.endsWith(
-        ".css"
-      ) ||
-
-      file.name.endsWith(
-        ".html"
-      ) ||
-
-      file.name.endsWith(
-        ".xml"
-      )
-
-    ){
+    if(textFile){
 
       try{
 
@@ -1727,6 +1453,11 @@ fileInput.addEventListener(
       }
 
     }else{
+
+      /*
+        PDF үшін файлдың өзі Worker-ге
+        жіберіледі.
+      */
 
       selectedFileText = "";
 
@@ -1747,13 +1478,9 @@ async function sendMessage(){
 
 
   if(
-
     !message &&
-
     selectedImages.length === 0 &&
-
     !selectedFile
-
   ){
 
     return;
@@ -1807,7 +1534,6 @@ async function sendMessage(){
       await fetch(
         API_URL,
         {
-
           method:"POST",
 
           headers:{
@@ -1818,18 +1544,13 @@ async function sendMessage(){
           body:
             JSON.stringify({
 
-              action:
-                "chat",
+              action:"chat",
 
               message:
-
                 message ||
-
                 (
                   currentFile
-
-                    ? `Файлды талдаңыз: ${currentFile.name}`
-
+                    ? "Құжатты талдаңыз."
                     : "Суретті талда."
                 ),
 
@@ -1843,13 +1564,11 @@ async function sendMessage(){
                 currentFileText,
 
               fileName:
-
                 currentFile
                   ? currentFile.name
                   : "",
 
               mimeType:
-
                 currentFile
                   ? currentFile.type
                   : ""
@@ -1860,8 +1579,26 @@ async function sendMessage(){
       );
 
 
-    const data =
-      await response.json();
+    const text =
+      await response.text();
+
+
+    let data;
+
+
+    try{
+
+      data =
+        JSON.parse(text);
+
+    }catch{
+
+      throw new Error(
+        "Worker JSON емес жауап қайтарды: " +
+        text.slice(0,200)
+      );
+
+    }
 
 
     if(
@@ -1893,9 +1630,7 @@ async function sendMessage(){
       role:"user",
 
       content:
-
         message ||
-
         (
           currentFile
             ? `Файл: ${currentFile.name}`
@@ -1909,8 +1644,7 @@ async function sendMessage(){
 
       role:"assistant",
 
-      content:
-        answer
+      content:answer
 
     });
 
@@ -1944,7 +1678,7 @@ async function sendMessage(){
 
 
 /* =====================================================
-   GENERATE IMAGE
+   IMAGE GENERATION
 ===================================================== */
 
 async function generateImage(){
@@ -1983,7 +1717,6 @@ async function generateImage(){
       await fetch(
         API_URL,
         {
-
           method:"POST",
 
           headers:{
@@ -1994,16 +1727,13 @@ async function generateImage(){
           body:
             JSON.stringify({
 
-              action:
-                "image",
+              action:"image",
 
-              prompt,
+              prompt:prompt,
 
-              width:
-                1024,
+              width:1024,
 
-              height:
-                1024
+              height:1024
 
             })
 
@@ -2011,8 +1741,25 @@ async function generateImage(){
       );
 
 
-    const data =
-      await response.json();
+    const text =
+      await response.text();
+
+
+    let data;
+
+
+    try{
+
+      data =
+        JSON.parse(text);
+
+    }catch{
+
+      throw new Error(
+        "Worker JSON емес жауап қайтарды."
+      );
+
+    }
 
 
     if(
@@ -2038,11 +1785,6 @@ async function generateImage(){
 
 
     addImageMessage(
-      data.image
-    );
-
-
-    saveGeneratedImage(
       data.image
     );
 
@@ -2128,12 +1870,16 @@ function addMessage(
       );
 
 
+    copyButton.type =
+      "button";
+
+
     copyButton.textContent =
       "📋 Көшіру";
 
 
     copyButton.onclick =
-      async () => {
+      async function(){
 
         try{
 
@@ -2147,7 +1893,7 @@ function addMessage(
 
 
           setTimeout(
-            () => {
+            function(){
 
               copyButton.textContent =
                 "📋 Көшіру";
@@ -2157,7 +1903,7 @@ function addMessage(
           );
 
 
-        }catch{
+        }catch(error){
 
           alert(
             "Көшіру мүмкін болмады."
@@ -2174,13 +1920,20 @@ function addMessage(
       );
 
 
+    retryButton.type =
+      "button";
+
+
     retryButton.textContent =
       "🔄 Қайта жауап";
 
 
     retryButton.onclick =
-      () =>
+      function(){
+
         retryLast();
+
+      };
 
 
     actionBar.appendChild(
@@ -2257,7 +2010,7 @@ async function retryLast(){
 
 
 /* =====================================================
-   ADD IMAGE MESSAGE
+   IMAGE MESSAGE
 ===================================================== */
 
 function addImageMessage(
@@ -2323,218 +2076,188 @@ function addImageMessage(
 
 
 /* =====================================================
-   SAVE GENERATED IMAGE
+   SAVE HISTORY LOCALLY
 ===================================================== */
 
-function saveGeneratedImage(
-  image
-){
+function saveHistoryLocally(){
 
-  generatedImages.unshift({
-
-    image,
-
-    date:
-      new Date().toLocaleString(
-        "kk-KZ"
-      )
-
-  });
+  if(!history.length){
+    return;
+  }
 
 
-  generatedImages =
-    generatedImages.slice(
-      0,
-      20
+  const first =
+    history.find(
+      item =>
+        item.role === "user"
     );
 
 
-  try{
+  if(!first){
+    return;
+  }
 
-    localStorage.setItem(
-      "myAI_generated_images",
-      JSON.stringify(
-        generatedImages
-      )
+
+  const title =
+    String(
+      first.content || ""
+    ).slice(0,60);
+
+
+  let existing =
+    chatSessions.find(
+      session =>
+        session.active === true
     );
 
-  }catch(error){
 
-    console.log(
-      "Суретті сақтау мүмкін болмады:",
-      error
+  if(existing){
+
+    existing.messages =
+      [...history];
+
+    existing.title =
+      title;
+
+  }else{
+
+    chatSessions.forEach(
+      session =>
+        session.active = false
+    );
+
+
+    existing = {
+
+      id:Date.now(),
+
+      title:title,
+
+      active:true,
+
+      messages:[
+        ...history
+      ]
+
+    };
+
+
+    chatSessions.unshift(
+      existing
     );
 
   }
 
 
-  renderImages();
+  chatSessions =
+    chatSessions.slice(0,30);
+
+
+  localStorage.setItem(
+    "myAI_chat_sessions",
+    JSON.stringify(
+      chatSessions
+    )
+  );
+
+
+  renderHistory();
 
 }
 
 
 /* =====================================================
-   RENDER IMAGES
+   LOADING
 ===================================================== */
 
-function renderImages(){
+function setLoading(
+  loading
+){
 
-  const container =
-    document.getElementById(
-      "imagesContent"
-    );
+  sendButton.disabled =
+    loading;
 
 
-  if(
-    !generatedImages.length
-  ){
+  messageElement.disabled =
+    loading;
 
-    container.innerHTML = `
 
-      <div class="empty-page">
-        Әзірге жасалған суреттер жоқ.
-      </div>
+  if(loading){
 
-    `;
+    statusElement.textContent =
+      "Жауап дайындалуда...";
 
-    return;
+  }else{
+
+    /*
+      Сұрау аяқталғаннан кейін
+      Worker-ді қайта тексереміз.
+    */
+
+    checkBackend();
 
   }
 
-
-  container.innerHTML = "";
-
-
-  generatedImages.forEach(
-    item => {
-
-      const card =
-        document.createElement(
-          "div"
-        );
+}
 
 
-      card.className =
-        "page-card";
+/* =====================================================
+   SCROLL
+===================================================== */
 
+function scrollChat(){
 
-      card.innerHTML = `
+  setTimeout(
+    function(){
 
-        <img
-          src="${item.image}"
-          style="
-            width:100%;
-            border-radius:12px;
-            display:block;
-          "
-        >
+      chatElement.scrollTop =
+        chatElement.scrollHeight;
 
-        <div
-          style="
-            color:#777;
-            font-size:12px;
-            margin-top:8px;
-          "
-        >
-          ${escapeHtml(
-            item.date
-          )}
-        </div>
-
-      `;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
+    },
+    50
   );
 
 }
 
 
 /* =====================================================
-   RENDER DOCUMENTS
+   ESCAPE HTML
 ===================================================== */
 
-function renderDocuments(){
+function escapeHtml(
+  text
+){
 
-  const container =
-    document.getElementById(
-      "documentsContent"
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
     );
 
+}
 
-  if(
-    !documents.length
-  ){
+</script>
 
-    container.innerHTML = `
-
-      <div class="empty-page">
-        Әзірге құжаттар жоқ.
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  documents.forEach(
-    doc => {
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "page-card";
-
-
-      card.innerHTML = `
-
-        <div
-          style="
-            display:flex;
-            align-items:center;
-            gap:12px;
-          "
-        >
-
-          <div
-            style="
-              font-size:30px;
-            "
-          >
-            📄
-          </div>
-
-          <div>
-
-            <div
-              style="
-                font-weight:bold;
-                word-break:break-word;
-              "
-            >
-              ${escapeHtml(
-                doc.name
-              )}
-            </div>
-
-            <div
-              style="
-                color:#777;
-                font-size:12px;
-                margin-top:4px;
-              "
-            >
-              ${escapeHtml
+</body>
+</html>
