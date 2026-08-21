@@ -61,10 +61,15 @@
       max-width: 850px;
       margin: 0 auto 18px;
       display: flex;
+      flex-direction: column;
     }
 
     .message.user {
-      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .message.assistant {
+      align-items: flex-start;
     }
 
     .bubble {
@@ -89,6 +94,27 @@
       max-width: 100%;
       border-radius: 12px;
       margin-top: 8px;
+    }
+
+    .message-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      margin-left: 4px;
+    }
+
+    .message-actions button {
+      background: #1d1d23;
+      border: 1px solid #303038;
+      color: #bdbdc5;
+      padding: 6px 9px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .message-actions button:hover {
+      background: #2a2a31;
+      color: white;
     }
 
     .composer {
@@ -185,6 +211,13 @@
       padding: 5px;
     }
 
+    .generated-image {
+      max-width: 100%;
+      border-radius: 14px;
+      display: block;
+      margin-top: 8px;
+    }
+
     .typing {
       opacity: .7;
     }
@@ -193,14 +226,8 @@
       color: #ff6b6b;
     }
 
-    .generated-image {
-      max-width: 100%;
-      border-radius: 14px;
-      display: block;
-      margin-top: 8px;
-    }
-
     @media (max-width: 600px) {
+
       header {
         height: 54px;
       }
@@ -217,6 +244,7 @@
       textarea {
         font-size: 16px;
       }
+
     }
   </style>
 </head>
@@ -227,6 +255,7 @@
 
   <header>
     <div class="logo">My AI</div>
+
     <div id="status" class="status">
       Қосылуда...
     </div>
@@ -248,14 +277,14 @@
 
       <div class="toolbar">
 
-        <label for="imageInput">
-          <button
-            type="button"
-            onclick="document.getElementById('imageInput').click()"
-          >
-            📷
-          </button>
-        </label>
+        <!-- IMAGE -->
+
+        <button
+          type="button"
+          onclick="document.getElementById('imageInput').click()"
+        >
+          📷
+        </button>
 
         <input
           id="imageInput"
@@ -263,14 +292,14 @@
           accept="image/*"
         >
 
-        <label for="fileInput">
-          <button
-            type="button"
-            onclick="document.getElementById('fileInput').click()"
-          >
-            📎
-          </button>
-        </label>
+        <!-- FILE -->
+
+        <button
+          type="button"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          📎
+        </button>
 
         <input
           id="fileInput"
@@ -278,12 +307,16 @@
           accept=".txt,.md,.json,.csv,.html,.js,.css,.xml,.pdf"
         >
 
+        <!-- IMAGE GENERATION -->
+
         <button
           type="button"
           onclick="generateImage()"
         >
           🖼️
         </button>
+
+        <!-- SEND -->
 
         <button
           type="button"
@@ -307,6 +340,7 @@
 const API_URL =
   "https://my-ai-backend.razinavsegda84.workers.dev";
 
+
 const chatElement =
   document.getElementById("chat");
 
@@ -328,24 +362,36 @@ const fileInput =
 const previewElement =
   document.getElementById("preview");
 
+
 let selectedImages = [];
 
 let selectedFileText = "";
 
+let selectedFile = null;
+
 let history = [];
+
+let lastUserMessage = "";
+
+let lastImages = [];
+
+let lastFileText = "";
 
 
 // =====================================================
 // START
 // =====================================================
 
-window.addEventListener("load", async () => {
+window.addEventListener(
+  "load",
+  async () => {
 
-  await checkBackend();
+    await checkBackend();
 
-  messageElement.focus();
+    messageElement.focus();
 
-});
+  }
+);
 
 
 // =====================================================
@@ -357,9 +403,7 @@ async function checkBackend() {
   try {
 
     const response =
-      await fetch(API_URL, {
-        method: "GET"
-      });
+      await fetch(API_URL);
 
     const data =
       await response.json();
@@ -420,7 +464,7 @@ messageElement.addEventListener(
 
 imageInput.addEventListener(
   "change",
-  async function() {
+  function() {
 
     const file =
       this.files[0];
@@ -469,6 +513,8 @@ fileInput.addEventListener(
       return;
     }
 
+    selectedFile = file;
+
     previewElement.style.display =
       "block";
 
@@ -477,6 +523,11 @@ fileInput.addEventListener(
         📎 ${escapeHtml(file.name)}
       </div>
     `;
+
+
+    // =================================================
+    // TEXT FILE
+    // =================================================
 
     if (
       file.type === "text/plain" ||
@@ -503,18 +554,26 @@ fileInput.addEventListener(
 
       }
 
-    } else {
+      return;
+    }
+
+
+    // =================================================
+    // PDF
+    // =================================================
+
+    if (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    ) {
 
       selectedFileText = "";
 
-      addMessage(
-        "assistant",
-        "Файл таңдалды: " +
-        file.name +
-        ". Бұл файл түрінің мәтінін браузер тікелей оқи алмады."
-      );
-
+      return;
     }
+
+
+    selectedFileText = "";
 
   }
 );
@@ -524,28 +583,53 @@ fileInput.addEventListener(
 // SEND MESSAGE
 // =====================================================
 
-async function sendMessage() {
+async function sendMessage(
+  retry = false
+) {
 
-  const message =
+  let message =
     messageElement.value.trim();
+
+
+  // RETRY
+
+  if (retry) {
+
+    message =
+      lastUserMessage;
+
+  }
+
 
   if (
     !message &&
-    selectedImages.length === 0
+    selectedImages.length === 0 &&
+    !selectedFile
   ) {
+
     return;
+
   }
+
 
   setLoading(true);
 
-  if (message) {
 
-    addMessage(
-      "user",
-      message
-    );
+  // USER MESSAGE
+
+  if (!retry) {
+
+    if (message) {
+
+      addMessage(
+        "user",
+        message
+      );
+
+    }
 
   }
+
 
   const currentImages =
     [...selectedImages];
@@ -553,18 +637,104 @@ async function sendMessage() {
   const currentFileText =
     selectedFileText;
 
+  const currentFile =
+    selectedFile;
+
+
+  if (!retry) {
+
+    lastUserMessage =
+      message;
+
+    lastImages =
+      [...currentImages];
+
+    lastFileText =
+      currentFileText;
+
+  }
+
+
   messageElement.value = "";
 
   selectedImages = [];
 
   selectedFileText = "";
 
+  selectedFile = null;
+
   previewElement.style.display =
     "none";
 
   previewElement.innerHTML = "";
 
+
   try {
+
+    // =================================================
+    // REQUEST BODY
+    // =================================================
+
+    const requestBody = {
+
+      action: "chat",
+
+      message:
+        message ||
+        "Суретті талда.",
+
+      history:
+        history.slice(-20),
+
+      images:
+        currentImages,
+
+      fileText:
+        currentFileText
+
+    };
+
+
+    // =================================================
+    // PDF
+    // =================================================
+
+    if (currentFile) {
+
+      if (
+        currentFile.type ===
+        "application/pdf" ||
+        currentFile.name
+          .toLowerCase()
+          .endsWith(".pdf")
+      ) {
+
+        const base64 =
+          await fileToBase64(
+            currentFile
+          );
+
+        requestBody.fileName =
+          currentFile.name;
+
+        requestBody.mimeType =
+          currentFile.type ||
+          "application/pdf";
+
+        requestBody.file =
+          base64;
+
+        requestBody.action =
+          "chat";
+
+        requestBody.message =
+          message ||
+          "Осы PDF құжатты оқып, сұрағыма жауап бер.";
+
+      }
+
+    }
+
 
     const response =
       await fetch(
@@ -578,30 +748,22 @@ async function sendMessage() {
           },
 
           body:
-            JSON.stringify({
+            JSON.stringify(
+              requestBody
+            )
 
-              action: "chat",
-
-              message:
-                message || "Суретті талда.",
-
-              history:
-                history.slice(-20),
-
-              images:
-                currentImages,
-
-              fileText:
-                currentFileText
-
-            })
         }
       );
+
 
     const data =
       await response.json();
 
-    if (!response.ok || !data.ok) {
+
+    if (
+      !response.ok ||
+      !data.ok
+    ) {
 
       throw new Error(
         data.error ||
@@ -610,27 +772,45 @@ async function sendMessage() {
 
     }
 
+
     const answer =
       data.answer ||
       "AI жауап бере алмады.";
 
-    addMessage(
-      "assistant",
-      answer
+
+    addAssistantMessage(
+      answer,
+      message
     );
 
-    history.push({
-      role: "user",
-      content: message
-    });
+
+    if (!retry) {
+
+      history.push({
+
+        role: "user",
+
+        content:
+          message
+
+      });
+
+    }
+
 
     history.push({
+
       role: "assistant",
-      content: answer
+
+      content:
+        answer
+
     });
+
 
     history =
       history.slice(-20);
+
 
   } catch (error) {
 
@@ -642,11 +822,232 @@ async function sendMessage() {
       error.message
     );
 
+
   } finally {
 
     setLoading(false);
 
   }
+
+}
+
+
+// =====================================================
+// ADD ASSISTANT MESSAGE
+// =====================================================
+
+function addAssistantMessage(
+  text,
+  originalQuestion
+) {
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message assistant";
+
+
+  const bubble =
+    document.createElement("div");
+
+  bubble.className =
+    "bubble";
+
+  bubble.textContent =
+    text;
+
+
+  wrapper.appendChild(
+    bubble
+  );
+
+
+  const actions =
+    document.createElement("div");
+
+  actions.className =
+    "message-actions";
+
+
+  // COPY
+
+  const copyButton =
+    document.createElement("button");
+
+  copyButton.textContent =
+    "📋 Көшіру";
+
+  copyButton.onclick =
+    async function() {
+
+      try {
+
+        await navigator.clipboard.writeText(
+          text
+        );
+
+        copyButton.textContent =
+          "✓ Көшірілді";
+
+        setTimeout(
+          () => {
+
+            copyButton.textContent =
+              "📋 Көшіру";
+
+          },
+          1500
+        );
+
+      } catch {
+
+        copyTextFallback(
+          text
+        );
+
+        copyButton.textContent =
+          "✓ Көшірілді";
+
+        setTimeout(
+          () => {
+
+            copyButton.textContent =
+              "📋 Көшіру";
+
+          },
+          1500
+        );
+
+      }
+
+    };
+
+
+  // RETRY
+
+  const retryButton =
+    document.createElement("button");
+
+  retryButton.textContent =
+    "🔄 Қайта жауап";
+
+  retryButton.onclick =
+    function() {
+
+      lastUserMessage =
+        originalQuestion;
+
+      sendMessage(true);
+
+    };
+
+
+  actions.appendChild(
+    copyButton
+  );
+
+  actions.appendChild(
+    retryButton
+  );
+
+
+  wrapper.appendChild(
+    actions
+  );
+
+
+  chatElement.appendChild(
+    wrapper
+  );
+
+
+  scrollChat();
+
+}
+
+
+// =====================================================
+// COPY FALLBACK
+// =====================================================
+
+function copyTextFallback(
+  text
+) {
+
+  const textarea =
+    document.createElement("textarea");
+
+  textarea.value =
+    text;
+
+  textarea.style.position =
+    "fixed";
+
+  textarea.style.left =
+    "-9999px";
+
+  document.body.appendChild(
+    textarea
+  );
+
+  textarea.select();
+
+  try {
+
+    document.execCommand(
+      "copy"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+  document.body.removeChild(
+    textarea
+  );
+
+}
+
+
+// =====================================================
+// FILE TO BASE64
+// =====================================================
+
+function fileToBase64(
+  file
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        () => {
+
+          resolve(
+            reader.result
+          );
+
+        };
+
+      reader.onerror =
+        reject;
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
 }
 
 
@@ -659,6 +1060,7 @@ async function generateImage() {
   const prompt =
     messageElement.value.trim();
 
+
   if (!prompt) {
 
     addMessage(
@@ -670,14 +1072,18 @@ async function generateImage() {
 
   }
 
+
   setLoading(true);
+
 
   addMessage(
     "user",
     "🖼️ " + prompt
   );
 
+
   messageElement.value = "";
+
 
   try {
 
@@ -708,13 +1114,19 @@ async function generateImage() {
                 1024
 
             })
+
         }
       );
+
 
     const data =
       await response.json();
 
-    if (!response.ok || !data.ok) {
+
+    if (
+      !response.ok ||
+      !data.ok
+    ) {
 
       throw new Error(
         data.error ||
@@ -722,6 +1134,7 @@ async function generateImage() {
       );
 
     }
+
 
     if (!data.image) {
 
@@ -731,9 +1144,11 @@ async function generateImage() {
 
     }
 
+
     addImageMessage(
       data.image
     );
+
 
   } catch (error) {
 
@@ -745,11 +1160,13 @@ async function generateImage() {
       error.message
     );
 
+
   } finally {
 
     setLoading(false);
 
   }
+
 }
 
 
@@ -768,6 +1185,7 @@ function addMessage(
   wrapper.className =
     `message ${role}`;
 
+
   const bubble =
     document.createElement("div");
 
@@ -777,13 +1195,16 @@ function addMessage(
   bubble.textContent =
     text;
 
+
   wrapper.appendChild(
     bubble
   );
 
+
   chatElement.appendChild(
     wrapper
   );
+
 
   scrollChat();
 
@@ -804,11 +1225,13 @@ function addImageMessage(
   wrapper.className =
     "message assistant";
 
+
   const bubble =
     document.createElement("div");
 
   bubble.className =
     "bubble";
+
 
   const img =
     document.createElement("img");
@@ -822,17 +1245,21 @@ function addImageMessage(
   img.alt =
     "Generated image";
 
+
   bubble.appendChild(
     img
   );
+
 
   wrapper.appendChild(
     bubble
   );
 
+
   chatElement.appendChild(
     wrapper
   );
+
 
   scrollChat();
 
@@ -852,6 +1279,7 @@ function setLoading(
 
   messageElement.disabled =
     loading;
+
 
   if (loading) {
 
@@ -874,12 +1302,15 @@ function setLoading(
 
 function scrollChat() {
 
-  setTimeout(() => {
+  setTimeout(
+    () => {
 
-    chatElement.scrollTop =
-      chatElement.scrollHeight;
+      chatElement.scrollTop =
+        chatElement.scrollHeight;
 
-  }, 50);
+    },
+    50
+  );
 
 }
 
