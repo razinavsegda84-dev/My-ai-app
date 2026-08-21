@@ -15,21 +15,20 @@
 html,
 body{
   margin:0;
-  padding:0;
   width:100%;
   height:100%;
-}
-
-body{
   background:#0b0b0f;
   color:#fff;
   font-family:Arial,sans-serif;
+}
+
+body{
   overflow:hidden;
 }
 
 button{
   font-family:inherit;
-  -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
 }
 
 .app{
@@ -49,17 +48,16 @@ header{
   min-height:58px;
   display:flex;
   align-items:center;
-  padding:0 12px;
+  padding:0 10px;
   background:#101014;
-  border-bottom:1px solid #292929;
+  border-bottom:1px solid #29292f;
   position:relative;
   z-index:20;
 }
 
-.menu-btn{
+.menu-button{
   width:42px;
   height:42px;
-  padding:0;
   border:0;
   border-radius:10px;
   background:transparent;
@@ -68,11 +66,10 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
-  cursor:pointer;
 }
 
-.menu-btn:active{
-  background:#25252c;
+.menu-button:active{
+  background:#29292f;
 }
 
 .logo{
@@ -100,42 +97,27 @@ header{
   position:fixed;
   top:0;
   left:0;
-
   width:290px;
-  max-width:85vw;
   height:100vh;
-
   background:#111116;
-  border-right:1px solid #29292f;
-
+  border-right:1px solid #303038;
   z-index:100;
-
   transform:translateX(-100%);
   transition:transform .25s ease;
-
   display:flex;
   flex-direction:column;
-
   padding:12px;
-
-  overflow:hidden;
 }
 
 .sidebar.open{
   transform:translateX(0);
 }
 
-
-/* SIDEBAR HEADER */
-
-.sidebar-top{
+.sidebar-header{
   height:48px;
-  min-height:48px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   margin-bottom:10px;
 }
 
@@ -144,54 +126,18 @@ header{
   font-weight:bold;
 }
 
-.close-menu{
-  width:38px;
-  height:38px;
-
+.close-button{
+  width:40px;
+  height:40px;
   border:0;
   border-radius:10px;
-
-  background:#25252c;
+  background:#27272e;
   color:#fff;
-
   font-size:22px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
 }
 
-.close-menu:active{
-  background:#35353e;
-}
-
-
-/* =====================================================
-   NEW CHAT
-===================================================== */
-
-.new-chat{
-  width:100%;
-  min-height:44px;
-
-  border:0;
-  border-radius:12px;
-
-  background:#fff;
-  color:#000;
-
-  font-size:15px;
-  font-weight:bold;
-
-  cursor:pointer;
-
-  margin-bottom:10px;
-}
-
-.new-chat:active{
-  background:#ddd;
+.close-button:active{
+  background:#38383f;
 }
 
 
@@ -199,30 +145,20 @@ header{
    MENU ITEMS
 ===================================================== */
 
-.menu-section{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin-bottom:10px;
-}
-
 .menu-item{
   width:100%;
   min-height:48px;
-
   display:flex;
   align-items:center;
-
+  gap:12px;
+  padding:10px 12px;
+  margin-bottom:5px;
   border:0;
   border-radius:11px;
-
   background:transparent;
   color:#fff;
-
-  padding:9px 10px;
-
-  cursor:pointer;
   text-align:left;
+  font-size:15px;
 }
 
 .menu-item:hover{
@@ -234,24 +170,13 @@ header{
 }
 
 .menu-icon{
-  width:34px;
-  min-width:34px;
-
-  font-size:21px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:28px;
+  text-align:center;
+  font-size:19px;
 }
 
 .menu-text{
-  margin-left:8px;
-
-  font-size:15px;
-
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
+  flex:1;
 }
 
 
@@ -259,43 +184,34 @@ header{
    HISTORY
 ===================================================== */
 
-.history-title{
+.history-heading{
+  margin-top:12px;
+  padding:8px 8px;
   color:#888;
   font-size:12px;
-
-  padding:8px 6px 6px;
 }
 
-.history{
+.history-list{
   flex:1;
-
-  min-height:0;
-
   overflow-y:auto;
-  overflow-x:hidden;
-
-  padding-bottom:8px;
+  min-height:0;
 }
 
-.history-empty{
+.no-history{
   color:#666;
+  padding:10px 8px;
   font-size:13px;
-  padding:10px 7px;
 }
 
 .history-item{
   width:100%;
-
-  padding:10px;
-
+  padding:11px;
   margin-bottom:4px;
-
+  border:0;
   border-radius:10px;
-
+  background:transparent;
   color:#ddd;
-
-  cursor:pointer;
-
+  text-align:left;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -305,50 +221,30 @@ header{
   background:#222229;
 }
 
-.history-item:active{
-  background:#303038;
+.history-item.active{
+  background:#292930;
 }
 
 
 /* =====================================================
-   CLEAR HISTORY
+   DELETE BUTTON
 ===================================================== */
 
-.clear-history{
-  flex-shrink:0;
-
+.delete-history{
   width:100%;
-
-  min-height:48px;
-
-  padding:10px 12px;
-
-  margin-top:8px;
-
-  border:1px solid #3a3a42;
-  border-radius:11px;
-
-  background:#25252c;
-  color:#fff;
-
+  min-height:45px;
+  margin-top:10px;
+  margin-bottom:4px;
+  border:1px solid #3a3030;
+  border-radius:10px;
+  background:#21191b;
+  color:#ff7777;
   font-size:14px;
-
-  cursor:pointer;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  white-space:normal;
-  text-align:center;
+  flex-shrink:0;
 }
 
-.clear-history:hover{
-  background:#303038;
-}
-
-.clear-history:active{
-  background:#3a3a42;
+.delete-history:hover{
+  background:#2b1d1f;
 }
 
 
@@ -359,131 +255,13 @@ header{
 .overlay{
   position:fixed;
   inset:0;
-
-  background:rgba(0,0,0,.58);
-
+  background:rgba(0,0,0,.55);
   z-index:90;
-
-  opacity:0;
-  visibility:hidden;
-
-  transition:
-    opacity .25s ease,
-    visibility .25s ease;
+  display:none;
 }
 
 .overlay.show{
-  opacity:1;
-  visibility:visible;
-}
-
-
-/* =====================================================
-   SETTINGS PANEL
-===================================================== */
-
-.settings-panel{
-  position:fixed;
-
-  top:0;
-  right:0;
-
-  width:330px;
-  max-width:90vw;
-
-  height:100vh;
-
-  background:#111116;
-  border-left:1px solid #29292f;
-
-  z-index:150;
-
-  transform:translateX(100%);
-  transition:transform .25s ease;
-
-  padding:15px;
-
-  overflow-y:auto;
-}
-
-.settings-panel.open{
-  transform:translateX(0);
-}
-
-.settings-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:20px;
-}
-
-.settings-title{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.settings-close{
-  width:38px;
-  height:38px;
-
-  border:0;
-  border-radius:10px;
-
-  background:#25252c;
-  color:#fff;
-
-  font-size:21px;
-
-  cursor:pointer;
-}
-
-.settings-row{
-  width:100%;
-
-  min-height:50px;
-
-  margin-bottom:7px;
-
-  padding:10px 12px;
-
-  border:1px solid #29292f;
-  border-radius:11px;
-
-  background:#17171c;
-  color:#fff;
-
-  display:flex;
-  align-items:center;
-
-  cursor:pointer;
-
-  text-align:left;
-}
-
-.settings-row:hover{
-  background:#222229;
-}
-
-.settings-row:active{
-  background:#303038;
-}
-
-.settings-row-icon{
-  width:32px;
-  font-size:19px;
-}
-
-.settings-row-text{
-  font-size:14px;
-}
-
-.settings-info{
-  color:#777;
-  font-size:12px;
-  line-height:1.5;
-
-  margin-top:20px;
+  display:block;
 }
 
 
@@ -493,19 +271,25 @@ header{
 
 #chat{
   flex:1;
-
   overflow-y:auto;
+  padding:20px 12px 150px;
+}
 
-  padding:20px 14px 145px;
+.welcome{
+  max-width:850px;
+  margin:80px auto;
+  text-align:center;
+  color:#777;
+}
 
-  scroll-behavior:smooth;
+.welcome h2{
+  color:#fff;
+  margin-bottom:8px;
 }
 
 .message{
   max-width:850px;
-
   margin:0 auto 18px;
-
   display:flex;
   flex-direction:column;
 }
@@ -519,28 +303,21 @@ header{
 }
 
 .bubble{
-  max-width:85%;
-
+  max-width:88%;
   padding:12px 15px;
-
   border-radius:16px;
-
-  line-height:1.5;
-
+  line-height:1.55;
   white-space:pre-wrap;
+  word-break:break-word;
+}
 
-  word-wrap:break-word;
-
-  overflow-wrap:anywhere;
+.user .bubble{
+  background:#303036;
 }
 
 .assistant .bubble{
   background:#17171c;
   border:1px solid #29292f;
-}
-
-.user .bubble{
-  background:#303036;
 }
 
 
@@ -550,25 +327,17 @@ header{
 
 .message-actions{
   display:flex;
-
   gap:6px;
-
   margin-top:7px;
 }
 
 .message-actions button{
+  padding:6px 9px;
+  border-radius:8px;
   border:1px solid #303038;
-
   background:#202027;
   color:#bbb;
-
-  border-radius:8px;
-
-  padding:6px 9px;
-
   font-size:12px;
-
-  cursor:pointer;
 }
 
 .message-actions button:hover{
@@ -578,28 +347,39 @@ header{
 
 
 /* =====================================================
-   FILE CARD
+   IMAGE
+===================================================== */
+
+.generated-image{
+  display:block;
+  max-width:100%;
+  border-radius:14px;
+}
+
+.preview-image{
+  max-width:100px;
+  max-height:100px;
+  border-radius:10px;
+}
+
+
+/* =====================================================
+   FILE
 ===================================================== */
 
 .file-card{
-  max-width:85%;
-
-  background:#17171c;
-
-  border:1px solid #303038;
-
-  border-radius:14px;
-
+  max-width:88%;
   padding:12px;
-
   display:flex;
   align-items:center;
-
   gap:10px;
+  background:#17171c;
+  border:1px solid #303038;
+  border-radius:14px;
 }
 
 .file-icon{
-  font-size:30px;
+  font-size:28px;
 }
 
 .file-info{
@@ -609,56 +389,13 @@ header{
 .file-name{
   font-size:14px;
   font-weight:bold;
-
   word-break:break-word;
 }
 
 .file-type{
+  margin-top:4px;
   color:#888;
   font-size:12px;
-
-  margin-top:3px;
-}
-
-
-/* =====================================================
-   IMAGES
-===================================================== */
-
-.generated-image{
-  max-width:100%;
-
-  border-radius:14px;
-
-  display:block;
-
-  margin-top:2px;
-}
-
-.preview-image{
-  max-width:100px;
-  max-height:100px;
-
-  border-radius:10px;
-}
-
-
-/* =====================================================
-   WELCOME
-===================================================== */
-
-.welcome{
-  max-width:850px;
-
-  margin:80px auto;
-
-  text-align:center;
-
-  color:#888;
-}
-
-.welcome h2{
-  color:#fff;
 }
 
 
@@ -668,113 +405,168 @@ header{
 
 .composer{
   position:fixed;
-
-  bottom:0;
   left:0;
   right:0;
-
-  background:
-    linear-gradient(
-      transparent,
-      #0b0b0f 22%
-    );
-
-  padding:35px 12px 12px;
-
+  bottom:0;
   z-index:20;
+  padding:35px 12px 12px;
+  background:linear-gradient(
+    transparent,
+    #0b0b0f 25%
+  );
 }
 
 .composer-inner{
   max-width:850px;
-
   margin:auto;
-
-  background:#15151a;
-
-  border:1px solid #303038;
-
-  border-radius:18px;
-
   padding:8px;
+  background:#15151a;
+  border:1px solid #303038;
+  border-radius:18px;
+}
+
+.preview{
+  display:none;
+  padding:8px;
+  border-bottom:1px solid #29292f;
+  margin-bottom:5px;
 }
 
 textarea{
   width:100%;
-
-  resize:none;
-
   min-height:48px;
   max-height:150px;
-
-  background:transparent;
-
+  resize:none;
+  padding:10px;
   border:0;
   outline:0;
-
-  color:white;
-
+  background:transparent;
+  color:#fff;
   font-size:16px;
-
-  padding:10px;
-
   font-family:inherit;
 }
 
 .toolbar{
   display:flex;
-
   align-items:center;
-
   gap:7px;
-
   padding:5px;
 }
 
-.toolbar button{
+.tool-button{
+  width:42px;
+  height:40px;
+  padding:0;
   border:0;
-
-  cursor:pointer;
-
-  color:white;
-
-  background:#27272e;
-
   border-radius:10px;
-
-  padding:9px 12px;
-
-  font-size:14px;
+  background:#27272e;
+  color:#fff;
+  font-size:18px;
 }
 
-.toolbar button:hover{
+.tool-button:hover{
   background:#35353e;
 }
 
-.toolbar button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
+.send-button{
+  margin-left:auto;
+  width:45px;
+  height:40px;
+  border:0;
+  border-radius:10px;
+  background:#fff;
+  color:#000;
+  font-size:18px;
+  font-weight:bold;
 }
 
-.send{
-  margin-left:auto;
+.send-button:hover{
+  background:#ddd;
+}
 
-  background:#fff !important;
-
-  color:#000 !important;
-
-  font-weight:bold;
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
 
 input[type=file]{
   display:none;
 }
 
-.preview{
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:200;
   display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.65);
+}
 
-  padding:8px;
+.modal.show{
+  display:flex;
+}
 
+.modal-box{
+  width:100%;
+  max-width:430px;
+  max-height:80vh;
+  overflow-y:auto;
+  padding:20px;
+  background:#17171c;
+  border:1px solid #303038;
+  border-radius:16px;
+}
+
+.modal-title{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.modal-text{
+  color:#bbb;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+
+.modal-close{
+  width:100%;
+  margin-top:18px;
+  padding:11px;
+  border:0;
+  border-radius:10px;
+  background:#fff;
+  color:#000;
+  font-weight:bold;
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 0;
   border-bottom:1px solid #29292f;
+}
+
+.setting-name{
+  font-size:14px;
+}
+
+.setting-value{
+  color:#888;
+  font-size:13px;
 }
 
 
@@ -784,9 +576,8 @@ input[type=file]{
 
 @media(max-width:600px){
 
-  .bubble,
-  .file-card{
-    max-width:92%;
+  .sidebar{
+    width:285px;
   }
 
   #chat{
@@ -794,13 +585,18 @@ input[type=file]{
     padding-right:8px;
   }
 
-  textarea{
-    font-size:16px;
+  .bubble,
+  .file-card{
+    max-width:93%;
   }
 
-  .settings-panel{
-    width:100%;
-    max-width:100%;
+  .composer{
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  textarea{
+    font-size:16px;
   }
 
 }
@@ -814,24 +610,24 @@ input[type=file]{
 <div class="app">
 
 
-<!-- ===================================================
+<!-- =====================================================
      SIDEBAR
-=================================================== -->
+===================================================== -->
 
 <aside
   id="sidebar"
   class="sidebar"
 >
 
-  <div class="sidebar-top">
+  <div class="sidebar-header">
 
     <div class="sidebar-title">
       My AI
     </div>
 
     <button
+      class="close-button"
       type="button"
-      class="close-menu"
       onclick="closeSidebar()"
     >
       ×
@@ -841,248 +637,128 @@ input[type=file]{
 
 
   <button
+    class="menu-item"
     type="button"
-    class="new-chat"
     onclick="newChat()"
   >
-    ＋ Жаңа чат
+
+    <span class="menu-icon">＋</span>
+
+    <span class="menu-text">
+      Жаңа чат
+    </span>
+
   </button>
 
 
-  <div class="menu-section">
+  <button
+    class="menu-item"
+    type="button"
+    onclick="openImages()"
+  >
+
+    <span class="menu-icon">🖼️</span>
+
+    <span class="menu-text">
+      Суреттер
+    </span>
+
+  </button>
 
 
-    <button
-      type="button"
-      class="menu-item"
-      onclick="openImages()"
-    >
+  <button
+    class="menu-item"
+    type="button"
+    onclick="openDocuments()"
+  >
 
-      <span class="menu-icon">
-        🖼️
-      </span>
+    <span class="menu-icon">📄</span>
 
-      <span class="menu-text">
-        Суреттер
-      </span>
+    <span class="menu-text">
+      Құжаттар
+    </span>
 
-    </button>
+  </button>
 
 
-    <button
-      type="button"
-      class="menu-item"
-      onclick="openDocuments()"
-    >
+  <button
+    class="menu-item"
+    type="button"
+    onclick="openSettings()"
+  >
 
-      <span class="menu-icon">
-        📄
-      </span>
+    <span class="menu-icon">⚙️</span>
 
-      <span class="menu-text">
-        Құжаттар
-      </span>
+    <span class="menu-text">
+      Баптаулар
+    </span>
 
-    </button>
+  </button>
 
 
-    <button
-      type="button"
-      class="menu-item"
-      onclick="openSettings()"
-    >
+  <button
+    class="menu-item"
+    type="button"
+    onclick="openAbout()"
+  >
 
-      <span class="menu-icon">
-        ⚙️
-      </span>
+    <span class="menu-icon">ℹ️</span>
 
-      <span class="menu-text">
-        Баптаулар
-      </span>
+    <span class="menu-text">
+      My AI туралы
+    </span>
 
-    </button>
+  </button>
 
 
-    <button
-      type="button"
-      class="menu-item"
-      onclick="showAbout()"
-    >
-
-      <span class="menu-icon">
-        ℹ️
-      </span>
-
-      <span class="menu-text">
-        My AI туралы
-      </span>
-
-    </button>
-
-  </div>
-
-
-  <div class="history-title">
+  <div class="history-heading">
     Чат тарихы
   </div>
 
 
   <div
     id="historyList"
-    class="history"
+    class="history-list"
   ></div>
 
 
   <button
+    class="delete-history"
     type="button"
-    class="clear-history"
     onclick="clearHistory()"
   >
-    🗑️&nbsp; Чат тарихын толық өшіру
+    🗑️ Чат тарихын толық өшіру
   </button>
 
 </aside>
 
 
-<!-- ===================================================
-     OVERLAY
-=================================================== -->
+<!-- OVERLAY -->
 
 <div
   id="overlay"
   class="overlay"
-  onclick="closeAllPanels()"
+  onclick="closeSidebar()"
 ></div>
 
 
-<!-- ===================================================
-     SETTINGS
-=================================================== -->
-
-<section
-  id="settingsPanel"
-  class="settings-panel"
->
-
-  <div class="settings-header">
-
-    <div class="settings-title">
-      ⚙️ Баптаулар
-    </div>
-
-    <button
-      type="button"
-      class="settings-close"
-      onclick="closeSettings()"
-    >
-      ×
-    </button>
-
-  </div>
-
-
-  <button
-    type="button"
-    class="settings-row"
-    onclick="toggleTheme()"
-  >
-
-    <span class="settings-row-icon">
-      🌙
-    </span>
-
-    <span class="settings-row-text">
-      Қараңғы режим
-    </span>
-
-  </button>
-
-
-  <button
-    type="button"
-    class="settings-row"
-    onclick="showLanguage()"
-  >
-
-    <span class="settings-row-icon">
-      🌐
-    </span>
-
-    <span class="settings-row-text">
-      Тіл
-    </span>
-
-  </button>
-
-
-  <button
-    type="button"
-    class="settings-row"
-    onclick="showModelInfo()"
-  >
-
-    <span class="settings-row-icon">
-      🤖
-    </span>
-
-    <span class="settings-row-text">
-      AI моделі
-    </span>
-
-  </button>
-
-
-  <button
-    type="button"
-    class="settings-row"
-    onclick="clearHistory()"
-  >
-
-    <span class="settings-row-icon">
-      🗑️
-    </span>
-
-    <span class="settings-row-text">
-      Чат тарихын тазалау
-    </span>
-
-  </button>
-
-
-  <div class="settings-info">
-
-    My AI — жеке AI чат интерфейсі.
-
-    <br><br>
-
-    Кейбір функциялар Cloudflare Workers
-    және Workers AI қызметтеріне байланысты.
-
-  </div>
-
-</section>
-
-
-<!-- ===================================================
+<!-- =====================================================
      HEADER
-=================================================== -->
+===================================================== -->
 
 <header>
 
   <button
+    class="menu-button"
     type="button"
-    class="menu-btn"
-    onclick="toggleSidebar()"
-    aria-label="Мәзір"
+    onclick="openSidebar()"
   >
     ☰
   </button>
 
-
   <div class="logo">
     My AI
   </div>
-
 
   <div
     id="status"
@@ -1094,9 +770,9 @@ input[type=file]{
 </header>
 
 
-<!-- ===================================================
+<!-- =====================================================
      CHAT
-=================================================== -->
+===================================================== -->
 
 <main id="chat">
 
@@ -1118,14 +794,13 @@ input[type=file]{
 </main>
 
 
-<!-- ===================================================
+<!-- =====================================================
      COMPOSER
-=================================================== -->
+===================================================== -->
 
 <div class="composer">
 
   <div class="composer-inner">
-
 
     <div
       id="preview"
@@ -1144,8 +819,10 @@ input[type=file]{
 
 
       <button
+        class="tool-button"
         type="button"
-        onclick="document.getElementById('imageInput').click()"
+        onclick="chooseImage()"
+        title="Сурет жіберу"
       >
         📷
       </button>
@@ -1159,8 +836,10 @@ input[type=file]{
 
 
       <button
+        class="tool-button"
         type="button"
-        onclick="document.getElementById('fileInput').click()"
+        onclick="chooseFile()"
+        title="Құжат жіберу"
       >
         📎
       </button>
@@ -1174,18 +853,21 @@ input[type=file]{
 
 
       <button
+        class="tool-button"
         type="button"
         onclick="generateImage()"
+        title="Сурет жасау"
       >
         🖼️
       </button>
 
 
       <button
-        type="button"
-        class="send"
+        class="send-button"
         id="sendButton"
+        type="button"
         onclick="sendMessage()"
+        title="Жіберу"
       >
         ➤
       </button>
@@ -1195,6 +877,44 @@ input[type=file]{
   </div>
 
 </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+  id="modal"
+  class="modal"
+  onclick="closeModal(event)"
+>
+
+  <div
+    class="modal-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <div
+      id="modalTitle"
+      class="modal-title"
+    ></div>
+
+    <div
+      id="modalContent"
+      class="modal-text"
+    ></div>
+
+    <button
+      class="modal-close"
+      type="button"
+      onclick="hideModal()"
+    >
+      Жабу
+    </button>
+
+  </div>
 
 </div>
 
@@ -1241,15 +961,21 @@ const sidebar =
 const overlay =
   document.getElementById("overlay");
 
-const settingsPanel =
-  document.getElementById("settingsPanel");
-
 const historyList =
   document.getElementById("historyList");
 
+const modal =
+  document.getElementById("modal");
+
+const modalTitle =
+  document.getElementById("modalTitle");
+
+const modalContent =
+  document.getElementById("modalContent");
+
 
 /* =====================================================
-   VARIABLES
+   STATE
 ===================================================== */
 
 let selectedImages = [];
@@ -1260,12 +986,26 @@ let selectedFile = null;
 
 let history = [];
 
-let chatSessions =
-  JSON.parse(
-    localStorage.getItem(
-      "myAI_chat_sessions"
-    ) || "[]"
-  );
+let chatSessions = [];
+
+try{
+
+  chatSessions =
+    JSON.parse(
+      localStorage.getItem(
+        "myAI_chat_sessions"
+      ) || "[]"
+    );
+
+  if(!Array.isArray(chatSessions)){
+    chatSessions = [];
+  }
+
+}catch{
+
+  chatSessions = [];
+
+}
 
 
 /* =====================================================
@@ -1287,166 +1027,34 @@ window.addEventListener(
 
 
 /* =====================================================
-   SIDEBAR
+   SIDEBAR OPEN
 ===================================================== */
-
-function toggleSidebar(){
-
-  if(
-    sidebar.classList.contains("open")
-  ){
-
-    closeSidebar();
-
-  }else{
-
-    openSidebar();
-
-  }
-
-}
-
 
 function openSidebar(){
 
-  closeSettings();
+  sidebar.classList.add(
+    "open"
+  );
 
-  sidebar.classList.add("open");
-
-  overlay.classList.add("show");
+  overlay.classList.add(
+    "show"
+  );
 
 }
 
+
+/* =====================================================
+   SIDEBAR CLOSE
+===================================================== */
 
 function closeSidebar(){
 
-  sidebar.classList.remove("open");
-
-  if(
-    !settingsPanel.classList.contains("open")
-  ){
-
-    overlay.classList.remove("show");
-
-  }
-
-}
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-function openSettings(){
-
-  closeSidebar();
-
-  settingsPanel.classList.add("open");
-
-  overlay.classList.add("show");
-
-}
-
-
-function closeSettings(){
-
-  settingsPanel.classList.remove("open");
-
-  if(
-    !sidebar.classList.contains("open")
-  ){
-
-    overlay.classList.remove("show");
-
-  }
-
-}
-
-
-function closeAllPanels(){
-
-  sidebar.classList.remove("open");
-
-  settingsPanel.classList.remove("open");
-
-  overlay.classList.remove("show");
-
-}
-
-
-/* =====================================================
-   SETTINGS FUNCTIONS
-===================================================== */
-
-function toggleTheme(){
-
-  alert(
-    "Қараңғы режим қазір қосулы."
+  sidebar.classList.remove(
+    "open"
   );
 
-}
-
-
-function showLanguage(){
-
-  alert(
-    "Қазіргі тіл: қазақша."
-  );
-
-}
-
-
-function showModelInfo(){
-
-  alert(
-    "AI моделі Cloudflare Workers AI арқылы жұмыс істейді."
-  );
-
-}
-
-
-/* =====================================================
-   IMAGES MENU
-===================================================== */
-
-function openImages(){
-
-  closeSidebar();
-
-  messageElement.focus();
-
-  alert(
-    "Суреттер бөлімі дайын. 📷 батырмасы арқылы сурет жіберуге болады."
-  );
-
-}
-
-
-/* =====================================================
-   DOCUMENTS MENU
-===================================================== */
-
-function openDocuments(){
-
-  closeSidebar();
-
-  document
-    .getElementById("fileInput")
-    .click();
-
-}
-
-
-/* =====================================================
-   ABOUT
-===================================================== */
-
-function showAbout(){
-
-  closeSidebar();
-
-  alert(
-    "My AI\n\nЖеке AI чат қосымшасы."
+  overlay.classList.remove(
+    "show"
   );
 
 }
@@ -1457,8 +1065,6 @@ function showAbout(){
 ===================================================== */
 
 function newChat(){
-
-  saveCurrentChat();
 
   history = [];
 
@@ -1475,9 +1081,7 @@ function newChat(){
       class="welcome"
     >
 
-      <h2>
-        My AI
-      </h2>
+      <h2>My AI</h2>
 
       <div>
         Сұрағыңызды жазыңыз
@@ -1494,7 +1098,11 @@ function newChat(){
 
   previewElement.innerHTML = "";
 
-  closeAllPanels();
+  imageInput.value = "";
+
+  fileInput.value = "";
+
+  closeSidebar();
 
   messageElement.focus();
 
@@ -1502,69 +1110,181 @@ function newChat(){
 
 
 /* =====================================================
-   SAVE CURRENT CHAT
+   IMAGE MENU
 ===================================================== */
 
-function saveCurrentChat(){
+function openImages(){
 
-  if(!history.length){
-    return;
-  }
+  closeSidebar();
 
-  const firstUser =
-    history.find(
-      x => x.role === "user"
-    );
-
-  if(!firstUser){
-    return;
-  }
-
-  const title =
-    firstUser.content
-      .slice(0,60);
-
-
-  const session = {
-
-    id:Date.now(),
-
-    title:title,
-
-    messages:[
-      ...history
-    ]
-
-  };
-
-
-  chatSessions.unshift(
-    session
-  );
-
-
-  chatSessions =
-    chatSessions.slice(
-      0,
-      30
-    );
-
-
-  localStorage.setItem(
-    "myAI_chat_sessions",
-    JSON.stringify(
-      chatSessions
-    )
-  );
-
-
-  renderHistory();
+  chooseImage();
 
 }
 
 
 /* =====================================================
-   HISTORY
+   DOCUMENT MENU
+===================================================== */
+
+function openDocuments(){
+
+  closeSidebar();
+
+  chooseFile();
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function openSettings(){
+
+  showModal(
+    "⚙️ Баптаулар",
+    `
+Жалпы баптаулар
+
+• Тіл: Қазақша
+• Интерфейс: Қараңғы режим
+• Сервер: Cloudflare Workers
+• AI моделі: Workers AI
+
+Бұл бөлімді кейін кеңейтеміз.
+    `
+  );
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+function openAbout(){
+
+  showModal(
+    "ℹ️ My AI туралы",
+    `
+My AI
+
+Жеке AI көмекші қосымшасы.
+
+Қазіргі функциялар:
+
+• AI чат
+• Суретті талдау
+• Құжат жіберу
+• PDF файлын AI арқылы талдау
+• Сурет генерациясы
+• Чат тарихы
+• Жауапты көшіру
+• Қайта жауап алу
+
+Келесі функцияларды кейін қосуға болады.
+    `
+  );
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function showModal(
+  title,
+  content
+){
+
+  modalTitle.textContent =
+    title;
+
+  modalContent.textContent =
+    content;
+
+  modal.classList.add(
+    "show"
+  );
+
+}
+
+
+function hideModal(){
+
+  modal.classList.remove(
+    "show"
+  );
+
+}
+
+
+function closeModal(event){
+
+  if(
+    event.target === modal
+  ){
+
+    hideModal();
+
+  }
+
+}
+
+
+/* =====================================================
+   CLEAR HISTORY
+===================================================== */
+
+function clearHistory(){
+
+  if(
+    chatSessions.length === 0
+  ){
+
+    alert(
+      "Чат тарихы бос."
+    );
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      "Барлық чат тарихын өшіру керек пе?"
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  chatSessions = [];
+
+  history = [];
+
+
+  localStorage.removeItem(
+    "myAI_chat_sessions"
+  );
+
+
+  renderHistory();
+
+
+  newChat();
+
+}
+
+
+/* =====================================================
+   RENDER HISTORY
 ===================================================== */
 
 function renderHistory(){
@@ -1572,12 +1292,14 @@ function renderHistory(){
   historyList.innerHTML = "";
 
 
-  if(!chatSessions.length){
+  if(
+    !chatSessions.length
+  ){
 
     historyList.innerHTML = `
 
-      <div class="history-empty">
-        Әзірге чат тарихы жоқ
+      <div class="no-history">
+        Әзірге чат тарихы жоқ.
       </div>
 
     `;
@@ -1588,23 +1310,24 @@ function renderHistory(){
 
 
   chatSessions.forEach(
-    session => {
+    function(session){
 
-      const item =
+      const button =
         document.createElement(
-          "div"
+          "button"
         );
 
-
-      item.className =
+      button.className =
         "history-item";
 
+      button.type =
+        "button";
 
-      item.textContent =
-        session.title;
+      button.textContent =
+        session.title ||
+        "Жаңа чат";
 
-
-      item.onclick =
+      button.onclick =
         function(){
 
           loadChat(
@@ -1613,9 +1336,8 @@ function renderHistory(){
 
         };
 
-
       historyList.appendChild(
-        item
+        button
       );
 
     }
@@ -1632,92 +1354,185 @@ function loadChat(id){
 
   const session =
     chatSessions.find(
-      x => x.id === id
+      function(item){
+
+        return item.id === id;
+
+      }
     );
 
 
   if(!session){
+
     return;
+
   }
 
 
   history =
-    [...session.messages];
+    Array.isArray(
+      session.messages
+    )
+      ? [...session.messages]
+      : [];
 
 
-  chatElement.innerHTML = "";
+  chatElement.innerHTML =
+    "";
 
 
   history.forEach(
-    item => {
+    function(item){
 
-      addMessage(
-        item.role,
-        item.content,
-        false
-      );
+      if(
+        item.role === "user" ||
+        item.role === "assistant"
+      ){
+
+        addMessage(
+          item.role,
+          item.content,
+          false
+        );
+
+      }
 
     }
   );
 
 
-  closeAllPanels();
+  closeSidebar();
+
+
+  scrollChat();
 
 }
 
 
 /* =====================================================
-   CLEAR HISTORY
+   SAVE HISTORY
 ===================================================== */
 
-function clearHistory(){
+function saveHistory(){
 
-  const answer =
-    confirm(
-      "Барлық чат тарихын өшіру керек пе?"
-    );
+  if(
+    !history.length
+  ){
 
-
-  if(!answer){
     return;
+
   }
 
 
-  chatSessions = [];
+  const firstUser =
+    history.find(
+      function(item){
+
+        return item.role === "user";
+
+      }
+    );
 
 
-  localStorage.removeItem(
-    "myAI_chat_sessions"
-  );
+  if(!firstUser){
+
+    return;
+
+  }
 
 
-  history = [];
+  let title =
+    firstUser.content ||
+    "Жаңа чат";
+
+
+  title =
+    title.substring(
+      0,
+      60
+    );
+
+
+  let session =
+    chatSessions.find(
+      function(item){
+
+        return item.active === true;
+
+      }
+    );
+
+
+  if(session){
+
+    session.messages =
+      [...history];
+
+    session.title =
+      title;
+
+  }else{
+
+    chatSessions.forEach(
+      function(item){
+
+        item.active = false;
+
+      }
+    );
+
+
+    session = {
+
+      id:
+        Date.now(),
+
+      title:
+        title,
+
+      active:
+        true,
+
+      messages:
+        [...history]
+
+    };
+
+
+    chatSessions.unshift(
+      session
+    );
+
+  }
+
+
+  chatSessions =
+    chatSessions.slice(
+      0,
+      30
+    );
+
+
+  try{
+
+    localStorage.setItem(
+      "myAI_chat_sessions",
+      JSON.stringify(
+        chatSessions
+      )
+    );
+
+  }catch(error){
+
+    console.error(
+      "History save error:",
+      error
+    );
+
+  }
 
 
   renderHistory();
-
-
-  closeAllPanels();
-
-
-  chatElement.innerHTML = `
-
-    <div
-      id="welcome"
-      class="welcome"
-    >
-
-      <h2>
-        My AI
-      </h2>
-
-      <div>
-        Сұрағыңызды жазыңыз
-      </div>
-
-    </div>
-
-  `;
 
 }
 
@@ -1728,22 +1543,13 @@ function clearHistory(){
 
 async function checkBackend(){
 
-  statusElement.textContent =
-    "Қосылуда...";
-
-  statusElement.classList.remove(
-    "online"
-  );
-
-
   try{
 
     const response =
       await fetch(
         API_URL,
         {
-          method:"GET",
-          cache:"no-store"
+          method:"GET"
         }
       );
 
@@ -1761,7 +1567,6 @@ async function checkBackend(){
       statusElement.textContent =
         "Онлайн";
 
-
       statusElement.classList.add(
         "online"
       );
@@ -1773,11 +1578,11 @@ async function checkBackend(){
 
     }
 
-
   }catch(error){
 
-    console.error(error);
-
+    console.error(
+      error
+    );
 
     statusElement.textContent =
       "Backend қосылмады";
@@ -1785,6 +1590,175 @@ async function checkBackend(){
   }
 
 }
+
+
+/* =====================================================
+   FILE CHOOSERS
+===================================================== */
+
+function chooseImage(){
+
+  imageInput.click();
+
+}
+
+
+function chooseFile(){
+
+  fileInput.click();
+
+}
+
+
+/* =====================================================
+   IMAGE SELECT
+===================================================== */
+
+imageInput.addEventListener(
+  "change",
+  function(){
+
+    const file =
+      this.files[0];
+
+
+    if(!file){
+
+      return;
+
+    }
+
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      function(event){
+
+        selectedImages = [
+          event.target.result
+        ];
+
+
+        previewElement.style.display =
+          "block";
+
+
+        previewElement.innerHTML = `
+
+          <img
+            class="preview-image"
+            src="${event.target.result}"
+            alt="Preview"
+          >
+
+        `;
+
+      };
+
+
+    reader.readAsDataURL(
+      file
+    );
+
+  }
+);
+
+
+/* =====================================================
+   FILE SELECT
+===================================================== */
+
+fileInput.addEventListener(
+  "change",
+  async function(){
+
+    const file =
+      this.files[0];
+
+
+    if(!file){
+
+      return;
+
+    }
+
+
+    selectedFile =
+      file;
+
+
+    selectedFileText =
+      "";
+
+
+    previewElement.style.display =
+      "block";
+
+
+    previewElement.innerHTML = `
+
+      <div class="file-card">
+
+        <div class="file-icon">
+          📄
+        </div>
+
+        <div class="file-info">
+
+          <div class="file-name">
+            ${escapeHtml(file.name)}
+          </div>
+
+          <div class="file-type">
+            ${escapeHtml(
+              file.type ||
+              "Құжат"
+            )}
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    const name =
+      file.name.toLowerCase();
+
+
+    const isText =
+      name.endsWith(".txt") ||
+      name.endsWith(".md") ||
+      name.endsWith(".json") ||
+      name.endsWith(".csv") ||
+      name.endsWith(".html") ||
+      name.endsWith(".js") ||
+      name.endsWith(".css") ||
+      name.endsWith(".xml");
+
+
+    if(isText){
+
+      try{
+
+        selectedFileText =
+          await file.text();
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+
+      }
+
+    }
+
+  }
+);
 
 
 /* =====================================================
@@ -1811,157 +1785,6 @@ messageElement.addEventListener(
 
 
 /* =====================================================
-   IMAGE SELECT
-===================================================== */
-
-imageInput.addEventListener(
-  "change",
-  function(){
-
-    const file =
-      this.files[0];
-
-
-    if(!file){
-      return;
-    }
-
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload =
-      function(event){
-
-        selectedImages = [
-
-          event.target.result
-
-        ];
-
-
-        previewElement.style.display =
-          "block";
-
-
-        previewElement.innerHTML = `
-
-          <img
-            class="preview-image"
-            src="${event.target.result}"
-          >
-
-        `;
-
-      };
-
-
-    reader.readAsDataURL(file);
-
-  }
-);
-
-
-/* =====================================================
-   FILE SELECT
-===================================================== */
-
-fileInput.addEventListener(
-  "change",
-  async function(){
-
-    const file =
-      this.files[0];
-
-
-    if(!file){
-      return;
-    }
-
-
-    selectedFile =
-      file;
-
-
-    previewElement.style.display =
-      "block";
-
-
-    previewElement.innerHTML = `
-
-      <div class="file-card">
-
-        <div class="file-icon">
-          📄
-        </div>
-
-        <div class="file-info">
-
-          <div class="file-name">
-            ${escapeHtml(file.name)}
-          </div>
-
-          <div class="file-type">
-            ${escapeHtml(
-              file.type ||
-              "PDF / файл"
-            )}
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    if(
-
-      file.type === "text/plain" ||
-
-      file.name.endsWith(".txt") ||
-
-      file.name.endsWith(".md") ||
-
-      file.name.endsWith(".json") ||
-
-      file.name.endsWith(".csv") ||
-
-      file.name.endsWith(".js") ||
-
-      file.name.endsWith(".css") ||
-
-      file.name.endsWith(".html") ||
-
-      file.name.endsWith(".xml")
-
-    ){
-
-      try{
-
-        selectedFileText =
-          await file.text();
-
-      }catch(error){
-
-        selectedFileText = "";
-
-        console.error(error);
-
-      }
-
-    }else{
-
-      selectedFileText = "";
-
-    }
-
-  }
-);
-
-
-/* =====================================================
    SEND MESSAGE
 ===================================================== */
 
@@ -1972,13 +1795,9 @@ async function sendMessage(){
 
 
   if(
-
     !message &&
-
     selectedImages.length === 0 &&
-
     !selectedFile
-
   ){
 
     return;
@@ -1986,7 +1805,9 @@ async function sendMessage(){
   }
 
 
-  setLoading(true);
+  setLoading(
+    true
+  );
 
 
   if(message){
@@ -2003,27 +1824,44 @@ async function sendMessage(){
     [...selectedImages];
 
 
-  const currentFileText =
-    selectedFileText;
-
-
   const currentFile =
     selectedFile;
 
 
-  messageElement.value = "";
+  const currentFileText =
+    selectedFileText;
 
-  selectedImages = [];
 
-  selectedFileText = "";
+  messageElement.value =
+    "";
 
-  selectedFile = null;
+
+  selectedImages =
+    [];
+
+
+  selectedFile =
+    null;
+
+
+  selectedFileText =
+    "";
 
 
   previewElement.style.display =
     "none";
 
-  previewElement.innerHTML = "";
+
+  previewElement.innerHTML =
+    "";
+
+
+  imageInput.value =
+    "";
+
+
+  fileInput.value =
+    "";
 
 
   try{
@@ -2046,13 +1884,11 @@ async function sendMessage(){
               action:"chat",
 
               message:
-
                 message ||
-
                 (
                   currentFile
-                    ? `Файлды талдаңыз: ${currentFile.name}`
-                    : "Суретті талда."
+                    ? "Құжатты талдаңыз."
+                    : "Суретті талдаңыз."
                 ),
 
               history:
@@ -2113,12 +1949,10 @@ async function sendMessage(){
       role:"user",
 
       content:
-
         message ||
-
         (
           currentFile
-            ? `Файл: ${currentFile.name}`
+            ? "Құжатты талдау"
             : "Суретті талдау"
         )
 
@@ -2129,21 +1963,26 @@ async function sendMessage(){
 
       role:"assistant",
 
-      content:answer
+      content:
+        answer
 
     });
 
 
     history =
-      history.slice(-20);
+      history.slice(
+        -20
+      );
 
 
-    saveHistoryLocally();
+    saveHistory();
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     addMessage(
@@ -2155,7 +1994,9 @@ async function sendMessage(){
 
   }finally{
 
-    setLoading(false);
+    setLoading(
+      false
+    );
 
   }
 
@@ -2176,7 +2017,7 @@ async function generateImage(){
 
     addMessage(
       "assistant",
-      "Сурет жасау үшін алдымен сипаттама жазыңыз."
+      "Сурет жасау үшін алдымен сипаттамасын жазыңыз."
     );
 
     return;
@@ -2184,7 +2025,9 @@ async function generateImage(){
   }
 
 
-  setLoading(true);
+  setLoading(
+    true
+  );
 
 
   addMessage(
@@ -2193,7 +2036,8 @@ async function generateImage(){
   );
 
 
-  messageElement.value = "";
+  messageElement.value =
+    "";
 
 
   try{
@@ -2215,11 +2059,14 @@ async function generateImage(){
 
               action:"image",
 
-              prompt:prompt,
+              prompt:
+                prompt,
 
-              width:1024,
+              width:
+                1024,
 
-              height:1024
+              height:
+                1024
 
             })
 
@@ -2260,7 +2107,9 @@ async function generateImage(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     addMessage(
@@ -2272,7 +2121,9 @@ async function generateImage(){
 
   }finally{
 
-    setLoading(false);
+    setLoading(
+      false
+    );
 
   }
 
@@ -2286,7 +2137,7 @@ async function generateImage(){
 function addMessage(
   role,
   text,
-  actions=true
+  actions = true
 ){
 
   const wrapper =
@@ -2296,7 +2147,7 @@ function addMessage(
 
 
   wrapper.className =
-    `message ${role}`;
+    "message " + role;
 
 
   const bubble =
@@ -2372,7 +2223,7 @@ function addMessage(
           );
 
 
-        }catch(error){
+        }catch{
 
           alert(
             "Көшіру мүмкін болмады."
@@ -2428,52 +2279,6 @@ function addMessage(
 
 
   scrollChat();
-
-}
-
-
-/* =====================================================
-   RETRY
-===================================================== */
-
-async function retryLast(){
-
-  let lastUser = null;
-
-
-  for(
-    let i =
-      history.length - 1;
-
-    i >= 0;
-
-    i--
-  ){
-
-    if(
-      history[i].role === "user"
-    ){
-
-      lastUser =
-        history[i].content;
-
-      break;
-
-    }
-
-  }
-
-
-  if(!lastUser){
-    return;
-  }
-
-
-  messageElement.value =
-    lastUser;
-
-
-  await sendMessage();
 
 }
 
@@ -2545,88 +2350,48 @@ function addImageMessage(
 
 
 /* =====================================================
-   LOCAL HISTORY
+   RETRY
 ===================================================== */
 
-function saveHistoryLocally(){
+async function retryLast(){
 
-  if(!history.length){
+  let lastUser =
+    null;
+
+
+  for(
+    let i =
+      history.length - 1;
+    i >= 0;
+    i--
+  ){
+
+    if(
+      history[i].role === "user"
+    ){
+
+      lastUser =
+        history[i].content;
+
+      break;
+
+    }
+
+  }
+
+
+  if(!lastUser){
+
     return;
-  }
-
-
-  const first =
-    history.find(
-      x => x.role === "user"
-    );
-
-
-  if(!first){
-    return;
-  }
-
-
-  const title =
-    first.content.slice(
-      0,
-      60
-    );
-
-
-  let existing =
-    chatSessions.find(
-      x => x.active === true
-    );
-
-
-  if(existing){
-
-    existing.messages =
-      [...history];
-
-    existing.title =
-      title;
-
-  }else{
-
-    chatSessions.forEach(
-      x => x.active = false
-    );
-
-
-    chatSessions.unshift({
-
-      id:Date.now(),
-
-      title:title,
-
-      active:true,
-
-      messages:[
-        ...history
-      ]
-
-    });
 
   }
 
 
-  chatSessions =
-    chatSessions.slice(
-      0,
-      30
-    );
+  messageElement.value =
+    lastUser;
 
 
-  localStorage.setItem(
-    "myAI_chat_sessions",
-    JSON.stringify(
-      chatSessions
-    )
-  );
-
-
-  renderHistory();
+  await sendMessage();
 
 }
 
@@ -2652,9 +2417,18 @@ function setLoading(
     statusElement.textContent =
       "Жауап дайындалуда...";
 
+    statusElement.classList.remove(
+      "online"
+    );
+
   }else{
 
-    checkBackend();
+    statusElement.textContent =
+      "Онлайн";
+
+    statusElement.classList.add(
+      "online"
+    );
 
   }
 
