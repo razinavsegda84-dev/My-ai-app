@@ -6,12 +6,9 @@
 <title>My AI</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html,
-body{
+html,body{
   margin:0;
   width:100%;
   height:100%;
@@ -37,11 +34,10 @@ body.light{
   flex-direction:column;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 header{
   height:58px;
-  min-height:58px;
   display:flex;
   align-items:center;
   padding:0 12px;
@@ -66,15 +62,10 @@ body.light header{
   font-size:25px;
   border-radius:10px;
   cursor:pointer;
-  flex-shrink:0;
 }
 
 body.light .menu-btn{
   color:#111;
-}
-
-.menu-btn:active{
-  background:#29292f;
 }
 
 .logo{
@@ -93,32 +84,23 @@ body.light .menu-btn{
   color:#54d17a;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 
 .sidebar{
   position:fixed;
   top:0;
   left:0;
-
   width:290px;
   height:100vh;
-
   background:#111116;
   color:#fff;
-
   border-right:1px solid #29292f;
-
   z-index:100;
-
   transform:translateX(-100%);
   transition:transform .25s ease;
-
   display:flex;
   flex-direction:column;
-
   padding:12px;
-
-  overflow:hidden;
 }
 
 .sidebar.open{
@@ -131,16 +113,11 @@ body.light .sidebar{
   border-right:1px solid #ddd;
 }
 
-/* ================= SIDEBAR TOP ================= */
-
 .sidebar-top{
   height:46px;
-  min-height:46px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   margin-bottom:10px;
 }
 
@@ -152,13 +129,10 @@ body.light .sidebar{
 .close-menu{
   width:40px;
   height:40px;
-
   background:#25252c;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   font-size:23px;
   cursor:pointer;
 }
@@ -168,60 +142,35 @@ body.light .close-menu{
   color:#111;
 }
 
-/* ================= NEW CHAT ================= */
-
 .new-chat{
   width:100%;
-  min-height:44px;
-
   padding:12px;
-
   background:#fff;
   color:#000;
-
   border:0;
   border-radius:12px;
-
   font-weight:bold;
   font-size:14px;
-
   cursor:pointer;
   margin-bottom:8px;
-
-  flex-shrink:0;
 }
-
-.new-chat:active{
-  transform:scale(.98);
-}
-
-/* ================= MENU ================= */
 
 .menu-section{
   margin-top:4px;
-  flex-shrink:0;
 }
 
 .menu-item{
   width:100%;
-
   display:flex;
   align-items:center;
-
   gap:12px;
-
   padding:12px 10px;
-
   background:transparent;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   text-align:left;
-
   font-size:15px;
-
   cursor:pointer;
 }
 
@@ -239,7 +188,6 @@ body.light .menu-item:hover{
 
 .menu-icon{
   width:24px;
-  min-width:24px;
   text-align:center;
   font-size:19px;
 }
@@ -248,25 +196,18 @@ body.light .menu-item:hover{
   flex:1;
 }
 
-/* ================= HISTORY ================= */
+/* HISTORY */
 
 .history-title{
   color:#888;
   font-size:12px;
-
   padding:12px 5px 7px;
-
-  flex-shrink:0;
 }
 
 .history{
   flex:1;
-  min-height:0;
-
   overflow-y:auto;
-  overflow-x:hidden;
-
-  padding-bottom:8px;
+  min-height:40px;
 }
 
 .history-empty{
@@ -277,19 +218,13 @@ body.light .menu-item:hover{
 
 .history-item{
   width:100%;
-
   padding:11px;
-
   margin-bottom:4px;
-
   border-radius:10px;
-
   cursor:pointer;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-
   font-size:14px;
 }
 
@@ -301,53 +236,40 @@ body.light .history-item:hover{
   background:#eeeeef;
 }
 
-/* ================= SIDEBAR BOTTOM ================= */
+/* DELETE AREA */
 
 .sidebar-bottom{
   flex-shrink:0;
-
   padding-top:10px;
-
+  margin-top:8px;
   border-top:1px solid #29292f;
-
-  background:#111116;
+  background:inherit;
 }
 
 body.light .sidebar-bottom{
   border-top:1px solid #ddd;
-  background:#fff;
 }
 
 .clear-history{
   width:100%;
-
-  min-height:46px;
-
+  min-height:44px;
   display:flex;
   align-items:center;
-
+  justify-content:flex-start;
   gap:10px;
-
   padding:12px 10px;
-
   background:#25252c;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   font-size:14px;
-  line-height:20px;
-
   cursor:pointer;
-
-  white-space:nowrap;
 }
 
 .clear-history span:last-child{
   display:block;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:visible;
 }
 
 body.light .clear-history{
@@ -355,27 +277,15 @@ body.light .clear-history{
   color:#111;
 }
 
-.clear-history:hover{
-  background:#35353e;
-}
-
-body.light .clear-history:hover{
-  background:#ddd;
-}
-
-/* ================= OVERLAY ================= */
+/* OVERLAY */
 
 .overlay{
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.55);
-
   z-index:90;
-
   opacity:0;
   visibility:hidden;
-
   transition:opacity .2s ease;
 }
 
@@ -384,34 +294,22 @@ body.light .clear-history:hover{
   visibility:visible;
 }
 
-/* ================= SETTINGS ================= */
+/* SETTINGS */
 
 .settings-panel{
   position:fixed;
-
-  top:70px;
+  top:58px;
   left:50%;
-
-  width:min(430px,calc(100% - 24px));
-
-  max-height:calc(100vh - 90px);
-  overflow-y:auto;
-
+  width:min(420px,calc(100% - 24px));
   transform:translate(-50%,-20px);
-
   background:#15151a;
   color:#fff;
-
   border:1px solid #303038;
   border-radius:16px;
-
   padding:16px;
-
   z-index:150;
-
   opacity:0;
   visibility:hidden;
-
   transition:.2s ease;
 }
 
@@ -430,7 +328,7 @@ body.light .settings-panel{
 .settings-title{
   font-size:18px;
   font-weight:bold;
-  margin-bottom:18px;
+  margin-bottom:15px;
 }
 
 .setting-row{
@@ -439,10 +337,8 @@ body.light .settings-panel{
 
 .setting-label{
   display:block;
-
   font-size:13px;
   color:#999;
-
   margin-bottom:8px;
 }
 
@@ -453,17 +349,12 @@ body.light .settings-panel{
 
 .setting-button{
   flex:1;
-
-  padding:11px 8px;
-
+  padding:10px 8px;
   border:1px solid #303038;
   border-radius:10px;
-
   background:#202027;
   color:#fff;
-
   cursor:pointer;
-
   font-size:13px;
 }
 
@@ -488,15 +379,11 @@ body.light .setting-button.active{
 
 .settings-close{
   width:100%;
-
-  padding:11px;
-
+  padding:10px;
   background:#27272e;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   cursor:pointer;
 }
 
@@ -505,21 +392,80 @@ body.light .settings-close{
   color:#111;
 }
 
-/* ================= CHAT ================= */
+/* ABOUT */
+
+.about-panel{
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:min(440px,calc(100% - 24px));
+  transform:translate(-50%,-45%);
+  background:#15151a;
+  color:#fff;
+  border:1px solid #303038;
+  border-radius:18px;
+  padding:20px;
+  z-index:160;
+  opacity:0;
+  visibility:hidden;
+  transition:.2s ease;
+}
+
+.about-panel.show{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,-50%);
+}
+
+body.light .about-panel{
+  background:#fff;
+  color:#111;
+  border-color:#ddd;
+}
+
+.about-title{
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.about-text{
+  line-height:1.6;
+  color:#bbb;
+  white-space:pre-line;
+}
+
+body.light .about-text{
+  color:#555;
+}
+
+.about-close{
+  width:100%;
+  margin-top:18px;
+  padding:11px;
+  border:0;
+  border-radius:10px;
+  background:#27272e;
+  color:#fff;
+  cursor:pointer;
+}
+
+body.light .about-close{
+  background:#eee;
+  color:#111;
+}
+
+/* CHAT */
 
 #chat{
   flex:1;
-
   overflow-y:auto;
-
   padding:20px 14px 145px;
 }
 
 .message{
   max-width:850px;
-
   margin:0 auto 18px;
-
   display:flex;
   flex-direction:column;
 }
@@ -534,15 +480,10 @@ body.light .settings-close{
 
 .bubble{
   max-width:85%;
-
   padding:12px 15px;
-
   border-radius:16px;
-
   line-height:1.5;
-
   white-space:pre-wrap;
-
   word-break:break-word;
 }
 
@@ -566,7 +507,7 @@ body.light .user .bubble{
   color:#111;
 }
 
-/* ================= MESSAGE ACTIONS ================= */
+/* MESSAGE ACTIONS */
 
 .message-actions{
   display:flex;
@@ -578,73 +519,13 @@ body.light .user .bubble{
   background:#202027;
   border:1px solid #303038;
   color:#bbb;
-
   border-radius:8px;
-
   padding:6px 9px;
-
   font-size:12px;
-
   cursor:pointer;
 }
 
-body.light .message-actions button{
-  background:#eee;
-  color:#333;
-  border-color:#ddd;
-}
-
-.message-actions button:hover{
-  background:#303038;
-  color:#fff;
-}
-
-/* ================= FILE ================= */
-
-.file-card{
-  max-width:85%;
-
-  background:#17171c;
-
-  border:1px solid #303038;
-
-  border-radius:14px;
-
-  padding:12px;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-}
-
-body.light .file-card{
-  background:#fff;
-  border-color:#ddd;
-}
-
-.file-icon{
-  font-size:30px;
-}
-
-.file-info{
-  min-width:0;
-}
-
-.file-name{
-  font-size:14px;
-  font-weight:bold;
-  word-break:break-word;
-}
-
-.file-type{
-  color:#888;
-  font-size:12px;
-  margin-top:3px;
-}
-
-/* ================= IMAGE ================= */
+/* IMAGE */
 
 .generated-image{
   max-width:100%;
@@ -658,15 +539,12 @@ body.light .file-card{
   border-radius:10px;
 }
 
-/* ================= WELCOME ================= */
+/* WELCOME */
 
 .welcome{
   max-width:850px;
-
   margin:80px auto;
-
   text-align:center;
-
   color:#888;
 }
 
@@ -678,43 +556,28 @@ body.light .welcome h2{
   color:#111;
 }
 
-/* ================= COMPOSER ================= */
+/* COMPOSER */
 
 .composer{
   position:fixed;
-
   bottom:0;
   left:0;
   right:0;
-
-  background:linear-gradient(
-    transparent,
-    #0b0b0f 22%
-  );
-
+  background:linear-gradient(transparent,#0b0b0f 22%);
   padding:35px 12px 12px;
-
   z-index:20;
 }
 
 body.light .composer{
-  background:linear-gradient(
-    transparent,
-    #f5f5f7 22%
-  );
+  background:linear-gradient(transparent,#f5f5f7 22%);
 }
 
 .composer-inner{
   max-width:850px;
-
   margin:auto;
-
   background:#15151a;
-
   border:1px solid #303038;
-
   border-radius:18px;
-
   padding:8px;
 }
 
@@ -725,23 +588,15 @@ body.light .composer-inner{
 
 textarea{
   width:100%;
-
   resize:none;
-
   min-height:48px;
   max-height:150px;
-
   background:transparent;
-
   border:0;
   outline:0;
-
   color:#fff;
-
   font-size:16px;
-
   padding:10px;
-
   font-family:inherit;
 }
 
@@ -755,27 +610,18 @@ textarea::placeholder{
 
 .toolbar{
   display:flex;
-
   align-items:center;
-
   gap:7px;
-
   padding:5px;
 }
 
 .toolbar button{
   border:0;
-
   cursor:pointer;
-
   color:#fff;
-
   background:#27272e;
-
   border-radius:10px;
-
   padding:9px 12px;
-
   font-size:14px;
 }
 
@@ -784,17 +630,10 @@ body.light .toolbar button{
   color:#111;
 }
 
-.toolbar button:hover{
-  background:#35353e;
-}
-
 .send{
   margin-left:auto;
-
   background:#fff !important;
-
   color:#000 !important;
-
   font-weight:bold;
 }
 
@@ -804,13 +643,9 @@ input[type=file]{
 
 .preview{
   display:none;
-
   padding:8px;
-
   border-bottom:1px solid #29292f;
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:600px){
 
@@ -818,8 +653,7 @@ input[type=file]{
     width:290px;
   }
 
-  .bubble,
-  .file-card{
+  .bubble{
     max-width:92%;
   }
 
@@ -831,19 +665,6 @@ input[type=file]{
   textarea{
     font-size:16px;
   }
-
-  .settings-panel{
-    top:64px;
-  }
-
-  .setting-buttons{
-    gap:5px;
-  }
-
-  .setting-button{
-    padding:10px 5px;
-    font-size:12px;
-  }
 }
 </style>
 </head>
@@ -852,35 +673,25 @@ input[type=file]{
 
 <div class="app">
 
-<!-- ================= SIDEBAR ================= -->
+<!-- SIDEBAR -->
 
 <aside id="sidebar" class="sidebar">
 
   <div class="sidebar-top">
-
-    <div class="sidebar-title">
-      My AI
-    </div>
+    <div class="sidebar-title">My AI</div>
 
     <button
       type="button"
       class="close-menu"
-      onclick="closeSidebar()"
-    >
-      ×
-    </button>
-
+      onclick="closeAllPanels()"
+    >×</button>
   </div>
-
 
   <button
     type="button"
     class="new-chat"
     onclick="newChat()"
-  >
-    ＋ Жаңа чат
-  </button>
-
+  >＋ Жаңа чат</button>
 
   <div class="menu-section">
 
@@ -890,14 +701,8 @@ input[type=file]{
       onclick="openImages()"
     >
       <span class="menu-icon">🖼️</span>
-      <span
-        class="menu-text"
-        data-i18n="images"
-      >
-        Суреттер
-      </span>
+      <span class="menu-text" data-i18n="images">Суреттер</span>
     </button>
-
 
     <button
       type="button"
@@ -905,14 +710,8 @@ input[type=file]{
       onclick="openDocuments()"
     >
       <span class="menu-icon">📄</span>
-      <span
-        class="menu-text"
-        data-i18n="documents"
-      >
-        Құжаттар
-      </span>
+      <span class="menu-text" data-i18n="documents">Құжаттар</span>
     </button>
-
 
     <button
       type="button"
@@ -920,14 +719,8 @@ input[type=file]{
       onclick="openSettings()"
     >
       <span class="menu-icon">⚙️</span>
-      <span
-        class="menu-text"
-        data-i18n="settings"
-      >
-        Баптаулар
-      </span>
+      <span class="menu-text" data-i18n="settings">Баптаулар</span>
     </button>
-
 
     <button
       type="button"
@@ -935,30 +728,17 @@ input[type=file]{
       onclick="openAbout()"
     >
       <span class="menu-icon">ℹ️</span>
-      <span
-        class="menu-text"
-        data-i18n="about"
-      >
-        My AI туралы
-      </span>
+      <span class="menu-text" data-i18n="about">My AI туралы</span>
     </button>
 
   </div>
 
-
   <div
     class="history-title"
     data-i18n="history"
-  >
-    Чат тарихы
-  </div>
+  >Чат тарихы</div>
 
-
-  <div
-    id="historyList"
-    class="history"
-  ></div>
-
+  <div id="historyList" class="history"></div>
 
   <div class="sidebar-bottom">
 
@@ -967,23 +747,13 @@ input[type=file]{
       class="clear-history"
       onclick="clearHistory()"
     >
-
       <span>🗑️</span>
-
-      <span
-        data-i18n="deleteAll"
-      >
-        Барлық чаттарды өшіру
-      </span>
-
+      <span id="deleteAllText">Барлық чаттарды өшіру</span>
     </button>
 
   </div>
 
 </aside>
-
-
-<!-- ================= OVERLAY ================= -->
 
 <div
   id="overlay"
@@ -991,28 +761,17 @@ input[type=file]{
   onclick="closeAllPanels()"
 ></div>
 
+<!-- SETTINGS -->
 
-<!-- ================= SETTINGS ================= -->
+<div id="settingsPanel" class="settings-panel">
 
-<div
-  id="settingsPanel"
-  class="settings-panel"
->
-
-  <div
-    class="settings-title"
-    data-i18n="settingsTitle"
-  >
+  <div class="settings-title" data-i18n="settingsTitle">
     ⚙️ Баптаулар
   </div>
 
-
   <div class="setting-row">
 
-    <span
-      class="setting-label"
-      data-i18n="language"
-    >
+    <span class="setting-label" data-i18n="language">
       🌐 Тіл
     </span>
 
@@ -1023,39 +782,28 @@ input[type=file]{
         id="lang-kk"
         class="setting-button"
         onclick="setLanguage('kk')"
-      >
-        Қазақша
-      </button>
+      >Қазақша</button>
 
       <button
         type="button"
         id="lang-ru"
         class="setting-button"
         onclick="setLanguage('ru')"
-      >
-        Русский
-      </button>
+      >Русский</button>
 
       <button
         type="button"
         id="lang-en"
         class="setting-button"
         onclick="setLanguage('en')"
-      >
-        English
-      </button>
+      >English</button>
 
     </div>
-
   </div>
-
 
   <div class="setting-row">
 
-    <span
-      class="setting-label"
-      data-i18n="interface"
-    >
+    <span class="setting-label" data-i18n="interface">
       🎨 Интерфейс
     </span>
 
@@ -1066,37 +814,53 @@ input[type=file]{
         id="theme-dark"
         class="setting-button"
         onclick="setTheme('dark')"
-      >
-        🌙 Қараңғы
-      </button>
+      >🌙 Қараңғы</button>
 
       <button
         type="button"
         id="theme-light"
         class="setting-button"
         onclick="setTheme('light')"
-      >
-        ☀️ Жарық
-      </button>
+      >☀️ Жарық</button>
 
     </div>
-
   </div>
-
 
   <button
     type="button"
     class="settings-close"
     onclick="closeSettings()"
     data-i18n="close"
-  >
-    Жабу
-  </button>
+  >Жабу</button>
 
 </div>
 
+<!-- ABOUT -->
 
-<!-- ================= HEADER ================= -->
+<div id="aboutPanel" class="about-panel">
+
+  <div
+    class="about-title"
+    data-i18n="aboutTitle"
+  >
+    ℹ️ My AI туралы
+  </div>
+
+  <div
+    id="aboutText"
+    class="about-text"
+  ></div>
+
+  <button
+    type="button"
+    class="about-close"
+    onclick="closeAbout()"
+    data-i18n="close"
+  >Жабу</button>
+
+</div>
+
+<!-- HEADER -->
 
 <header>
 
@@ -1104,43 +868,26 @@ input[type=file]{
     type="button"
     class="menu-btn"
     onclick="toggleSidebar()"
-  >
-    ☰
-  </button>
+  >☰</button>
 
-
-  <div class="logo">
-    My AI
-  </div>
-
+  <div class="logo">My AI</div>
 
   <div
     id="status"
     class="status"
-    data-i18n="connecting"
-  >
-    Қосылуда...
-  </div>
+  >Қосылуда...</div>
 
 </header>
 
-
-<!-- ================= CHAT ================= -->
+<!-- CHAT -->
 
 <main id="chat">
 
-  <div
-    id="welcome"
-    class="welcome"
-  >
+  <div id="welcome" class="welcome">
 
-    <h2>
-      My AI
-    </h2>
+    <h2>My AI</h2>
 
-    <div
-      data-i18n="welcomeText"
-    >
+    <div id="welcomeText">
       Сұрағыңызды жазыңыз
     </div>
 
@@ -1148,18 +895,13 @@ input[type=file]{
 
 </main>
 
-
-<!-- ================= COMPOSER ================= -->
+<!-- COMPOSER -->
 
 <div class="composer">
 
   <div class="composer-inner">
 
-    <div
-      id="preview"
-      class="preview"
-    ></div>
-
+    <div id="preview" class="preview"></div>
 
     <textarea
       id="message"
@@ -1167,16 +909,12 @@ input[type=file]{
       autocomplete="off"
     ></textarea>
 
-
     <div class="toolbar">
 
       <button
         type="button"
         onclick="document.getElementById('imageInput').click()"
-        title="Сурет қосу"
-      >
-        📷
-      </button>
+      >📷</button>
 
       <input
         id="imageInput"
@@ -1184,14 +922,10 @@ input[type=file]{
         accept="image/*"
       >
 
-
       <button
         type="button"
         onclick="document.getElementById('fileInput').click()"
-        title="Құжат қосу"
-      >
-        📎
-      </button>
+      >📎</button>
 
       <input
         id="fileInput"
@@ -1199,1067 +933,610 @@ input[type=file]{
         accept=".txt,.md,.json,.csv,.html,.js,.css,.xml,.pdf"
       >
 
-
       <button
         type="button"
         onclick="generateImage()"
-        title="Сурет жасау"
-      >
-        🖼️
-      </button>
-
+      >🖼️</button>
 
       <button
         type="button"
         class="send"
         id="sendButton"
         onclick="sendMessage()"
-      >
-        ➤
-      </button>
+      >➤</button>
 
     </div>
-
   </div>
-
 </div>
 
 </div>
-
 
 <script>
 
-/* =====================================================
-   API
-===================================================== */
+/* ================= API ================= */
 
 const API_URL =
-  "https://my-ai-backend.razinavsegda84.workers.dev";
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const chatElement =
-  document.getElementById("chat");
-
-const messageElement =
-  document.getElementById("message");
-
-const sendButton =
-  document.getElementById("sendButton");
-
-const statusElement =
-  document.getElementById("status");
-
-const imageInput =
-  document.getElementById("imageInput");
-
-const fileInput =
-  document.getElementById("fileInput");
-
-const previewElement =
-  document.getElementById("preview");
-
-const sidebar =
-  document.getElementById("sidebar");
-
-const overlay =
-  document.getElementById("overlay");
-
-const settingsPanel =
-  document.getElementById("settingsPanel");
-
-const historyList =
-  document.getElementById("historyList");
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let selectedImages = [];
-
-let selectedFileText = "";
-
-let selectedFile = null;
-
-let history = [];
-
-let chatSessions =
-  JSON.parse(
-    localStorage.getItem(
-      "myAI_chat_sessions"
-    ) || "[]"
-  );
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-let currentLanguage =
-  localStorage.getItem(
-    "myAI_language"
-  ) || "kk";
-
-let currentTheme =
-  localStorage.getItem(
-    "myAI_theme"
-  ) || "dark";
-
-
-/* =====================================================
-   TRANSLATIONS
-===================================================== */
-
-const translations = {
-
-  kk:{
-
-    newChat:"＋ Жаңа чат",
-
-    images:"Суреттер",
-
-    documents:"Құжаттар",
-
-    settings:"Баптаулар",
-
-    about:"My AI туралы",
-
-    history:"Чат тарихы",
-
-    empty:"Әзірге чат тарихы жоқ",
-
-    deleteAll:"Барлық чаттарды өшіру",
-
-    settingsTitle:"⚙️ Баптаулар",
-
-    language:"🌐 Тіл",
-
-    interface:"🎨 Интерфейс",
-
-    dark:"🌙 Қараңғы",
-
-    light:"☀️ Жарық",
-
-    close:"Жабу",
-
-    connecting:"Қосылуда...",
-
-    online:"Онлайн",
-
-    backendError:"Backend қатесі",
-
-    backendOffline:"Backend қосылмады",
-
-    loading:"Жауап дайындалуда...",
-
-    welcomeText:"Сұрағыңызды жазыңыз",
-
-    placeholder:"My AI-ға сұрақ қойыңыз...",
-
-    deleteQuestion:"Барлық чат тарихын өшіру керек пе?",
-
-    imageSection:
-      "🖼️ Суреттер бөлімі.\n\nСурет жасау үшін төмендегі 🖼️ батырмасын пайдаланыңыз.",
-
-    aboutText:
-      "My AI\n\nЖеке AI көмекшіңіз.\n\nМәтінмен сөйлесу, суреттерді талдау, құжаттармен жұмыс және сурет генерациялау функциялары қосылған.",
-
-    imagePrompt:
-      "Сурет жасау үшін алдымен сипаттама жазыңыз.",
-
-    copy:"📋 Көшіру",
-
-    copied:"✓ Көшірілді",
-
-    retry:"🔄 Қайта жауап",
-
-    copyError:"Көшіру мүмкін болмады."
-
-  },
-
-
-  ru:{
-
-    newChat:"＋ Новый чат",
-
-    images:"Изображения",
-
-    documents:"Документы",
-
-    settings:"Настройки",
-
-    about:"О My AI",
-
-    history:"История чатов",
-
-    empty:"История чатов пока пуста",
-
-    deleteAll:"Удалить все чаты",
-
-    settingsTitle:"⚙️ Настройки",
-
-    language:"🌐 Язык",
-
-    interface:"🎨 Интерфейс",
-
-    dark:"🌙 Тёмная",
-
-    light:"☀️ Светлая",
-
-    close:"Закрыть",
-
-    connecting:"Подключение...",
-
-    online:"Онлайн",
-
-    backendError:"Ошибка Backend",
-
-    backendOffline:"Backend не подключен",
-
-    loading:"Подготавливается ответ...",
-
-    welcomeText:"Напишите свой вопрос",
-
-    placeholder:"Задайте вопрос My AI...",
-
-    deleteQuestion:"Удалить всю историю чатов?",
-
-    imageSection:
-      "🖼️ Раздел изображений.\n\nДля создания изображения используйте кнопку 🖼️ ниже.",
-
-    aboutText:
-      "My AI\n\nВаш личный AI-помощник.\n\nДоступны общение с AI, анализ изображений, работа с документами и генерация изображений.",
-
-    imagePrompt:
-      "Сначала напишите описание для создания изображения.",
-
-    copy:"📋 Копировать",
-
-    copied:"✓ Скопировано",
-
-    retry:"🔄 Повторить ответ",
-
-    copyError:"Не удалось скопировать."
-
-  },
-
-
-  en:{
-
-    newChat:"＋ New chat",
-
-    images:"Images",
-
-    documents:"Documents",
-
-    settings:"Settings",
-
-    about:"About My AI",
-
-    history:"Chat history",
-
-    empty:"No chat history yet",
-
-    deleteAll:"Delete all chats",
-
-    settingsTitle:"⚙️ Settings",
-
-    language:"🌐 Language",
-
-    interface:"🎨 Interface",
-
-    dark:"🌙 Dark",
-
-    light:"☀️ Light",
-
-    close:"Close",
-
-    connecting:"Connecting...",
-
-    online:"Online",
-
-    backendError:"Backend error",
-
-    backendOffline:"Backend unavailable",
-
-    loading:"Preparing response...",
-
-    welcomeText:"Write your question",
-
-    placeholder:"Ask My AI a question...",
-
-    deleteQuestion:"Delete all chat history?",
-
-    imageSection:
-      "🖼️ Images section.\n\nUse the 🖼️ button below to generate an image.",
-
-    aboutText:
-      "My AI\n\nYour personal AI assistant.\n\nChat, image analysis, document processing and image generation are available.",
-
-    imagePrompt:
-      "First write a description for the image.",
-
-    copy:"📋 Copy",
-
-    copied:"✓ Copied",
-
-    retry:"🔄 Retry response",
-
-    copyError:"Could not copy."
-
-  }
+"https://my-ai-backend.razinavsegda84.workers.dev";
+
+/* ================= ELEMENTS ================= */
+
+const chatElement=document.getElementById("chat");
+const messageElement=document.getElementById("message");
+const sendButton=document.getElementById("sendButton");
+const statusElement=document.getElementById("status");
+const imageInput=document.getElementById("imageInput");
+const fileInput=document.getElementById("fileInput");
+const previewElement=document.getElementById("preview");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+const settingsPanel=document.getElementById("settingsPanel");
+const aboutPanel=document.getElementById("aboutPanel");
+const aboutText=document.getElementById("aboutText");
+const historyList=document.getElementById("historyList");
+
+/* ================= STATE ================= */
+
+let selectedImages=[];
+let selectedFileText="";
+let selectedFile=null;
+let history=[];
+
+let chatSessions=
+JSON.parse(
+localStorage.getItem("myAI_chat_sessions") || "[]"
+);
+
+let currentLanguage=
+localStorage.getItem("myAI_language") || "kk";
+
+let currentTheme=
+localStorage.getItem("myAI_theme") || "dark";
+
+/* ================= TRANSLATIONS ================= */
+
+const translations={
+
+kk:{
+  newChat:"＋ Жаңа чат",
+  images:"Суреттер",
+  documents:"Құжаттар",
+  settings:"Баптаулар",
+  about:"My AI туралы",
+  history:"Чат тарихы",
+  empty:"Әзірге чат тарихы жоқ",
+  deleteAll:"Барлық чаттарды өшіру",
+  settingsTitle:"⚙️ Баптаулар",
+  language:"🌐 Тіл",
+  interface:"🎨 Интерфейс",
+  dark:"🌙 Қараңғы",
+  light:"☀️ Жарық",
+  close:"Жабу",
+  placeholder:"My AI-ға сұрақ қойыңыз...",
+  welcome:"Сұрағыңызды жазыңыз",
+  aboutTitle:"ℹ️ My AI туралы",
+  aboutText:
+`My AI — сіздің жеке AI көмекшіңіз.
+
+Негізгі мүмкіндіктері:
+• Мәтіндік сұрақтарға жауап беру
+• Суреттерді талдау
+• Құжаттармен жұмыс
+• Сурет генерациялау
+• Чат тарихын сақтау
+• Қазақша, орысша және ағылшынша интерфейс
+• Қараңғы және жарық режим
+
+My AI Cloudflare Workers арқылы жұмыс істейді.
+
+Ескерту:
+AI берген жауаптарда қателер болуы мүмкін. Маңызды ақпаратты қосымша тексеріңіз.`,
+  imagesInfo:"🖼️ Суреттер бөлімі.\n\nСурет жасау үшін төмендегі 🖼️ батырмасын пайдаланыңыз."
+},
+
+ru:{
+  newChat:"＋ Новый чат",
+  images:"Изображения",
+  documents:"Документы",
+  settings:"Настройки",
+  about:"О My AI",
+  history:"История чатов",
+  empty:"История чатов пока пуста",
+  deleteAll:"Удалить все чаты",
+  settingsTitle:"⚙️ Настройки",
+  language:"🌐 Язык",
+  interface:"🎨 Интерфейс",
+  dark:"🌙 Тёмная",
+  light:"☀️ Светлая",
+  close:"Закрыть",
+  placeholder:"Задайте вопрос My AI...",
+  welcome:"Напишите свой вопрос",
+  aboutTitle:"ℹ️ О My AI",
+  aboutText:
+`My AI — ваш личный AI-помощник.
+
+Основные возможности:
+• Ответы на текстовые вопросы
+• Анализ изображений
+• Работа с документами
+• Генерация изображений
+• Сохранение истории чатов
+• Интерфейс на казахском, русском и английском языках
+• Тёмный и светлый режим
+
+My AI работает через Cloudflare Workers.
+
+Примечание:
+Ответы AI могут содержать ошибки. Важную информацию проверяйте дополнительно.`,
+  imagesInfo:"🖼️ Раздел изображений.\n\nДля создания изображения используйте кнопку 🖼️ ниже."
+},
+
+en:{
+  newChat:"＋ New chat",
+  images:"Images",
+  documents:"Documents",
+  settings:"Settings",
+  about:"About My AI",
+  history:"Chat history",
+  empty:"No chat history yet",
+  deleteAll:"Delete all chats",
+  settingsTitle:"⚙️ Settings",
+  language:"🌐 Language",
+  interface:"🎨 Interface",
+  dark:"🌙 Dark",
+  light:"☀️ Light",
+  close:"Close",
+  placeholder:"Ask My AI a question...",
+  welcome:"Write your question",
+  aboutTitle:"ℹ️ About My AI",
+  aboutText:
+`My AI is your personal AI assistant.
+
+Main features:
+• Answers to text questions
+• Image analysis
+• Document support
+• Image generation
+• Chat history
+• Kazakh, Russian and English interface
+• Dark and light modes
+
+My AI works through Cloudflare Workers.
+
+Note:
+AI responses may contain errors. Verify important information separately.`,
+  imagesInfo:"🖼️ Images section.\n\nUse the 🖼️ button below to generate an image."
+}
 
 };
 
-
-function t(key){
-
-  return (
-    translations[currentLanguage] ||
-    translations.kk
-  )[key] || key;
-
+function t(){
+  return translations[currentLanguage] || translations.kk;
 }
 
+/* ================= START ================= */
 
-/* =====================================================
-   START
-===================================================== */
-
-window.addEventListener(
-  "load",
-  async function(){
-
-    applyTheme();
-
-    updateInterfaceLanguage();
-
-    updateSettingButtons();
-
-    renderHistory();
-
-    await checkBackend();
-
-    messageElement.focus();
-
-  }
-);
-
-
-/* =====================================================
-   LANGUAGE
-===================================================== */
-
-function setLanguage(language){
-
-  if(
-    !translations[language]
-  ){
-
-    language = "kk";
-
-  }
-
-  currentLanguage =
-    language;
-
-  localStorage.setItem(
-    "myAI_language",
-    currentLanguage
-  );
-
-  updateInterfaceLanguage();
-
-  updateSettingButtons();
-
-}
-
-
-/* =====================================================
-   UPDATE ALL INTERFACE
-===================================================== */
-
-function updateInterfaceLanguage(){
-
-  document.documentElement.lang =
-    currentLanguage;
-
-
-  /* NEW CHAT */
-
-  const newChatButton =
-    document.querySelector(
-      ".new-chat"
-    );
-
-  if(newChatButton){
-
-    newChatButton.textContent =
-      t("newChat");
-
-  }
-
-
-  /* MENU */
-
-  document
-    .querySelectorAll(
-      "[data-i18n]"
-    )
-    .forEach(
-      element => {
-
-        const key =
-          element.dataset.i18n;
-
-        if(
-          key &&
-          translations[currentLanguage][key]
-        ){
-
-          element.textContent =
-            t(key);
-
-        }
-
-      }
-    );
-
-
-  /* THEME BUTTONS */
-
-  const darkButton =
-    document.getElementById(
-      "theme-dark"
-    );
-
-  const lightButton =
-    document.getElementById(
-      "theme-light"
-    );
-
-  if(darkButton){
-
-    darkButton.textContent =
-      t("dark");
-
-  }
-
-  if(lightButton){
-
-    lightButton.textContent =
-      t("light");
-
-  }
-
-
-  /* PLACEHOLDER */
-
-  messageElement.placeholder =
-    t("placeholder");
-
-
-  /* HISTORY */
-
-  renderHistory();
-
-
-  /* WELCOME */
-
-  const welcomeText =
-    document.querySelector(
-      '[data-i18n="welcomeText"]'
-    );
-
-  if(welcomeText){
-
-    welcomeText.textContent =
-      t("welcomeText");
-
-  }
-
-}
-
-
-/* =====================================================
-   THEME
-===================================================== */
-
-function setTheme(theme){
-
-  currentTheme =
-    theme === "light"
-      ? "light"
-      : "dark";
-
-  localStorage.setItem(
-    "myAI_theme",
-    currentTheme
-  );
+window.addEventListener("load",async()=>{
 
   applyTheme();
+  updateInterfaceLanguage();
+  renderHistory();
 
-  updateSettingButtons();
+  await checkBackend();
 
-}
+  messageElement.focus();
 
+});
 
-function applyTheme(){
-
-  if(
-    currentTheme === "light"
-  ){
-
-    document.body.classList.add(
-      "light"
-    );
-
-  }else{
-
-    document.body.classList.remove(
-      "light"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SETTING BUTTONS
-===================================================== */
-
-function updateSettingButtons(){
-
-  document
-    .querySelectorAll(
-      ".setting-button"
-    )
-    .forEach(
-      button =>
-        button.classList.remove(
-          "active"
-        )
-    );
-
-
-  const languageButton =
-    document.getElementById(
-      "lang-" +
-      currentLanguage
-    );
-
-  if(languageButton){
-
-    languageButton.classList.add(
-      "active"
-    );
-
-  }
-
-
-  const themeButton =
-    document.getElementById(
-      "theme-" +
-      currentTheme
-    );
-
-  if(themeButton){
-
-    themeButton.classList.add(
-      "active"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
+/* ================= SIDEBAR ================= */
 
 function toggleSidebar(){
 
-  if(
-    sidebar.classList.contains(
-      "open"
-    )
-  ){
-
+  if(sidebar.classList.contains("open")){
     closeSidebar();
-
   }else{
-
     openSidebar();
-
   }
 
 }
-
 
 function openSidebar(){
 
-  settingsPanel.classList.remove(
-    "show"
-  );
+  settingsPanel.classList.remove("show");
+  aboutPanel.classList.remove("show");
 
-  sidebar.classList.add(
-    "open"
-  );
-
-  overlay.classList.add(
-    "show"
-  );
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
 
 }
 
-
 function closeSidebar(){
 
-  sidebar.classList.remove(
-    "open"
-  );
+  sidebar.classList.remove("open");
 
   if(
-    !settingsPanel.classList.contains(
-      "show"
-    )
+    !settingsPanel.classList.contains("show") &&
+    !aboutPanel.classList.contains("show")
   ){
-
-    overlay.classList.remove(
-      "show"
-    );
-
+    overlay.classList.remove("show");
   }
 
 }
 
-
 function closeAllPanels(){
 
-  sidebar.classList.remove(
-    "open"
-  );
-
-  settingsPanel.classList.remove(
-    "show"
-  );
-
-  overlay.classList.remove(
-    "show"
-  );
+  sidebar.classList.remove("open");
+  settingsPanel.classList.remove("show");
+  aboutPanel.classList.remove("show");
+  overlay.classList.remove("show");
 
 }
 
-
-/* =====================================================
-   SETTINGS
-===================================================== */
+/* ================= SETTINGS ================= */
 
 function openSettings(){
 
-  sidebar.classList.remove(
-    "open"
-  );
+  sidebar.classList.remove("open");
+  aboutPanel.classList.remove("show");
 
-  settingsPanel.classList.add(
-    "show"
-  );
-
-  overlay.classList.add(
-    "show"
-  );
+  settingsPanel.classList.add("show");
+  overlay.classList.add("show");
 
   updateSettingButtons();
 
 }
 
-
 function closeSettings(){
 
-  settingsPanel.classList.remove(
-    "show"
+  settingsPanel.classList.remove("show");
+
+  if(!aboutPanel.classList.contains("show")){
+    overlay.classList.remove("show");
+  }
+
+}
+
+function setLanguage(language){
+
+  currentLanguage=language;
+
+  localStorage.setItem(
+    "myAI_language",
+    language
   );
 
-  overlay.classList.remove(
-    "show"
+  updateInterfaceLanguage();
+  updateSettingButtons();
+
+}
+
+function setTheme(theme){
+
+  currentTheme=theme;
+
+  localStorage.setItem(
+    "myAI_theme",
+    theme
+  );
+
+  applyTheme();
+  updateSettingButtons();
+
+}
+
+function applyTheme(){
+
+  document.body.classList.toggle(
+    "light",
+    currentTheme==="light"
   );
 
 }
 
+function updateSettingButtons(){
 
-/* =====================================================
-   NEW CHAT
-===================================================== */
+  document.querySelectorAll(".setting-button")
+    .forEach(
+      x=>x.classList.remove("active")
+    );
+
+  const langButton=
+    document.getElementById(
+      "lang-"+currentLanguage
+    );
+
+  if(langButton){
+    langButton.classList.add("active");
+  }
+
+  const themeButton=
+    document.getElementById(
+      "theme-"+currentTheme
+    );
+
+  if(themeButton){
+    themeButton.classList.add("active");
+  }
+
+}
+
+function updateInterfaceLanguage(){
+
+  const data=t();
+
+  document.querySelector(".new-chat").textContent=
+    data.newChat;
+
+  document.querySelector('[data-i18n="images"]').textContent=
+    data.images;
+
+  document.querySelector('[data-i18n="documents"]').textContent=
+    data.documents;
+
+  document.querySelector('[data-i18n="settings"]').textContent=
+    data.settings;
+
+  document.querySelector('[data-i18n="about"]').textContent=
+    data.about;
+
+  document.querySelector('[data-i18n="history"]').textContent=
+    data.history;
+
+  document.getElementById("deleteAllText").textContent=
+    data.deleteAll;
+
+  document.querySelector('[data-i18n="settingsTitle"]').textContent=
+    data.settingsTitle;
+
+  document.querySelector('[data-i18n="language"]').textContent=
+    data.language;
+
+  document.querySelector('[data-i18n="interface"]').textContent=
+    data.interface;
+
+  document.getElementById("theme-dark").textContent=
+    data.dark;
+
+  document.getElementById("theme-light").textContent=
+    data.light;
+
+  document.querySelectorAll('[data-i18n="close"]')
+    .forEach(
+      x=>x.textContent=data.close
+    );
+
+  messageElement.placeholder=
+    data.placeholder;
+
+  document.getElementById("welcomeText").textContent=
+    data.welcome;
+
+  aboutText.textContent=
+    data.aboutText;
+
+  renderHistory();
+
+}
+
+/* ================= ABOUT ================= */
+
+function openAbout(){
+
+  sidebar.classList.remove("open");
+  settingsPanel.classList.remove("show");
+
+  aboutText.textContent=t().aboutText;
+
+  aboutPanel.classList.add("show");
+  overlay.classList.add("show");
+
+}
+
+function closeAbout(){
+
+  aboutPanel.classList.remove("show");
+
+  if(!settingsPanel.classList.contains("show")){
+    overlay.classList.remove("show");
+  }
+
+}
+
+/* ================= NEW CHAT ================= */
 
 function newChat(){
 
   saveCurrentChat();
 
-  history = [];
+  history=[];
+  selectedImages=[];
+  selectedFileText="";
+  selectedFile=null;
 
-  selectedImages = [];
-
-  selectedFileText = "";
-
-  selectedFile = null;
-
-
-  chatElement.innerHTML = `
-
-    <div
-      id="welcome"
-      class="welcome"
-    >
-
-      <h2>
-        My AI
-      </h2>
-
-      <div>
-        ${escapeHtml(
-          t("welcomeText")
-        )}
-      </div>
-
+  chatElement.innerHTML=`
+    <div id="welcome" class="welcome">
+      <h2>My AI</h2>
+      <div id="welcomeText">${escapeHtml(t().welcome)}</div>
     </div>
-
   `;
 
-
-  messageElement.value = "";
-
-  previewElement.style.display =
-    "none";
-
-  previewElement.innerHTML =
-    "";
+  messageElement.value="";
+  previewElement.style.display="none";
+  previewElement.innerHTML="";
 
   closeAllPanels();
-
   messageElement.focus();
 
 }
 
-
-/* =====================================================
-   HISTORY
-===================================================== */
+/* ================= HISTORY ================= */
 
 function renderHistory(){
 
-  if(!historyList){
+  historyList.innerHTML="";
+
+  if(!chatSessions.length){
+
+    const empty=
+      document.createElement("div");
+
+    empty.className="history-empty";
+    empty.textContent=t().empty;
+
+    historyList.appendChild(empty);
 
     return;
 
   }
 
-  historyList.innerHTML =
-    "";
+  chatSessions.forEach(session=>{
 
+    const item=
+      document.createElement("div");
 
-  if(
-    !chatSessions.length
-  ){
+    item.className="history-item";
+    item.textContent=session.title;
 
-    const empty =
-      document.createElement(
-        "div"
-      );
+    item.onclick=()=>{
+      loadChat(session.id);
+    };
 
-    empty.className =
-      "history-empty";
+    historyList.appendChild(item);
 
-    empty.textContent =
-      t("empty");
-
-    historyList.appendChild(
-      empty
-    );
-
-    return;
-
-  }
-
-
-  chatSessions.forEach(
-    session => {
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-      item.className =
-        "history-item";
-
-      item.textContent =
-        session.title;
-
-      item.onclick =
-        function(){
-
-          loadChat(
-            session.id
-          );
-
-        };
-
-      historyList.appendChild(
-        item
-      );
-
-    }
-  );
+  });
 
 }
 
-
-/* =====================================================
-   SAVE CURRENT CHAT
-===================================================== */
-
 function saveCurrentChat(){
 
-  if(
-    !history.length
-  ){
+  if(!history.length)return;
 
-    return;
-
-  }
-
-
-  const firstUser =
+  const firstUser=
     history.find(
-      x =>
-        x.role === "user"
+      x=>x.role==="user"
     );
 
+  if(!firstUser)return;
 
-  if(!firstUser){
-
-    return;
-
-  }
-
-
-  const existing =
+  let existing=
     chatSessions.find(
-      x =>
-        x.active === true
+      x=>x.active===true
     );
-
 
   if(existing){
 
-    existing.messages =
-      [...history];
+    existing.messages=[...history];
 
-    existing.title =
-      String(
-        firstUser.content
-      ).slice(
-        0,
-        60
-      );
+    existing.title=
+      String(firstUser.content).slice(0,60);
 
   }else{
 
     chatSessions.forEach(
-      x =>
-        x.active = false
+      x=>x.active=false
     );
-
 
     chatSessions.unshift({
 
       id:Date.now(),
 
       title:
-        String(
-          firstUser.content
-        ).slice(
-          0,
-          60
-        ),
+        String(firstUser.content).slice(0,60),
 
       active:true,
 
-      messages:[
-        ...history
-      ]
+      messages:[...history]
 
     });
 
   }
 
-
-  chatSessions =
-    chatSessions.slice(
-      0,
-      30
-    );
-
+  chatSessions=
+    chatSessions.slice(0,30);
 
   localStorage.setItem(
     "myAI_chat_sessions",
-    JSON.stringify(
-      chatSessions
-    )
+    JSON.stringify(chatSessions)
   );
-
 
   renderHistory();
 
 }
 
-
-/* =====================================================
-   LOAD CHAT
-===================================================== */
-
 function loadChat(id){
 
-  const session =
+  const session=
     chatSessions.find(
-      x =>
-        x.id === id
+      x=>x.id===id
     );
 
-
-  if(!session){
-
-    return;
-
-  }
-
+  if(!session)return;
 
   chatSessions.forEach(
-    x =>
-      x.active = false
+    x=>x.active=false
   );
 
+  session.active=true;
 
-  session.active =
-    true;
+  history=[...session.messages];
 
+  chatElement.innerHTML="";
 
-  history =
-    [...session.messages];
+  history.forEach(item=>{
 
+    addMessage(
+      item.role,
+      item.content,
+      item.role==="assistant"
+    );
 
-  chatElement.innerHTML =
-    "";
-
-
-  history.forEach(
-    item => {
-
-      if(
-        item.role === "user"
-      ){
-
-        addMessage(
-          "user",
-          item.content,
-          false
-        );
-
-      }
-
-
-      if(
-        item.role === "assistant"
-      ){
-
-        addMessage(
-          "assistant",
-          item.content,
-          true
-        );
-
-      }
-
-    }
-  );
-
+  });
 
   localStorage.setItem(
     "myAI_chat_sessions",
-    JSON.stringify(
-      chatSessions
-    )
+    JSON.stringify(chatSessions)
   );
-
 
   closeAllPanels();
 
 }
 
-
-/* =====================================================
-   DELETE ALL
-===================================================== */
+/* ================= DELETE ================= */
 
 function clearHistory(){
 
-  if(
-    !confirm(
-      t("deleteQuestion")
-    )
-  ){
+  const questions={
 
+    kk:"Барлық чат тарихын өшіру керек пе?",
+
+    ru:"Удалить всю историю чатов?",
+
+    en:"Delete all chat history?"
+
+  };
+
+  if(!confirm(questions[currentLanguage])){
     return;
-
   }
 
-
-  chatSessions = [];
-
-  history = [];
-
+  chatSessions=[];
+  history=[];
 
   localStorage.removeItem(
     "myAI_chat_sessions"
   );
 
-
   renderHistory();
 
-
-  chatElement.innerHTML = `
-
-    <div
-      id="welcome"
-      class="welcome"
-    >
-
-      <h2>
-        My AI
-      </h2>
-
-      <div>
-        ${escapeHtml(
-          t("welcomeText")
-        )}
-      </div>
-
+  chatElement.innerHTML=`
+    <div id="welcome" class="welcome">
+      <h2>My AI</h2>
+      <div id="welcomeText">${escapeHtml(t().welcome)}</div>
     </div>
-
   `;
 
 }
 
-
-/* =====================================================
-   IMAGES MENU
-===================================================== */
+/* ================= IMAGES ================= */
 
 function openImages(){
 
@@ -2267,15 +1544,12 @@ function openImages(){
 
   addMessage(
     "assistant",
-    t("imageSection")
+    t().imagesInfo
   );
 
 }
 
-
-/* =====================================================
-   DOCUMENTS MENU
-===================================================== */
+/* ================= DOCUMENTS ================= */
 
 function openDocuments(){
 
@@ -2285,64 +1559,37 @@ function openDocuments(){
 
 }
 
-
-/* =====================================================
-   ABOUT
-===================================================== */
-
-function openAbout(){
-
-  closeSidebar();
-
-  addMessage(
-    "assistant",
-    t("aboutText")
-  );
-
-}
-
-
-/* =====================================================
-   BACKEND CHECK
-===================================================== */
+/* ================= BACKEND ================= */
 
 async function checkBackend(){
 
   try{
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method:"GET"
-        }
-      );
+    const response=
+      await fetch(API_URL);
 
-
-    const data =
+    const data=
       await response.json();
 
+    if(data && data.ok){
 
-    if(
-      data &&
-      data.ok
-    ){
+      statusElement.textContent=
+        currentLanguage==="ru"
+        ?"Онлайн"
+        :currentLanguage==="en"
+        ?"Online"
+        :"Онлайн";
 
-      statusElement.textContent =
-        t("online");
-
-      statusElement.classList.add(
-        "online"
-      );
+      statusElement.classList.add("online");
 
     }else{
 
-      statusElement.textContent =
-        t("backendError");
-
-      statusElement.classList.remove(
-        "online"
-      );
+      statusElement.textContent=
+        currentLanguage==="ru"
+        ?"Ошибка backend"
+        :currentLanguage==="en"
+        ?"Backend error"
+        :"Backend қатесі";
 
     }
 
@@ -2350,33 +1597,29 @@ async function checkBackend(){
 
     console.error(error);
 
-    statusElement.textContent =
-      t("backendOffline");
-
-    statusElement.classList.remove(
-      "online"
-    );
+    statusElement.textContent=
+      currentLanguage==="ru"
+      ?"Backend не подключён"
+      :currentLanguage==="en"
+      ?"Backend disconnected"
+      :"Backend қосылмады";
 
   }
 
 }
 
-
-/* =====================================================
-   ENTER
-===================================================== */
+/* ================= ENTER ================= */
 
 messageElement.addEventListener(
   "keydown",
-  function(event){
+  event=>{
 
     if(
-      event.key === "Enter" &&
+      event.key==="Enter" &&
       !event.shiftKey
     ){
 
       event.preventDefault();
-
       sendMessage();
 
     }
@@ -2384,178 +1627,109 @@ messageElement.addEventListener(
   }
 );
 
-
-/* =====================================================
-   IMAGE SELECT
-===================================================== */
+/* ================= IMAGE SELECT ================= */
 
 imageInput.addEventListener(
   "change",
   function(){
 
-    const file =
-      this.files[0];
+    const file=this.files[0];
 
+    if(!file)return;
 
-    if(!file){
+    const reader=new FileReader();
 
-      return;
+    reader.onload=event=>{
 
-    }
+      selectedImages=[
+        event.target.result
+      ];
 
+      previewElement.style.display="block";
 
-    const reader =
-      new FileReader();
+      previewElement.innerHTML=`
+        <img
+          class="preview-image"
+          src="${event.target.result}"
+        >
+      `;
 
-
-    reader.onload =
-      function(event){
-
-        selectedImages =
-          [
-            event.target.result
-          ];
-
-
-        previewElement.style.display =
-          "block";
-
-
-        previewElement.innerHTML = `
-
-          <img
-            class="preview-image"
-            src="${event.target.result}"
-          >
-
-        `;
-
-      };
-
+    };
 
     reader.readAsDataURL(file);
 
   }
 );
 
-
-/* =====================================================
-   FILE SELECT
-===================================================== */
+/* ================= FILE ================= */
 
 fileInput.addEventListener(
   "change",
   async function(){
 
-    const file =
-      this.files[0];
+    const file=this.files[0];
 
+    if(!file)return;
 
-    if(!file){
+    selectedFile=file;
 
-      return;
+    previewElement.style.display="block";
 
-    }
-
-
-    selectedFile =
-      file;
-
-
-    previewElement.style.display =
-      "block";
-
-
-    previewElement.innerHTML = `
-
+    previewElement.innerHTML=`
       <div class="file-card">
-
-        <div class="file-icon">
-          📄
-        </div>
-
+        <div class="file-icon">📄</div>
         <div class="file-info">
-
           <div class="file-name">
-            ${escapeHtml(
-              file.name
-            )}
+            ${escapeHtml(file.name)}
           </div>
-
           <div class="file-type">
-            ${escapeHtml(
-              file.type ||
-              "File"
-            )}
+            ${escapeHtml(file.type || "File")}
           </div>
-
         </div>
-
       </div>
-
     `;
 
-
     if(
-      file.type === "text/plain" ||
-      file.name.endsWith(".txt") ||
-      file.name.endsWith(".md") ||
-      file.name.endsWith(".json") ||
-      file.name.endsWith(".csv") ||
-      file.name.endsWith(".js") ||
-      file.name.endsWith(".css") ||
-      file.name.endsWith(".html") ||
-      file.name.endsWith(".xml")
+      file.type==="text/plain" ||
+      /\.(txt|md|json|csv|js|css|html|xml)$/i.test(file.name)
     ){
 
       try{
 
-        selectedFileText =
+        selectedFileText=
           await file.text();
 
       }catch(error){
 
-        selectedFileText =
-          "";
-
-        console.error(error);
+        selectedFileText="";
 
       }
 
     }else{
 
-      selectedFileText =
-        "";
+      selectedFileText="";
 
     }
 
   }
 );
 
-
-/* =====================================================
-   SEND MESSAGE
-===================================================== */
+/* ================= SEND ================= */
 
 async function sendMessage(){
 
-  const message =
+  const message=
     messageElement.value.trim();
-
 
   if(
     !message &&
-    selectedImages.length === 0 &&
+    selectedImages.length===0 &&
     !selectedFile
   ){
-
     return;
-
   }
 
-
   setLoading(true);
-
 
   if(message){
 
@@ -2566,40 +1740,21 @@ async function sendMessage(){
 
   }
 
+  const currentImages=[...selectedImages];
+  const currentFileText=selectedFileText;
+  const currentFile=selectedFile;
 
-  const currentImages =
-    [...selectedImages];
+  messageElement.value="";
+  selectedImages=[];
+  selectedFileText="";
+  selectedFile=null;
 
-
-  const currentFileText =
-    selectedFileText;
-
-
-  const currentFile =
-    selectedFile;
-
-
-  messageElement.value =
-    "";
-
-
-  selectedImages = [];
-
-  selectedFileText = "";
-
-  selectedFile = null;
-
-
-  previewElement.style.display =
-    "none";
-
-  previewElement.innerHTML =
-    "";
-
+  previewElement.style.display="none";
+  previewElement.innerHTML="";
 
   try{
 
-    const response =
+    const response=
       await fetch(
         API_URL,
         {
@@ -2610,47 +1765,44 @@ async function sendMessage(){
               "application/json"
           },
 
-          body:
-            JSON.stringify({
+          body:JSON.stringify({
 
-              action:"chat",
+            action:"chat",
 
-              message:
-                message ||
-                (
-                  currentFile
-                    ? `Файлды талдаңыз: ${currentFile.name}`
-                    : "Суретті талда."
-                ),
-
-              history:
-                history.slice(-20),
-
-              images:
-                currentImages,
-
-              fileText:
-                currentFileText,
-
-              fileName:
+            message:
+              message ||
+              (
                 currentFile
-                  ? currentFile.name
-                  : "",
+                ?`Файлды талдаңыз: ${currentFile.name}`
+                :"Суретті талда."
+              ),
 
-              mimeType:
-                currentFile
-                  ? currentFile.type
-                  : ""
+            history:
+              history.slice(-20),
 
-            })
+            images:
+              currentImages,
+
+            fileText:
+              currentFileText,
+
+            fileName:
+              currentFile
+              ?currentFile.name
+              :"",
+
+            mimeType:
+              currentFile
+              ?currentFile.type
+              :""
+
+          })
 
         }
       );
 
-
-    const data =
+    const data=
       await response.json();
-
 
     if(
       !response.ok ||
@@ -2664,17 +1816,14 @@ async function sendMessage(){
 
     }
 
-
-    const answer =
+    const answer=
       data.answer ||
       "AI жауап бере алмады.";
-
 
     addMessage(
       "assistant",
       answer
     );
-
 
     history.push({
 
@@ -2684,40 +1833,31 @@ async function sendMessage(){
         message ||
         (
           currentFile
-            ? `Файл: ${currentFile.name}`
-            : "Суретті талдау"
+          ?`Файл: ${currentFile.name}`
+          :"Суретті талдау"
         )
 
     });
 
-
     history.push({
 
       role:"assistant",
-
       content:answer
 
     });
 
-
-    history =
-      history.slice(-20);
-
+    history=history.slice(-20);
 
     saveCurrentChat();
-
 
   }catch(error){
 
     console.error(error);
 
-
     addMessage(
       "assistant",
-      "Қате: " +
-      error.message
+      "Қате: "+error.message
     );
-
 
   }finally{
 
@@ -2727,46 +1867,40 @@ async function sendMessage(){
 
 }
 
-
-/* =====================================================
-   IMAGE GENERATION
-===================================================== */
+/* ================= IMAGE GENERATION ================= */
 
 async function generateImage(){
 
-  const prompt =
+  const prompt=
     messageElement.value.trim();
-
 
   if(!prompt){
 
     addMessage(
       "assistant",
-      t("imagePrompt")
+      currentLanguage==="ru"
+      ?"Сначала напишите описание изображения."
+      :currentLanguage==="en"
+      ?"First write an image description."
+      :"Сурет жасау үшін алдымен сипаттама жазыңыз."
     );
 
     return;
 
   }
 
-
   setLoading(true);
-
 
   addMessage(
     "user",
-    "🖼️ " +
-    prompt
+    "🖼️ "+prompt
   );
 
-
-  messageElement.value =
-    "";
-
+  messageElement.value="";
 
   try{
 
-    const response =
+    const response=
       await fetch(
         API_URL,
         {
@@ -2777,30 +1911,20 @@ async function generateImage(){
               "application/json"
           },
 
-          body:
-            JSON.stringify({
+          body:JSON.stringify({
 
-              action:"image",
+            action:"image",
+            prompt:prompt,
+            width:1024,
+            height:1024
 
-              prompt:
-
-                prompt,
-
-              width:
-                1024,
-
-              height:
-                1024
-
-            })
+          })
 
         }
       );
 
-
-    const data =
+    const data=
       await response.json();
-
 
     if(
       !response.ok ||
@@ -2814,7 +1938,6 @@ async function generateImage(){
 
     }
 
-
     if(!data.image){
 
       throw new Error(
@@ -2823,23 +1946,19 @@ async function generateImage(){
 
     }
 
-
     addImageMessage(
       data.image
     );
-
 
   }catch(error){
 
     console.error(error);
 
-
     addMessage(
       "assistant",
-      "Сурет жасау қатесі: " +
+      "Сурет жасау қатесі: "+
       error.message
     );
-
 
   }finally{
 
@@ -2849,10 +1968,7 @@ async function generateImage(){
 
 }
 
-
-/* =====================================================
-   ADD MESSAGE
-===================================================== */
+/* ================= MESSAGE ================= */
 
 function addMessage(
   role,
@@ -2860,62 +1976,40 @@ function addMessage(
   actions=true
 ){
 
-  const wrapper =
-    document.createElement(
-      "div"
-    );
+  const wrapper=
+    document.createElement("div");
 
-
-  wrapper.className =
+  wrapper.className=
     `message ${role}`;
 
+  const bubble=
+    document.createElement("div");
 
-  const bubble =
-    document.createElement(
-      "div"
-    );
+  bubble.className="bubble";
 
+  bubble.textContent=text;
 
-  bubble.className =
-    "bubble";
-
-
-  bubble.textContent =
-    text;
-
-
-  wrapper.appendChild(
-    bubble
-  );
-
+  wrapper.appendChild(bubble);
 
   if(
-    role === "assistant" &&
+    role==="assistant" &&
     actions
   ){
 
-    const actionBar =
-      document.createElement(
-        "div"
-      );
+    const actionBar=
+      document.createElement("div");
 
-
-    actionBar.className =
+    actionBar.className=
       "message-actions";
 
+    const copyButton=
+      document.createElement("button");
 
-    const copyButton =
-      document.createElement(
-        "button"
-      );
+    copyButton.textContent=
+      "📋 Көшіру";
 
-
-    copyButton.textContent =
-      t("copy");
-
-
-    copyButton.onclick =
-      async function(){
+    copyButton.onclick=
+      async()=>{
 
         try{
 
@@ -2923,100 +2017,91 @@ function addMessage(
             text
           );
 
-
-          copyButton.textContent =
-            t("copied");
-
+          copyButton.textContent=
+            "✓ Көшірілді";
 
           setTimeout(
-            function(){
-
-              copyButton.textContent =
-                t("copy");
-
+            ()=>{
+              copyButton.textContent=
+                "📋 Көшіру";
             },
             1500
           );
 
-
-        }catch{
-
-          alert(
-            t("copyError")
-          );
-
-        }
+        }catch{}
 
       };
 
+    const retryButton=
+      document.createElement("button");
 
-    const retryButton =
-      document.createElement(
-        "button"
-      );
+    retryButton.textContent=
+      "🔄 Қайта жауап";
 
+    retryButton.onclick=
+      ()=>retryLast();
 
-    retryButton.textContent =
-      t("retry");
+    actionBar.appendChild(copyButton);
+    actionBar.appendChild(retryButton);
 
-
-    retryButton.onclick =
-      function(){
-
-        retryLast();
-
-      };
-
-
-    actionBar.appendChild(
-      copyButton
-    );
-
-
-    actionBar.appendChild(
-      retryButton
-    );
-
-
-    wrapper.appendChild(
-      actionBar
-    );
+    wrapper.appendChild(actionBar);
 
   }
 
-
-  chatElement.appendChild(
-    wrapper
-  );
-
+  chatElement.appendChild(wrapper);
 
   scrollChat();
 
 }
 
+/* ================= IMAGE MESSAGE ================= */
 
-/* =====================================================
-   RETRY
-===================================================== */
+function addImageMessage(image){
+
+  const wrapper=
+    document.createElement("div");
+
+  wrapper.className=
+    "message assistant";
+
+  const bubble=
+    document.createElement("div");
+
+  bubble.className="bubble";
+
+  const img=
+    document.createElement("img");
+
+  img.className="generated-image";
+  img.src=image;
+  img.alt="Generated image";
+
+  bubble.appendChild(img);
+  wrapper.appendChild(bubble);
+
+  chatElement.appendChild(wrapper);
+
+  scrollChat();
+
+}
+
+/* ================= RETRY ================= */
 
 async function retryLast(){
 
-  let lastUser =
-    null;
-
+  let lastUser=null;
 
   for(
-    let i =
-      history.length - 1;
-    i >= 0;
+    let i=history.length-1;
+    i>=0;
     i--
   ){
 
     if(
-      history[i].role === "user"
+      history[i].role==="user"
     ){
 
-      lastUser =
+      lastUser=
         history[i].content;
 
       break;
@@ -3025,181 +2110,72 @@ async function retryLast(){
 
   }
 
+  if(!lastUser)return;
 
-  if(!lastUser){
-
-    return;
-
-  }
-
-
-  messageElement.value =
+  messageElement.value=
     lastUser;
-
 
   await sendMessage();
 
 }
 
+/* ================= LOADING ================= */
 
-/* =====================================================
-   IMAGE MESSAGE
-===================================================== */
+function setLoading(loading){
 
-function addImageMessage(
-  image
-){
-
-  const wrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  wrapper.className =
-    "message assistant";
-
-
-  const bubble =
-    document.createElement(
-      "div"
-    );
-
-
-  bubble.className =
-    "bubble";
-
-
-  const img =
-    document.createElement(
-      "img"
-    );
-
-
-  img.className =
-    "generated-image";
-
-
-  img.src =
-    image;
-
-
-  img.alt =
-    "Generated image";
-
-
-  bubble.appendChild(
-    img
-  );
-
-
-  wrapper.appendChild(
-    bubble
-  );
-
-
-  chatElement.appendChild(
-    wrapper
-  );
-
-
-  scrollChat();
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function setLoading(
-  loading
-){
-
-  sendButton.disabled =
-    loading;
-
-
-  messageElement.disabled =
-    loading;
-
+  sendButton.disabled=loading;
+  messageElement.disabled=loading;
 
   if(loading){
 
-    statusElement.textContent =
-      t("loading");
+    statusElement.textContent=
+      currentLanguage==="ru"
+      ?"Подготовка ответа..."
+      :currentLanguage==="en"
+      ?"Preparing answer..."
+      :"Жауап дайындалуда...";
 
-    statusElement.classList.remove(
-      "online"
-    );
+    statusElement.classList.remove("online");
 
   }else{
 
-    statusElement.textContent =
-      t("online");
+    statusElement.textContent=
+      currentLanguage==="ru"
+      ?"Онлайн"
+      :currentLanguage==="en"
+      ?"Online"
+      :"Онлайн";
 
-    statusElement.classList.add(
-      "online"
-    );
+    statusElement.classList.add("online");
 
   }
 
 }
 
-
-/* =====================================================
-   SCROLL
-===================================================== */
+/* ================= SCROLL ================= */
 
 function scrollChat(){
 
   setTimeout(
-    function(){
-
-      chatElement.scrollTop =
+    ()=>{
+      chatElement.scrollTop=
         chatElement.scrollHeight;
-
     },
     50
   );
 
 }
 
+/* ================= ESCAPE ================= */
 
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-function escapeHtml(
-  text
-){
+function escapeHtml(text){
 
   return String(text)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
