@@ -42,15 +42,11 @@ body.light{
 header{
   height:58px;
   min-height:58px;
-
   display:flex;
   align-items:center;
-
   padding:0 12px;
-
   background:#101014;
   border-bottom:1px solid #292929;
-
   flex-shrink:0;
   z-index:20;
 }
@@ -63,17 +59,12 @@ body.light header{
 .menu-btn{
   width:42px;
   height:42px;
-
   padding:0;
-
   background:transparent;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   font-size:25px;
-
   cursor:pointer;
 }
 
@@ -105,29 +96,20 @@ body.light .menu-btn{
 
 .sidebar{
   position:fixed;
-
   top:0;
   left:0;
-
   width:290px;
   height:100dvh;
   max-height:100dvh;
-
   background:#111116;
   color:#fff;
-
   border-right:1px solid #29292f;
-
   z-index:100;
-
   transform:translateX(-100%);
   transition:transform .25s ease;
-
   display:flex;
   flex-direction:column;
-
   padding:12px;
-
   overflow:hidden;
 }
 
@@ -141,18 +123,13 @@ body.light .sidebar{
   border-right:1px solid #ddd;
 }
 
-/* ================= SIDEBAR TOP ================= */
-
 .sidebar-top{
   height:46px;
   min-height:46px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   margin-bottom:10px;
-
   flex-shrink:0;
 }
 
@@ -164,15 +141,11 @@ body.light .sidebar{
 .close-menu{
   width:40px;
   height:40px;
-
   background:#25252c;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   font-size:23px;
-
   cursor:pointer;
 }
 
@@ -185,24 +158,16 @@ body.light .close-menu{
 
 .new-chat{
   width:100%;
-
   min-height:46px;
-
   padding:12px;
-
   background:#fff;
   color:#000;
-
   border:0;
   border-radius:12px;
-
   font-weight:bold;
   font-size:14px;
-
   cursor:pointer;
-
   margin-bottom:8px;
-
   flex-shrink:0;
 }
 
@@ -219,26 +184,17 @@ body.light .close-menu{
 
 .menu-item{
   width:100%;
-
   min-height:44px;
-
   display:flex;
   align-items:center;
-
   gap:12px;
-
   padding:12px 10px;
-
   background:transparent;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   text-align:left;
-
   font-size:15px;
-
   cursor:pointer;
 }
 
@@ -257,9 +213,7 @@ body.light .menu-item:hover{
 .menu-icon{
   width:24px;
   min-width:24px;
-
   text-align:center;
-
   font-size:19px;
 }
 
@@ -271,51 +225,35 @@ body.light .menu-item:hover{
 
 .history-title{
   color:#888;
-
   font-size:12px;
-
   padding:12px 5px 7px;
-
   flex-shrink:0;
 }
 
 .history{
   flex:1 1 auto;
-
   min-height:0;
-
   overflow-y:auto;
-
   overflow-x:hidden;
-
   padding-bottom:10px;
-
   -webkit-overflow-scrolling:touch;
 }
 
 .history-empty{
   color:#666;
-
   padding:10px 7px;
-
   font-size:13px;
 }
 
 .history-item{
   width:100%;
-
   padding:11px;
-
   margin-bottom:4px;
-
   border-radius:10px;
-
   cursor:pointer;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-
   font-size:14px;
 }
 
@@ -331,18 +269,12 @@ body.light .history-item:hover{
 
 .sidebar-bottom{
   flex-shrink:0;
-
   width:100%;
-
   padding-top:10px;
   padding-bottom:4px;
-
   border-top:1px solid #29292f;
-
   background:#111116;
-
   position:relative;
-
   z-index:101;
 }
 
@@ -353,31 +285,21 @@ body.light .sidebar-bottom{
 
 .clear-history{
   width:100%;
-
   min-height:46px;
-
   display:flex;
   align-items:center;
   justify-content:flex-start;
-
   gap:10px;
-
   padding:12px 10px;
-
   background:#25252c;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   font-size:14px;
   font-weight:500;
-
   cursor:pointer;
-
   -webkit-appearance:none;
   appearance:none;
-
   position:relative;
   z-index:102;
 }
@@ -403,16 +325,11 @@ body.light .clear-history:hover{
 
 .overlay{
   position:fixed;
-
   inset:0;
-
   background:rgba(0,0,0,.55);
-
   z-index:90;
-
   opacity:0;
   visibility:hidden;
-
   transition:opacity .2s ease;
 }
 
@@ -425,34 +342,24 @@ body.light .clear-history:hover{
 
 .settings-panel{
   position:fixed;
-
   top:64px;
   left:50%;
-
   width:min(420px,calc(100% - 24px));
-
   transform:translate(-50%,-20px);
-
   background:#15151a;
   color:#fff;
-
   border:1px solid #303038;
   border-radius:16px;
-
   padding:16px;
-
   z-index:150;
-
   opacity:0;
   visibility:hidden;
-
   transition:.2s ease;
 }
 
 .settings-panel.show{
   opacity:1;
   visibility:visible;
-
   transform:translate(-50%,0);
 }
 
@@ -465,7 +372,6 @@ body.light .settings-panel{
 .settings-title{
   font-size:18px;
   font-weight:bold;
-
   margin-bottom:15px;
 }
 
@@ -475,33 +381,24 @@ body.light .settings-panel{
 
 .setting-label{
   display:block;
-
   font-size:13px;
-
   color:#999;
-
   margin-bottom:8px;
 }
 
 .setting-buttons{
   display:flex;
-
   gap:7px;
 }
 
 .setting-button{
   flex:1;
-
   padding:10px 8px;
-
   border:1px solid #303038;
   border-radius:10px;
-
   background:#202027;
   color:#fff;
-
   cursor:pointer;
-
   font-size:13px;
 }
 
@@ -514,30 +411,23 @@ body.light .setting-button{
 .setting-button.active{
   background:#fff;
   color:#000;
-
   border-color:#fff;
-
   font-weight:bold;
 }
 
 body.light .setting-button.active{
   background:#111;
   color:#fff;
-
   border-color:#111;
 }
 
 .settings-close{
   width:100%;
-
   padding:10px;
-
   background:#27272e;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   cursor:pointer;
 }
 
@@ -550,35 +440,24 @@ body.light .settings-close{
 
 .about-panel{
   position:fixed;
-
   top:64px;
   left:50%;
-
   width:min(420px,calc(100% - 24px));
-
   transform:translate(-50%,-20px);
-
   background:#15151a;
   color:#fff;
-
   border:1px solid #303038;
-
   border-radius:16px;
-
   padding:18px;
-
   z-index:150;
-
   opacity:0;
   visibility:hidden;
-
   transition:.2s ease;
 }
 
 .about-panel.show{
   opacity:1;
   visibility:visible;
-
   transform:translate(-50%,0);
 }
 
@@ -591,16 +470,13 @@ body.light .about-panel{
 .about-title{
   font-size:19px;
   font-weight:bold;
-
   margin-bottom:12px;
 }
 
 .about-text{
   font-size:14px;
   line-height:1.6;
-
   color:#aaa;
-
   margin-bottom:16px;
 }
 
@@ -610,15 +486,11 @@ body.light .about-text{
 
 .about-close{
   width:100%;
-
   padding:10px;
-
   background:#27272e;
   color:#fff;
-
   border:0;
   border-radius:10px;
-
   cursor:pointer;
 }
 
@@ -631,19 +503,14 @@ body.light .about-close{
 
 #chat{
   flex:1;
-
   overflow-y:auto;
-
   padding:20px 14px 145px;
-
   -webkit-overflow-scrolling:touch;
 }
 
 .message{
   max-width:850px;
-
   margin:0 auto 18px;
-
   display:flex;
   flex-direction:column;
 }
@@ -658,21 +525,15 @@ body.light .about-close{
 
 .bubble{
   max-width:85%;
-
   padding:12px 15px;
-
   border-radius:16px;
-
   line-height:1.5;
-
   white-space:pre-wrap;
-
   word-break:break-word;
 }
 
 .assistant .bubble{
   background:#17171c;
-
   border:1px solid #29292f;
 }
 
@@ -695,25 +556,17 @@ body.light .user .bubble{
 
 .message-actions{
   display:flex;
-
   gap:6px;
-
   margin-top:7px;
 }
 
 .message-actions button{
   background:#202027;
-
   border:1px solid #303038;
-
   color:#bbb;
-
   border-radius:8px;
-
   padding:6px 9px;
-
   font-size:12px;
-
   cursor:pointer;
 }
 
@@ -727,19 +580,12 @@ body.light .message-actions button{
 
 .file-card{
   max-width:85%;
-
   background:#17171c;
-
   border:1px solid #303038;
-
   border-radius:14px;
-
   padding:12px;
-
   display:flex;
-
   align-items:center;
-
   gap:10px;
 }
 
@@ -759,44 +605,96 @@ body.light .file-card{
 .file-name{
   font-size:14px;
   font-weight:bold;
-
   word-break:break-word;
 }
 
 .file-type{
   color:#888;
-
   font-size:12px;
-
   margin-top:3px;
 }
 
-/* ================= IMAGE ================= */
+/* ================= GENERATED IMAGE ================= */
 
 .generated-image{
   max-width:100%;
-
   border-radius:14px;
-
   display:block;
 }
 
-.preview-image{
-  max-width:100px;
-  max-height:100px;
+/* ================= USER ATTACHMENTS ================= */
 
-  border-radius:10px;
+.user-attachment{
+  max-width:85%;
+  margin-bottom:8px;
+}
+
+.user-image{
+  max-width:280px;
+  max-height:320px;
+  border-radius:14px;
+  display:block;
+  object-fit:contain;
+  cursor:pointer;
+  border:1px solid #303038;
+}
+
+body.light .user-image{
+  border-color:#ddd;
+}
+
+.user-file{
+  max-width:85%;
+  background:#303036;
+  color:#fff;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+body.light .user-file{
+  background:#e2e2e7;
+  color:#111;
+}
+
+.user-file-icon{
+  font-size:30px;
+}
+
+.user-file-info{
+  min-width:0;
+}
+
+.user-file-name{
+  font-size:14px;
+  font-weight:bold;
+  word-break:break-word;
+}
+
+.user-file-type{
+  font-size:12px;
+  opacity:.65;
+  margin-top:3px;
+}
+
+/* ================= PREVIEW ================= */
+
+.preview-image{
+  max-width:100%;
+  max-height:220px;
+  border-radius:12px;
+  display:block;
+  object-fit:contain;
 }
 
 /* ================= WELCOME ================= */
 
 .welcome{
   max-width:850px;
-
   margin:80px auto;
-
   text-align:center;
-
   color:#888;
 }
 
@@ -812,18 +710,14 @@ body.light .welcome h2{
 
 .composer{
   position:fixed;
-
   bottom:0;
   left:0;
   right:0;
-
   background:linear-gradient(
     transparent,
     #0b0b0f 22%
   );
-
   padding:35px 12px 12px;
-
   z-index:20;
 }
 
@@ -836,15 +730,10 @@ body.light .composer{
 
 .composer-inner{
   max-width:850px;
-
   margin:auto;
-
   background:#15151a;
-
   border:1px solid #303038;
-
   border-radius:18px;
-
   padding:8px;
 }
 
@@ -855,23 +744,15 @@ body.light .composer-inner{
 
 textarea{
   width:100%;
-
   resize:none;
-
   min-height:48px;
   max-height:150px;
-
   background:transparent;
-
   border:0;
   outline:0;
-
   color:#fff;
-
   font-size:16px;
-
   padding:10px;
-
   font-family:inherit;
 }
 
@@ -885,27 +766,18 @@ textarea::placeholder{
 
 .toolbar{
   display:flex;
-
   align-items:center;
-
   gap:7px;
-
   padding:5px;
 }
 
 .toolbar button{
   border:0;
-
   cursor:pointer;
-
   color:#fff;
-
   background:#27272e;
-
   border-radius:10px;
-
   padding:9px 12px;
-
   font-size:14px;
 }
 
@@ -916,10 +788,8 @@ body.light .toolbar button{
 
 .send{
   margin-left:auto;
-
   background:#fff !important;
   color:#000 !important;
-
   font-weight:bold;
 }
 
@@ -929,9 +799,7 @@ input[type=file]{
 
 .preview{
   display:none;
-
   padding:8px;
-
   border-bottom:1px solid #29292f;
 }
 
@@ -962,6 +830,15 @@ input[type=file]{
     top:64px;
   }
 
+  .user-image{
+    max-width:240px;
+    max-height:280px;
+  }
+
+  .user-attachment{
+    max-width:92%;
+  }
+
 }
 </style>
 </head>
@@ -990,7 +867,6 @@ input[type=file]{
 
   </div>
 
-
   <button
     type="button"
     class="new-chat"
@@ -998,7 +874,6 @@ input[type=file]{
   >
     ＋ Жаңа чат
   </button>
-
 
   <div class="menu-section">
 
@@ -1011,7 +886,6 @@ input[type=file]{
       <span class="menu-text">Суреттер</span>
     </button>
 
-
     <button
       type="button"
       class="menu-item"
@@ -1021,7 +895,6 @@ input[type=file]{
       <span class="menu-text">Құжаттар</span>
     </button>
 
-
     <button
       type="button"
       class="menu-item"
@@ -1030,7 +903,6 @@ input[type=file]{
       <span class="menu-icon">⚙️</span>
       <span class="menu-text">Баптаулар</span>
     </button>
-
 
     <button
       type="button"
@@ -1043,7 +915,6 @@ input[type=file]{
 
   </div>
 
-
   <div
     id="historyTitle"
     class="history-title"
@@ -1051,12 +922,10 @@ input[type=file]{
     Чат тарихы
   </div>
 
-
   <div
     id="historyList"
     class="history"
   ></div>
-
 
   <div class="sidebar-bottom">
 
@@ -1079,7 +948,6 @@ input[type=file]{
 
 </aside>
 
-
 <!-- ================= OVERLAY ================= -->
 
 <div
@@ -1087,7 +955,6 @@ input[type=file]{
   class="overlay"
   onclick="closeAllPanels()"
 ></div>
-
 
 <!-- ================= SETTINGS ================= -->
 
@@ -1103,7 +970,6 @@ input[type=file]{
     ⚙️ Баптаулар
   </div>
 
-
   <div class="setting-row">
 
     <span
@@ -1112,7 +978,6 @@ input[type=file]{
     >
       🌐 Тіл
     </span>
-
 
     <div class="setting-buttons">
 
@@ -1125,7 +990,6 @@ input[type=file]{
         Қазақша
       </button>
 
-
       <button
         type="button"
         id="lang-ru"
@@ -1134,7 +998,6 @@ input[type=file]{
       >
         Русский
       </button>
-
 
       <button
         type="button"
@@ -1149,7 +1012,6 @@ input[type=file]{
 
   </div>
 
-
   <div class="setting-row">
 
     <span
@@ -1158,7 +1020,6 @@ input[type=file]{
     >
       🎨 Интерфейс
     </span>
-
 
     <div class="setting-buttons">
 
@@ -1170,7 +1031,6 @@ input[type=file]{
       >
         🌙 Қараңғы
       </button>
-
 
       <button
         type="button"
@@ -1185,7 +1045,6 @@ input[type=file]{
 
   </div>
 
-
   <button
     type="button"
     id="settingsClose"
@@ -1196,7 +1055,6 @@ input[type=file]{
   </button>
 
 </div>
-
 
 <!-- ================= ABOUT ================= -->
 
@@ -1211,7 +1069,6 @@ input[type=file]{
   >
     ℹ️ My AI туралы
   </div>
-
 
   <div
     id="aboutText"
@@ -1238,7 +1095,6 @@ input[type=file]{
     My AI — сіздің жеке AI көмекшіңіз.
   </div>
 
-
   <button
     type="button"
     id="aboutClose"
@@ -1249,7 +1105,6 @@ input[type=file]{
   </button>
 
 </div>
-
 
 <!-- ================= HEADER ================= -->
 
@@ -1263,11 +1118,9 @@ input[type=file]{
     ☰
   </button>
 
-
   <div class="logo">
     My AI
   </div>
-
 
   <div
     id="status"
@@ -1277,7 +1130,6 @@ input[type=file]{
   </div>
 
 </header>
-
 
 <!-- ================= CHAT ================= -->
 
@@ -1300,7 +1152,6 @@ input[type=file]{
 
 </main>
 
-
 <!-- ================= COMPOSER ================= -->
 
 <div class="composer">
@@ -1312,13 +1163,11 @@ input[type=file]{
       class="preview"
     ></div>
 
-
     <textarea
       id="message"
       placeholder="My AI-ға сұрақ қойыңыз..."
       autocomplete="off"
     ></textarea>
-
 
     <div class="toolbar">
 
@@ -1329,13 +1178,11 @@ input[type=file]{
         📷
       </button>
 
-
       <input
         id="imageInput"
         type="file"
         accept="image/*"
       >
-
 
       <button
         type="button"
@@ -1344,13 +1191,11 @@ input[type=file]{
         📎
       </button>
 
-
       <input
         id="fileInput"
         type="file"
         accept=".txt,.md,.json,.csv,.html,.js,.css,.xml,.pdf"
       >
-
 
       <button
         type="button"
@@ -1358,7 +1203,6 @@ input[type=file]{
       >
         🖼️
       </button>
-
 
       <button
         type="button"
@@ -1376,7 +1220,6 @@ input[type=file]{
 </div>
 
 </div>
-
 
 <script>
 
@@ -1487,17 +1330,11 @@ const translations = {
   kk:{
 
     newChat:"＋ Жаңа чат",
-
     images:"Суреттер",
-
     documents:"Құжаттар",
-
     settings:"Баптаулар",
-
     about:"My AI туралы",
-
     history:"Чат тарихы",
-
     empty:"Әзірге чат тарихы жоқ",
 
     deleteAll:"Барлық чаттарды өшіру",
@@ -1508,11 +1345,8 @@ const translations = {
     close:"Жабу",
 
     language:"🌐 Тіл",
-
     interface:"🎨 Интерфейс",
-
     dark:"🌙 Қараңғы",
-
     light:"☀️ Жарық",
 
     placeholder:
@@ -1522,7 +1356,6 @@ const translations = {
       "Сұрағыңызды жазыңыз",
 
     online:"Онлайн",
-
     connecting:"Қосылуда...",
 
     backendError:
@@ -1551,21 +1384,14 @@ const translations = {
 
   },
 
-
   ru:{
 
     newChat:"＋ Новый чат",
-
     images:"Изображения",
-
     documents:"Документы",
-
     settings:"Настройки",
-
     about:"О My AI",
-
     history:"История чатов",
-
     empty:"История чатов пока пуста",
 
     deleteAll:"Удалить все чаты",
@@ -1576,11 +1402,8 @@ const translations = {
     close:"Закрыть",
 
     language:"🌐 Язык",
-
     interface:"🎨 Интерфейс",
-
     dark:"🌙 Тёмная",
-
     light:"☀️ Светлая",
 
     placeholder:
@@ -1590,7 +1413,6 @@ const translations = {
       "Напишите свой вопрос",
 
     online:"Онлайн",
-
     connecting:"Подключение...",
 
     backendError:
@@ -1619,21 +1441,14 @@ const translations = {
 
   },
 
-
   en:{
 
     newChat:"＋ New chat",
-
     images:"Images",
-
     documents:"Documents",
-
     settings:"Settings",
-
     about:"About My AI",
-
     history:"Chat history",
-
     empty:"No chat history yet",
 
     deleteAll:"Delete all chats",
@@ -1644,11 +1459,8 @@ const translations = {
     close:"Close",
 
     language:"🌐 Language",
-
     interface:"🎨 Interface",
-
     dark:"🌙 Dark",
-
     light:"☀️ Light",
 
     placeholder:
@@ -1658,7 +1470,6 @@ const translations = {
       "Write your question",
 
     online:"Online",
-
     connecting:"Connecting...",
 
     backendError:
@@ -2511,7 +2322,6 @@ async function checkBackend(){
         API_URL,
         {
           method:"GET",
-
           cache:"no-store"
         }
       );
@@ -2747,15 +2557,11 @@ async function sendMessage(){
   setLoading(true);
 
 
-  if(message){
-
-    addMessage(
-      "user",
-      message
-    );
-
-  }
-
+  /*
+  =====================================================
+  СУРЕТ ПЕН ФАЙЛДЫ ЖОҒАЛТПАЙ САҚТАУ
+  =====================================================
+  */
 
   const currentImages =
     [...selectedImages];
@@ -2769,9 +2575,43 @@ async function sendMessage(){
     selectedFile;
 
 
+  /*
+  =====================================================
+  ПАЙДАЛАНУШЫ ХАБАРЛАМАСЫН ЧАТҚА ШЫҒАРУ
+  =====================================================
+  */
+
+  addMessage(
+    "user",
+    message,
+    false,
+    {
+      images:
+        currentImages,
+
+      file:
+        currentFile
+        ? {
+            name:
+              currentFile.name,
+
+            type:
+              currentFile.type ||
+              "File"
+          }
+        : null
+    }
+  );
+
+
+  /*
+  =====================================================
+  INPUT ТАЗАЛАУ
+  =====================================================
+  */
+
   messageElement.value =
     "";
-
 
   selectedImages = [];
 
@@ -2866,6 +2706,12 @@ async function sendMessage(){
       answer
     );
 
+
+    /*
+    =====================================================
+    HISTORY
+    =====================================================
+    */
 
     history.push({
 
@@ -2975,7 +2821,6 @@ async function generateImage(){
               action:"image",
 
               prompt:
-
                 prompt,
 
               width:
@@ -3049,7 +2894,8 @@ async function generateImage(){
 function addMessage(
   role,
   text,
-  actions=true
+  actions=true,
+  attachments=null
 ){
 
   const wrapper =
@@ -3062,28 +2908,321 @@ function addMessage(
     `message ${role}`;
 
 
-  const bubble =
-    document.createElement(
-      "div"
+  /*
+  =====================================================
+  ATTACHMENTS
+  =====================================================
+  */
+
+  if(
+    role === "user" &&
+    attachments
+  ){
+
+    /*
+    -----------------------------------------------------
+    IMAGES
+    -----------------------------------------------------
+    */
+
+    if(
+      Array.isArray(
+        attachments.images
+      )
+    ){
+
+      attachments.images.forEach(
+        image => {
+
+          if(
+            typeof image !== "string"
+          ){
+
+            return;
+
+          }
+
+
+          const attachment =
+            document.createElement(
+              "div"
+            );
+
+
+          attachment.className =
+            "user-attachment";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.className =
+            "user-image";
+
+
+          img.src =
+            image;
+
+
+          img.alt =
+            "Жіберілген сурет";
+
+
+          img.loading =
+            "lazy";
+
+
+          /*
+          ------------------------------------------------
+          СУРЕТТІ ҮЛКЕЙТІП АШУ
+          ------------------------------------------------
+          */
+
+          img.onclick =
+            function(){
+
+              const newWindow =
+                window.open();
+
+              if(newWindow){
+
+                newWindow.document.write(`
+
+                  <html>
+
+                    <head>
+
+                      <title>
+                        My AI — сурет
+                      </title>
+
+                      <meta
+                        name="viewport"
+                        content="width=device-width,initial-scale=1.0"
+                      >
+
+                      <style>
+
+                        body{
+                          margin:0;
+                          background:#000;
+                          display:flex;
+                          align-items:center;
+                          justify-content:center;
+                          min-height:100vh;
+                        }
+
+                        img{
+                          max-width:100%;
+                          max-height:100vh;
+                          object-fit:contain;
+                        }
+
+                      </style>
+
+                    </head>
+
+                    <body>
+
+                      <img
+                        src="${image}"
+                      >
+
+                    </body>
+
+                  </html>
+
+                `);
+
+                newWindow.document.close();
+
+              }
+
+            };
+
+
+          attachment.appendChild(
+            img
+          );
+
+
+          wrapper.appendChild(
+            attachment
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+    -----------------------------------------------------
+    FILE
+    -----------------------------------------------------
+    */
+
+    if(
+      attachments.file
+    ){
+
+      const file =
+        attachments.file;
+
+
+      const attachment =
+        document.createElement(
+          "div"
+        );
+
+
+      attachment.className =
+        "user-attachment";
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "user-file";
+
+
+      const icon =
+        document.createElement(
+          "div"
+        );
+
+
+      icon.className =
+        "user-file-icon";
+
+
+      icon.textContent =
+        "📄";
+
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+
+      info.className =
+        "user-file-info";
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "user-file-name";
+
+
+      name.textContent =
+        file.name ||
+        "Файл";
+
+
+      const type =
+        document.createElement(
+          "div"
+        );
+
+
+      type.className =
+        "user-file-type";
+
+
+      type.textContent =
+        file.type ||
+        "Файл";
+
+
+      info.appendChild(
+        name
+      );
+
+
+      info.appendChild(
+        type
+      );
+
+
+      card.appendChild(
+        icon
+      );
+
+
+      card.appendChild(
+        info
+      );
+
+
+      attachment.appendChild(
+        card
+      );
+
+
+      wrapper.appendChild(
+        attachment
+      );
+
+    }
+
+  }
+
+
+  /*
+  =====================================================
+  TEXT BUBBLE
+  =====================================================
+  */
+
+  if(
+    text &&
+    String(text).trim()
+  ){
+
+    const bubble =
+      document.createElement(
+        "div"
+      );
+
+
+    bubble.className =
+      "bubble";
+
+
+    bubble.textContent =
+      text;
+
+
+    wrapper.appendChild(
+      bubble
     );
 
-
-  bubble.className =
-    "bubble";
+  }
 
 
-  bubble.textContent =
-    text;
-
-
-  wrapper.appendChild(
-    bubble
-  );
-
+  /*
+  =====================================================
+  ASSISTANT ACTIONS
+  =====================================================
+  */
 
   if(
     role === "assistant" &&
-    actions
+    actions &&
+    text
   ){
 
     const actionBar =
