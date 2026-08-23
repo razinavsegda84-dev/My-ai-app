@@ -681,12 +681,41 @@ body.light .user-file{
 
 /* ================= PREVIEW ================= */
 
+.preview{
+  display:none;
+  padding:8px;
+  border-bottom:1px solid #29292f;
+  position:relative;
+}
+
 .preview-image{
   max-width:100%;
   max-height:220px;
   border-radius:12px;
   display:block;
   object-fit:contain;
+}
+
+.preview-remove{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:34px;
+  height:34px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.75);
+  color:#fff;
+  font-size:22px;
+  line-height:34px;
+  text-align:center;
+  padding:0;
+  cursor:pointer;
+  z-index:5;
+}
+
+.preview-remove:active{
+  transform:scale(.92);
 }
 
 /* ================= WELCOME ================= */
@@ -795,12 +824,6 @@ body.light .toolbar button{
 
 input[type=file]{
   display:none;
-}
-
-.preview{
-  display:none;
-  padding:8px;
-  border-bottom:1px solid #29292f;
 }
 
 /* ================= MOBILE ================= */
@@ -1930,6 +1953,10 @@ function newChat(){
 
   messageElement.value = "";
 
+  imageInput.value = "";
+
+  fileInput.value = "";
+
   previewElement.style.display =
     "none";
 
@@ -2424,11 +2451,30 @@ imageInput.addEventListener(
 
         previewElement.innerHTML = `
 
-          <img
-            class="preview-image"
-            src="${event.target.result}"
-            alt="Preview"
+          <div
+            style="
+              position:relative;
+              display:inline-block;
+              max-width:100%;
+            "
           >
+
+            <img
+              class="preview-image"
+              src="${event.target.result}"
+              alt="Preview"
+            >
+
+            <button
+              type="button"
+              class="preview-remove"
+              onclick="cancelSelectedImage()"
+              aria-label="Суретті алып тастау"
+            >
+              ×
+            </button>
+
+          </div>
 
         `;
 
@@ -2439,6 +2485,25 @@ imageInput.addEventListener(
 
   }
 );
+
+
+/* =====================================================
+   CANCEL SELECTED IMAGE
+===================================================== */
+
+function cancelSelectedImage(){
+
+  selectedImages = [];
+
+  imageInput.value = "";
+
+  previewElement.style.display =
+    "none";
+
+  previewElement.innerHTML =
+    "";
+
+}
 
 
 /* =====================================================
@@ -2618,6 +2683,10 @@ async function sendMessage(){
   selectedFileText = "";
 
   selectedFile = null;
+
+  imageInput.value = "";
+
+  fileInput.value = "";
 
 
   previewElement.style.display =
@@ -3322,6 +3391,7 @@ function addMessage(
 
 
   scrollChat();
+
 
 }
 
