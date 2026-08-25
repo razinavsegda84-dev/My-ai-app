@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="kk">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
->
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <title>My AI</title>
 
@@ -16,790 +11,511 @@
 
 *{
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#0b0d10;
+  color:#fff;
 }
 
 body{
-
-  margin:0;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background:#0b0d10;
-
-  color:#fff;
-
-  height:100vh;
-
   overflow:hidden;
-
 }
 
 button,
-input,
 textarea,
+input,
 select{
-
   font:inherit;
-
 }
 
 button{
-
   cursor:pointer;
-
 }
 
 .app{
-
-  height:100vh;
-
+  width:100%;
+  height:100%;
   display:flex;
-
   flex-direction:column;
-
 }
-
 
 /* HEADER */
 
 .header{
-
-  height:60px;
-
+  height:62px;
+  flex-shrink:0;
   display:flex;
-
   align-items:center;
-
   justify-content:space-between;
-
   padding:0 14px;
-
-  border-bottom:
-    1px solid #24272d;
-
+  border-bottom:1px solid #24272d;
   background:#101216;
-
 }
 
 .logo{
-
   font-size:20px;
-
   font-weight:700;
-
 }
 
-.headerButtons{
-
+.header-right{
   display:flex;
-
-  gap:7px;
-
+  gap:8px;
 }
 
-.iconBtn{
-
+.icon-btn{
   width:40px;
-
   height:40px;
-
   border:0;
-
   border-radius:12px;
-
-  background:#1b1f25;
-
+  background:#1b1e24;
   color:#fff;
-
-  font-size:19px;
-
+  font-size:20px;
 }
 
+.icon-btn:active{
+  transform:scale(.96);
+}
 
 /* CHAT */
 
 .chat{
-
   flex:1;
-
   overflow-y:auto;
-
-  padding:18px 14px 150px;
-
+  padding:18px 12px 140px;
+  scroll-behavior:smooth;
 }
 
 .welcome{
-
+  max-width:600px;
+  margin:50px auto;
   text-align:center;
-
-  padding:50px 20px;
-
 }
 
 .welcome h1{
-
   font-size:30px;
-
   margin-bottom:10px;
-
 }
 
 .welcome p{
-
-  color:#9298a3;
-
+  color:#9da3ad;
+  line-height:1.5;
 }
-
 
 /* MESSAGE */
 
 .message{
-
-  max-width:90%;
-
-  margin:10px 0;
-
-  padding:12px 14px;
-
-  border-radius:17px;
-
-  line-height:1.5;
-
-  white-space:pre-wrap;
-
-  word-break:break-word;
-
-}
-
-.user{
-
-  margin-left:auto;
-
-  background:#315cff;
-
-}
-
-.ai{
-
-  margin-right:auto;
-
-  background:#191d23;
-
-}
-
-.message img{
-
-  max-width:100%;
-
-  border-radius:12px;
-
-  margin-top:8px;
-
-}
-
-.message video{
-
-  width:100%;
-
-  border-radius:12px;
-
-  margin-top:8px;
-
-}
-
-
-/* ACTIONS */
-
-.messageActions{
-
+  max-width:900px;
+  margin:0 auto 18px;
   display:flex;
+}
 
+.message.user{
+  justify-content:flex-end;
+}
+
+.bubble{
+  max-width:88%;
+  padding:13px 15px;
+  border-radius:18px;
+  line-height:1.5;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
+.user .bubble{
+  background:#2563eb;
+}
+
+.assistant .bubble{
+  background:#181b20;
+  border:1px solid #282c33;
+}
+
+.message-image{
+  max-width:100%;
+  max-height:400px;
+  border-radius:14px;
+  display:block;
+  margin-top:8px;
+}
+
+.message-video{
+  width:100%;
+  max-width:600px;
+  border-radius:14px;
+  margin-top:8px;
+  background:#000;
+}
+
+.message-actions{
+  display:flex;
   gap:7px;
-
   margin-top:9px;
-
-  flex-wrap:wrap;
-
 }
 
-.smallBtn{
-
+.small-btn{
   border:0;
-
-  border-radius:9px;
-
-  padding:7px 10px;
-
-  background:#252a31;
-
+  border-radius:10px;
+  background:#272b32;
   color:#fff;
-
+  padding:7px 10px;
   font-size:13px;
-
 }
-
 
 /* INPUT */
 
 .bottom{
-
   position:fixed;
-
   left:0;
-
   right:0;
-
   bottom:0;
-
-  padding:10px;
-
-  background:
-    linear-gradient(
-      transparent,
-      #0b0d10 20%
-    );
-
+  padding:10px 10px calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(
+    transparent,
+    #0b0d10 18%
+  );
 }
 
-.inputBox{
-
+.input-box{
   max-width:900px;
-
   margin:auto;
-
-  background:#181c21;
-
-  border:
-    1px solid #292e36;
-
+  background:#171a1f;
+  border:1px solid #2a2e35;
   border-radius:20px;
-
-  padding:9px;
-
+  padding:8px;
 }
 
 textarea{
-
   width:100%;
-
-  resize:none;
-
-  border:0;
-
-  outline:0;
-
-  background:transparent;
-
-  color:#fff;
-
   min-height:46px;
-
-  max-height:130px;
-
-  padding:8px;
-
+  max-height:140px;
+  resize:none;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  padding:9px;
 }
 
 .toolbar{
-
   display:flex;
-
   align-items:center;
-
-  gap:7px;
-
+  justify-content:space-between;
+  gap:6px;
 }
 
-.tool{
+.tools{
+  display:flex;
+  gap:5px;
+}
 
-  width:40px;
-
-  height:40px;
-
+.tool-btn{
+  width:38px;
+  height:38px;
   border:0;
-
   border-radius:11px;
-
-  background:#252a31;
-
+  background:#23272e;
   color:#fff;
-
+  font-size:18px;
 }
 
-.send{
-
-  margin-left:auto;
-
-  background:#315cff;
-
+.send-btn{
+  width:44px;
+  height:44px;
+  border:0;
+  border-radius:13px;
+  background:#2563eb;
+  color:#fff;
+  font-size:19px;
 }
 
-
-/* IMAGE PREVIEW */
+/* PREVIEW */
 
 .preview{
-
   display:none;
-
-  padding:6px;
-
+  padding:8px;
 }
 
 .preview img{
-
-  width:80px;
-
-  height:80px;
-
-  object-fit:cover;
-
+  max-width:120px;
+  max-height:100px;
   border-radius:12px;
-
 }
 
+/* STATUS */
+
+.status{
+  position:fixed;
+  top:68px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#181b20;
+  border:1px solid #30343b;
+  padding:8px 14px;
+  border-radius:12px;
+  font-size:13px;
+  color:#c9ced6;
+  display:none;
+  z-index:20;
+}
 
 /* MENU */
 
 .overlay{
-
   position:fixed;
-
   inset:0;
-
-  background:rgba(0,0,0,.6);
-
+  background:rgba(0,0,0,.55);
   display:none;
-
-  z-index:20;
-
+  z-index:50;
 }
 
 .menu{
-
   position:absolute;
-
   right:10px;
-
-  top:60px;
-
-  width:260px;
-
+  top:64px;
+  width:270px;
   background:#171a1f;
-
-  border:1px solid #2b3038;
-
+  border:1px solid #30343b;
   border-radius:16px;
-
   padding:8px;
-
+  box-shadow:0 15px 50px rgba(0,0,0,.45);
 }
 
 .menu button{
-
   width:100%;
-
-  padding:13px;
-
-  border:0;
-
-  background:transparent;
-
-  color:#fff;
-
   text-align:left;
-
+  border:0;
+  background:transparent;
+  color:#fff;
+  padding:13px;
   border-radius:10px;
-
 }
 
-.menu button:hover{
-
-  background:#252a31;
-
+.menu button:active{
+  background:#24282f;
 }
-
 
 /* MODAL */
 
 .modal{
-
   position:fixed;
-
   inset:0;
-
-  background:rgba(0,0,0,.72);
-
+  background:rgba(0,0,0,.65);
   display:none;
-
   align-items:flex-end;
-
   justify-content:center;
-
-  z-index:30;
-
+  z-index:100;
 }
 
-.modalBox{
-
+.modal-card{
   width:100%;
-
   max-width:600px;
-
-  max-height:90vh;
-
-  overflow:auto;
-
-  background:#171a1f;
-
+  background:#15181d;
   border-radius:22px 22px 0 0;
-
   padding:20px;
-
+  max-height:90vh;
+  overflow:auto;
 }
 
-.modalBox h2{
-
-  margin-top:0;
-
+.modal-title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:18px;
 }
 
-.setting{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  padding:13px 0;
-
-  border-bottom:1px solid #292e35;
-
-}
-
-.setting select{
-
-  background:#252a31;
-
-  color:#fff;
-
+.close{
+  float:right;
   border:0;
-
-  padding:8px;
-
+  background:#292d34;
+  color:#fff;
   border-radius:9px;
-
+  width:34px;
+  height:34px;
 }
 
-
-/* GENERATOR */
-
-.generator{
-
-  display:none;
-
+.field{
+  margin-bottom:16px;
 }
 
-.generator textarea{
-
-  background:#20242a;
-
-  border-radius:12px;
-
-  margin:10px 0;
-
+.field label{
+  display:block;
+  color:#aeb4bd;
+  font-size:13px;
+  margin-bottom:7px;
 }
 
-.genBtn{
-
+.field input,
+.field select{
   width:100%;
-
-  padding:13px;
-
-  border:0;
-
-  border-radius:12px;
-
-  background:#315cff;
-
+  border:1px solid #30343b;
+  border-radius:11px;
+  background:#0f1115;
   color:#fff;
-
-  margin-bottom:8px;
-
+  padding:11px;
+  outline:0;
 }
 
-.closeBtn{
-
-  width:100%;
-
-  padding:12px;
-
-  border:0;
-
-  border-radius:12px;
-
-  background:#292e35;
-
-  color:#fff;
-
-}
-
-
-/* LOADING */
-
-.loading{
-
-  display:inline-flex;
-
-  gap:5px;
-
+.check{
+  display:flex;
   align-items:center;
-
+  gap:9px;
 }
 
-.dot{
-
-  width:6px;
-
-  height:6px;
-
-  background:#fff;
-
-  border-radius:50%;
-
-  animation:
-    blink 1s infinite;
-
+.primary{
+  width:100%;
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:13px;
+  border-radius:12px;
+  font-weight:600;
 }
 
-.dot:nth-child(2){
+/* GENERATION */
 
-  animation-delay:.2s;
-
+.generation-info{
+  color:#9da3ad;
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:15px;
 }
 
-.dot:nth-child(3){
-
-  animation-delay:.4s;
-
-}
-
-@keyframes blink{
-
-  0%,100%{
-
-    opacity:.2;
-
-  }
-
-  50%{
-
-    opacity:1;
-
-  }
-
-}
-
-
-/* DARK/LIGHT */
-
-.light{
-
-  background:#f5f5f5;
-
-  color:#111;
-
-}
-
-.light .header,
-.light .inputBox,
-.light .modalBox,
-.light .menu{
-
-  background:#fff;
-
-  color:#111;
-
-}
-
-.light textarea{
-
-  color:#111;
-
-}
-
-.light .ai{
-
-  background:#e5e5e5;
-
-  color:#111;
-
-}
-
-.light .iconBtn,
-.light .tool,
-.light .smallBtn{
-
-  background:#e8e8e8;
-
-  color:#111;
-
+.file-name{
+  color:#9da3ad;
+  font-size:13px;
+  padding:5px 8px;
 }
 
 </style>
-
 </head>
-
 
 <body>
 
 <div class="app">
 
+  <header class="header">
 
-<!-- HEADER -->
+    <div class="logo">
+      My AI
+    </div>
 
-<header class="header">
+    <div class="header-right">
 
-  <div class="logo">
-    My AI
-  </div>
+      <button
+        class="icon-btn"
+        onclick="newChat()"
+        title="Жаңа чат">
+        ＋
+      </button>
 
-  <div class="headerButtons">
-
-    <button
-      class="iconBtn"
-      onclick="newChat()"
-      title="Жаңа чат"
-    >
-      ＋
-    </button>
-
-    <button
-      class="iconBtn"
-      onclick="toggleMenu()"
-      title="Мәзір"
-    >
-      ☰
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- CHAT -->
-
-<main
-  id="chat"
-  class="chat"
->
-
-  <div
-    id="welcome"
-    class="welcome"
-  >
-
-    <h1>My AI</h1>
-
-    <p>
-      Қазақша сөйлесіңіз.
-      Сурет, файл, дауыс, видео және
-      мәтінмен жұмыс істей аламын.
-    </p>
-
-  </div>
-
-</main>
-
-
-<!-- BOTTOM -->
-
-<div class="bottom">
-
-  <div class="inputBox">
-
-    <div
-      id="preview"
-      class="preview"
-    >
-
-      <img
-        id="previewImage"
-      >
+      <button
+        class="icon-btn"
+        onclick="toggleMenu()"
+        title="Мәзір">
+        ☰
+      </button>
 
     </div>
 
-
-    <textarea
-      id="message"
-      placeholder="My AI-ға сұрақ қойыңыз..."
-      rows="1"
-      onkeydown="handleKey(event)"
-    ></textarea>
+  </header>
 
 
-    <div class="toolbar">
+  <div id="status" class="status"></div>
 
-      <button
-        class="tool"
-        onclick="openFile()"
-        title="Файл"
-      >
-        📎
-      </button>
 
-      <button
-        class="tool"
-        onclick="openCamera()"
-        title="Камера"
-      >
-        📷
-      </button>
+  <main id="chat" class="chat">
 
-      <button
-        class="tool"
-        onclick="toggleRecording()"
-        id="micBtn"
-        title="Дауыс"
-      >
-        🎤
-      </button>
+    <div id="welcome" class="welcome">
 
-      <button
-        class="tool"
-        onclick="openGenerator('image')"
-        title="Сурет жасау"
-      >
-        🎨
-      </button>
+      <h1>My AI</h1>
 
-      <button
-        class="tool"
-        onclick="openGenerator('video')"
-        title="Видео жасау"
-      >
-        🎬
-      </button>
+      <p>
+        Қазақша сөйлесіңіз, сұрақ қойыңыз,
+        сурет жіберіңіз немесе AI арқылы
+        сурет пен видео жасаңыз.
+      </p>
 
-      <button
-        class="tool"
-        onclick="openSearch()"
-        title="Іздеу"
-      >
-        🔎
-      </button>
+    </div>
 
-      <button
-        class="tool send"
-        onclick="sendMessage()"
-        title="Жіберу"
-      >
-        ➤
-      </button>
+  </main>
+
+
+  <div class="bottom">
+
+    <div class="input-box">
+
+      <div id="preview" class="preview"></div>
+
+      <textarea
+        id="message"
+        placeholder="Хабарлама жазыңыз..."
+        rows="1"
+        oninput="autoResize(this)"
+        onkeydown="handleEnter(event)">
+      </textarea>
+
+      <div class="toolbar">
+
+        <div class="tools">
+
+          <button
+            class="tool-btn"
+            onclick="openImageFile()"
+            title="Сурет">
+            🖼️
+          </button>
+
+          <button
+            class="tool-btn"
+            onclick="openCamera()"
+            title="Камера">
+            📷
+          </button>
+
+          <button
+            class="tool-btn"
+            onclick="openDocument()"
+            title="Файл">
+            📎
+          </button>
+
+          <button
+            class="tool-btn"
+            onclick="toggleRecording()"
+            title="Дауыс">
+            🎤
+          </button>
+
+          <button
+            class="tool-btn"
+            onclick="openImageGenerator()"
+            title="Сурет жасау">
+            🎨
+          </button>
+
+          <button
+            class="tool-btn"
+            onclick="openVideoGenerator()"
+            title="Видео жасау">
+            🎬
+          </button>
+
+        </div>
+
+        <button
+          class="send-btn"
+          onclick="sendMessage()">
+          ➤
+        </button>
+
+      </div>
 
     </div>
 
@@ -808,25 +524,29 @@ textarea{
 </div>
 
 
-<!-- HIDDEN FILE -->
+<!-- HIDDEN FILES -->
 
 <input
-  id="fileInput"
+  id="imageFile"
   type="file"
-  accept="image/*,.txt,.pdf,.doc,.docx"
+  accept="image/*"
   style="display:none"
-  onchange="handleFile(event)"
->
-
+  onchange="selectImage(event)">
 
 <input
-  id="cameraInput"
+  id="cameraFile"
   type="file"
   accept="image/*"
   capture="environment"
   style="display:none"
-  onchange="handleCamera(event)"
->
+  onchange="selectImage(event)">
+
+<input
+  id="documentFile"
+  type="file"
+  accept=".txt,.md,.json,.csv,.html,.xml,.log"
+  style="display:none"
+  onchange="selectDocument(event)">
 
 
 <!-- MENU -->
@@ -834,40 +554,26 @@ textarea{
 <div
   id="menuOverlay"
   class="overlay"
-  onclick="closeMenu(event)"
->
+  onclick="closeMenu(event)">
 
   <div
     class="menu"
-    onclick="event.stopPropagation()"
-  >
+    onclick="event.stopPropagation()">
 
-    <button onclick="newChat()">
+    <button onclick="newChat();toggleMenu()">
       🆕 Жаңа чат
     </button>
 
-    <button onclick="openSettings()">
-      ⚙️ Баптаулар
-    </button>
-
-    <button onclick="openGenerator('image')">
+    <button onclick="openImageGenerator();toggleMenu()">
       🎨 Сурет генерациясы
     </button>
 
-    <button onclick="openGenerator('video')">
+    <button onclick="openVideoGenerator();toggleMenu()">
       🎬 Видео генерациясы
     </button>
 
-    <button onclick="openSearch()">
-      🔎 Интернеттен іздеу
-    </button>
-
-    <button onclick="openURL()">
-      🌐 Сайт оқу
-    </button>
-
-    <button onclick="clearHistory()">
-      🗑️ Чатты тазалау
+    <button onclick="openSettings();toggleMenu()">
+      ⚙️ Баптаулар
     </button>
 
   </div>
@@ -875,104 +581,213 @@ textarea{
 </div>
 
 
-<!-- GENERATOR MODAL -->
+<!-- IMAGE MODAL -->
 
 <div
-  id="generatorModal"
+  id="imageModal"
   class="modal"
->
+  onclick="closeModal(event,'imageModal')">
 
-  <div class="modalBox">
+  <div
+    class="modal-card"
+    onclick="event.stopPropagation()">
 
-    <h2 id="generatorTitle">
+    <button
+      class="close"
+      onclick="hideModal('imageModal')">
+      ×
+    </button>
+
+    <div class="modal-title">
       🎨 Сурет жасау
-    </h2>
+    </div>
 
-    <textarea
-      id="generatorPrompt"
-      rows="5"
-      placeholder="Мысалы: Қазақстанның тауларында тұрған ақ бүркіт"
-    ></textarea>
+    <div class="generation-info">
+      Қазақша сипаттама енгізіңіз.
+      My AI оны FLUX үшін ағылшын prompt-қа
+      түрлендіреді.
+    </div>
 
+    <div class="field">
 
-    <div
-      id="videoOptions"
-      style="display:none"
-    >
+      <label>
+        Сурет сипаттамасы
+      </label>
 
-      <div class="setting">
+      <textarea
+        id="imagePrompt"
+        placeholder="Мысалы: Қазақстанның тауларында тұрған ақ бүркіт"
+        style="min-height:110px">
+      </textarea>
 
-        <span>Ұзақтығы</span>
+    </div>
 
-        <select id="videoDuration">
+    <button
+      class="primary"
+      onclick="generateImage()">
+      🎨 Сурет жасау
+    </button>
 
-          <option value="5">
-            5 секунд
-          </option>
+  </div>
 
-          <option value="10">
-            10 секунд
-          </option>
-
-          <option value="15">
-            15 секунд
-          </option>
-
-          <option value="20">
-            20 секунд
-          </option>
-
-        </select>
-
-      </div>
+</div>
 
 
-      <div class="setting">
+<!-- VIDEO MODAL -->
 
-        <span>Сапасы</span>
+<div
+  id="videoModal"
+  class="modal"
+  onclick="closeModal(event,'videoModal')">
 
-        <select id="videoResolution">
+  <div
+    class="modal-card"
+    onclick="event.stopPropagation()">
 
-          <option value="hd">
-            HD
-          </option>
+    <button
+      class="close"
+      onclick="hideModal('videoModal')">
+      ×
+    </button>
 
-          <option value="fhd">
-            Full HD
-          </option>
+    <div class="modal-title">
+      🎬 Видео жасау
+    </div>
 
-        </select>
+    <div class="generation-info">
+      FLUX 3 Video қолданылады.
+      Мәтіннен видео жасауға болады.
+      Ұзақтығы 5–20 секунд.
+      HD немесе FHD таңдауға болады.
+      Синхронды аудио генерациясы бар.
+    </div>
 
-      </div>
+    <div class="field">
+
+      <label>
+        Видео сипаттамасы
+      </label>
+
+      <textarea
+        id="videoPrompt"
+        placeholder="Мысалы: Қазақстан тауларында ақ бүркіт қанатын жайып ұшып бара жатыр"
+        style="min-height:110px">
+      </textarea>
+
+    </div>
 
 
-      <div class="setting">
+    <div class="field">
 
-        <span>Дыбыс</span>
+      <label>
+        Формат
+      </label>
+
+      <select id="videoAspect">
+
+        <option value="auto">
+          Автоматты
+        </option>
+
+        <option value="16:9">
+          16:9
+        </option>
+
+        <option value="9:16">
+          9:16
+        </option>
+
+        <option value="1:1">
+          1:1
+        </option>
+
+        <option value="4:3">
+          4:3
+        </option>
+
+        <option value="3:4">
+          3:4
+        </option>
+
+        <option value="21:9">
+          21:9
+        </option>
+
+        <option value="2:1">
+          2:1
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Ұзақтығы
+      </label>
+
+      <select id="videoDuration">
+
+        <option value="5">5 секунд</option>
+        <option value="6">6 секунд</option>
+        <option value="7">7 секунд</option>
+        <option value="8">8 секунд</option>
+        <option value="9">9 секунд</option>
+        <option value="10">10 секунд</option>
+        <option value="12">12 секунд</option>
+        <option value="15">15 секунд</option>
+        <option value="20">20 секунд</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Сапа
+      </label>
+
+      <select id="videoResolution">
+
+        <option value="hd">
+          HD
+        </option>
+
+        <option value="fhd">
+          FHD
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label class="check">
 
         <input
           id="videoAudio"
           type="checkbox"
-          checked
-        >
+          checked>
 
-      </div>
+        Синхронды аудио жасау
+
+      </label>
 
     </div>
 
 
     <button
-      class="genBtn"
-      onclick="generateContent()"
-    >
-      Жасау
-    </button>
+      class="primary"
+      onclick="generateVideo()">
 
-    <button
-      class="closeBtn"
-      onclick="closeGenerator()"
-    >
-      Жабу
+      🎬 Видео жасау
+
     </button>
 
   </div>
@@ -985,46 +800,30 @@ textarea{
 <div
   id="settingsModal"
   class="modal"
->
+  onclick="closeModal(event,'settingsModal')">
 
-  <div class="modalBox">
+  <div
+    class="modal-card"
+    onclick="event.stopPropagation()">
 
-    <h2>
+    <button
+      class="close"
+      onclick="hideModal('settingsModal')">
+      ×
+    </button>
+
+    <div class="modal-title">
       ⚙️ Баптаулар
-    </h2>
-
-
-    <div class="setting">
-
-      <span>
-        Тақырып
-      </span>
-
-      <select
-        id="theme"
-        onchange="changeTheme()"
-      >
-
-        <option value="dark">
-          Қара
-        </option>
-
-        <option value="light">
-          Ақ
-        </option>
-
-      </select>
-
     </div>
 
 
-    <div class="setting">
+    <div class="field">
 
-      <span>
+      <label>
         Интерфейс тілі
-      </span>
+      </label>
 
-      <select id="language">
+      <select id="languageSetting">
 
         <option value="kk">
           Қазақша
@@ -1043,47 +842,33 @@ textarea{
     </div>
 
 
-    <div class="setting">
+    <div class="field">
 
-      <span>
-        AI жауабын сақтау
-      </span>
+      <label>
+        Тақырып
+      </label>
 
-      <input
-        id="saveAnswers"
-        type="checkbox"
-        checked
-      >
+      <select id="themeSetting">
 
-    </div>
+        <option value="dark">
+          Қараңғы
+        </option>
 
+        <option value="light">
+          Ашық
+        </option>
 
-    <div class="setting">
-
-      <span>
-        Автоматты дауыс
-      </span>
-
-      <input
-        id="autoSpeak"
-        type="checkbox"
-      >
+      </select>
 
     </div>
 
 
     <button
-      class="genBtn"
-      onclick="saveSettings()"
-    >
+      class="primary"
+      onclick="saveSettings()">
+
       Сақтау
-    </button>
 
-    <button
-      class="closeBtn"
-      onclick="closeSettings()"
-    >
-      Жабу
     </button>
 
   </div>
@@ -1093,10 +878,9 @@ textarea{
 
 <script>
 
-
 /*
 ============================================================
- WORKER URL
+ WORKER
 ============================================================
 */
 
@@ -1110,95 +894,52 @@ const WORKER_URL =
 ============================================================
 */
 
+let chatHistory = [];
+
 let selectedImage = null;
 
 let selectedFileText = "";
 
 let selectedFileName = "";
 
-let chatHistory = [];
-
-let recorder = null;
+let mediaRecorder = null;
 
 let audioChunks = [];
 
-let recording = false;
-
-let generatorType = "image";
+let isRecording = false;
 
 
 /*
 ============================================================
- STORAGE
+ ELEMENTS
 ============================================================
 */
 
-function saveLocal(){
+const chat =
+  document.getElementById("chat");
 
-  localStorage.setItem(
+const messageInput =
+  document.getElementById("message");
 
-    "my_ai_history",
+const preview =
+  document.getElementById("preview");
 
-    JSON.stringify(
-      chatHistory
-    )
-
-  );
-
-}
-
-
-function loadLocal(){
-
-  try{
-
-    chatHistory =
-      JSON.parse(
-
-        localStorage.getItem(
-          "my_ai_history"
-        ) || "[]"
-
-      );
-
-  }catch{
-
-    chatHistory = [];
-
-  }
-
-}
+const statusBox =
+  document.getElementById("status");
 
 
 /*
 ============================================================
- INIT
+ STATUS
 ============================================================
 */
 
-loadLocal();
+function setStatus(text){
 
-loadSettings();
+  statusBox.textContent = text;
 
-
-/*
-============================================================
- KEYBOARD
-============================================================
-*/
-
-function handleKey(event){
-
-  if(
-    event.key === "Enter" &&
-    !event.shiftKey
-  ){
-
-    event.preventDefault();
-
-    sendMessage();
-
-  }
+  statusBox.style.display =
+    text ? "block" : "none";
 
 }
 
@@ -1211,24 +952,143 @@ function handleKey(event){
 
 function toggleMenu(){
 
-  document
-    .getElementById("menuOverlay")
-    .style.display = "block";
+  const menu =
+    document.getElementById("menuOverlay");
+
+  menu.style.display =
+    menu.style.display === "flex"
+      ? "none"
+      : "flex";
+
+}
+
+function closeMenu(){
+
+  document.getElementById(
+    "menuOverlay"
+  ).style.display = "none";
 
 }
 
 
-function closeMenu(event){
+/*
+============================================================
+ MODALS
+============================================================
+*/
 
-  if(
-    !event ||
-    event.target.id ===
-    "menuOverlay"
-  ){
+function showModal(id){
 
-    document
-      .getElementById("menuOverlay")
-      .style.display = "none";
+  document.getElementById(id)
+    .style.display = "flex";
+
+}
+
+function hideModal(id){
+
+  document.getElementById(id)
+    .style.display = "none";
+
+}
+
+function closeModal(event,id){
+
+  if(event.target.id === id){
+
+    hideModal(id);
+
+  }
+
+}
+
+
+/*
+============================================================
+ SETTINGS
+============================================================
+*/
+
+function openSettings(){
+
+  const savedTheme =
+    localStorage.getItem("myai_theme") ||
+    "dark";
+
+  const savedLanguage =
+    localStorage.getItem("myai_language") ||
+    "kk";
+
+  document.getElementById(
+    "themeSetting"
+  ).value = savedTheme;
+
+  document.getElementById(
+    "languageSetting"
+  ).value = savedLanguage;
+
+  showModal("settingsModal");
+
+}
+
+
+function saveSettings(){
+
+  const theme =
+    document.getElementById(
+      "themeSetting"
+    ).value;
+
+  const language =
+    document.getElementById(
+      "languageSetting"
+    ).value;
+
+  localStorage.setItem(
+    "myai_theme",
+    theme
+  );
+
+  localStorage.setItem(
+    "myai_language",
+    language
+  );
+
+  applyTheme();
+
+  hideModal("settingsModal");
+
+  setStatus("Баптаулар сақталды");
+
+  setTimeout(
+    ()=>setStatus(""),
+    1500
+  );
+
+}
+
+
+function applyTheme(){
+
+  const theme =
+    localStorage.getItem(
+      "myai_theme"
+    ) || "dark";
+
+  if(theme === "light"){
+
+    document.body.style.background =
+      "#f5f5f5";
+
+    document.body.style.color =
+      "#111";
+
+  }else{
+
+    document.body.style.background =
+      "#0b0d10";
+
+    document.body.style.color =
+      "#fff";
 
   }
 
@@ -1251,55 +1111,57 @@ function newChat(){
 
   selectedFileName = "";
 
-  document
-    .getElementById("chat")
-    .innerHTML = `
+  preview.innerHTML = "";
 
-      <div
-        id="welcome"
-        class="welcome"
-      >
+  preview.style.display = "none";
 
-        <h1>My AI</h1>
+  chat.innerHTML = `
 
-        <p>
-          Жаңа чат басталды.
-        </p>
+    <div id="welcome" class="welcome">
 
-      </div>
+      <h1>My AI</h1>
+
+      <p>
+        Қазақша сөйлесіңіз, сұрақ қойыңыз,
+        сурет немесе видео жасаңыз.
+      </p>
+
+    </div>
 
   `;
 
-  document
-    .getElementById("message")
-    .value = "";
-
-  document
-    .getElementById("preview")
-    .style.display = "none";
-
-  saveLocal();
-
-  closeMenu();
-
 }
 
 
 /*
 ============================================================
- CLEAR
+ INPUT
 ============================================================
 */
 
-function clearHistory(){
+function autoResize(el){
+
+  el.style.height = "auto";
+
+  el.style.height =
+    Math.min(
+      el.scrollHeight,
+      140
+    ) + "px";
+
+}
+
+
+function handleEnter(event){
 
   if(
-    confirm(
-      "Чатты толық тазалаймыз ба?"
-    )
+    event.key === "Enter" &&
+    !event.shiftKey
   ){
 
-    newChat();
+    event.preventDefault();
+
+    sendMessage();
 
   }
 
@@ -1308,164 +1170,123 @@ function clearHistory(){
 
 /*
 ============================================================
- ADD MESSAGE
+ IMAGE
 ============================================================
 */
 
-function addMessage(
+function openImageFile(){
 
-  text,
-  role = "ai",
-  extra = null
+  document.getElementById(
+    "imageFile"
+  ).click();
 
-){
-
-  const chat =
-    document.getElementById("chat");
+}
 
 
-  const welcome =
-    document.getElementById("welcome");
+function openCamera(){
+
+  document.getElementById(
+    "cameraFile"
+  ).click();
+
+}
 
 
-  if(
-    welcome
-  ){
+function selectImage(event){
 
-    welcome.remove();
+  const file =
+    event.target.files?.[0];
 
-  }
+  if(!file)return;
 
+  const reader =
+    new FileReader();
 
-  const div =
-    document.createElement("div");
+  reader.onload = function(){
 
+    selectedImage =
+      reader.result;
 
-  div.className =
-    "message " +
-    role;
+    preview.innerHTML = `
 
+      <img src="${selectedImage}">
 
-  div.textContent =
-    text;
+    `;
 
+    preview.style.display =
+      "block";
 
-  if(
-    extra?.image
-  ){
+  };
 
-    const img =
-      document.createElement("img");
-
-    img.src =
-      extra.image;
-
-    div.appendChild(img);
-
-  }
-
-
-  if(
-    extra?.video
-  ){
-
-    const video =
-      document.createElement("video");
-
-    video.controls = true;
-
-    video.playsInline = true;
-
-    video.src =
-      extra.video;
-
-    div.appendChild(video);
-
-  }
-
-
-  if(
-    role === "ai"
-  ){
-
-    const actions =
-      document.createElement("div");
-
-    actions.className =
-      "messageActions";
-
-
-    const speak =
-      document.createElement("button");
-
-    speak.className =
-      "smallBtn";
-
-    speak.textContent =
-      "🔊 Тыңдау";
-
-    speak.onclick = () =>
-      speakAnswer(text);
-
-
-    actions.appendChild(
-      speak
-    );
-
-
-    const copy =
-      document.createElement("button");
-
-    copy.className =
-      "smallBtn";
-
-    copy.textContent =
-      "📋 Көшіру";
-
-    copy.onclick = () =>
-      navigator.clipboard.writeText(text);
-
-
-    actions.appendChild(
-      copy
-    );
-
-
-    div.appendChild(
-      actions
-    );
-
-  }
-
-
-  chat.appendChild(div);
-
-  chat.scrollTop =
-    chat.scrollHeight;
+  reader.readAsDataURL(file);
 
 }
 
 
 /*
 ============================================================
- SEND MESSAGE
+ DOCUMENT
+============================================================
+*/
+
+function openDocument(){
+
+  document.getElementById(
+    "documentFile"
+  ).click();
+
+}
+
+
+function selectDocument(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file)return;
+
+  selectedFileName =
+    file.name;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = function(){
+
+    selectedFileText =
+      String(reader.result || "");
+
+    preview.innerHTML = `
+
+      <div class="file-name">
+        📄 ${escapeHTML(file.name)}
+      </div>
+
+    `;
+
+    preview.style.display =
+      "block";
+
+  };
+
+  reader.readAsText(file);
+
+}
+
+
+/*
+============================================================
+ SEND CHAT
 ============================================================
 */
 
 async function sendMessage(){
 
-  const input =
-    document.getElementById(
-      "message"
-    );
-
-
-  const message =
-    input.value.trim();
-
+  const text =
+    messageInput.value.trim();
 
   if(
-    !message &&
+    !text &&
     !selectedImage &&
     !selectedFileText
   ){
@@ -1475,49 +1296,45 @@ async function sendMessage(){
   }
 
 
-  addMessage(
-    message ||
-    "Медиа жіберілді.",
-    "user"
+  addUserMessage(
+    text,
+    selectedImage
   );
 
 
-  input.value = "";
+  const oldText = text;
+
+  const oldImage =
+    selectedImage;
+
+  const oldFileText =
+    selectedFileText;
+
+  const oldFileName =
+    selectedFileName;
 
 
-  const loading =
-    document.createElement("div");
+  messageInput.value = "";
 
-  loading.className =
-    "message ai";
+  selectedImage = null;
 
-  loading.innerHTML = `
+  selectedFileText = "";
 
-    <div class="loading">
+  selectedFileName = "";
 
-      <span>AI жұмыс істеп жатыр</span>
+  preview.innerHTML = "";
 
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-
-    </div>
-
-  `;
+  preview.style.display = "none";
 
 
-  document
-    .getElementById("chat")
-    .appendChild(loading);
+  setStatus("AI жауап дайындауда...");
 
 
   try{
 
     const response =
       await fetch(
-
         WORKER_URL,
-
         {
 
           method:"POST",
@@ -1527,30 +1344,28 @@ async function sendMessage(){
               "application/json"
           },
 
-          body:
-            JSON.stringify({
+          body:JSON.stringify({
 
-              action:
-                "chat",
+            action:"chat",
 
-              message,
+            message:
+              oldText,
 
-              image:
-                selectedImage,
+            image:
+              oldImage,
 
-              fileText:
-                selectedFileText,
+            fileText:
+              oldFileText,
 
-              fileName:
-                selectedFileName,
+            fileName:
+              oldFileName,
 
-              history:
-                chatHistory
+            history:
+              chatHistory
 
-            })
+          })
 
         }
-
       );
 
 
@@ -1558,31 +1373,21 @@ async function sendMessage(){
       await response.json();
 
 
-    loading.remove();
-
-
     if(
       !response.ok ||
-      !data.ok
+      data.ok === false
     ){
 
-      addMessage(
-
+      throw new Error(
         data.error ||
-        "Сервер қатесі.",
-
-        "ai"
-
+        "Сервер қатесі"
       );
-
-      return;
 
     }
 
 
-    addMessage(
-      data.answer,
-      "ai"
+    addAssistantMessage(
+      data.answer || ""
     );
 
 
@@ -1591,7 +1396,7 @@ async function sendMessage(){
       role:"user",
 
       content:
-        message
+        oldText
 
     });
 
@@ -1601,7 +1406,7 @@ async function sendMessage(){
       role:"assistant",
 
       content:
-        data.answer
+        data.answer || ""
 
     });
 
@@ -1610,245 +1415,541 @@ async function sendMessage(){
       chatHistory.slice(-20);
 
 
-    saveLocal();
+  }catch(err){
+
+    addAssistantMessage(
+      "Қате: " +
+      err.message
+    );
+
+  }finally{
+
+    setStatus("");
+
+  }
+
+}
+
+
+/*
+============================================================
+ USER MESSAGE
+============================================================
+*/
+
+function addUserMessage(
+  text,
+  image
+){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.className =
+    "message user";
+
+
+  let html =
+    `<div class="bubble">`;
+
+  if(text){
+
+    html +=
+      escapeHTML(text);
+
+  }
+
+
+  if(image){
+
+    html += `
+
+      <img
+        class="message-image"
+        src="${image}">
+
+    `;
+
+  }
+
+
+  html +=
+    `</div>`;
+
+
+  div.innerHTML =
+    html;
+
+  chat.appendChild(div);
+
+  scrollChat();
+
+}
+
+
+/*
+============================================================
+ ASSISTANT MESSAGE
+============================================================
+*/
+
+function addAssistantMessage(
+  text
+){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.className =
+    "message assistant";
+
+
+  div.innerHTML = `
+
+    <div class="bubble">
+
+      ${escapeHTML(text)}
+
+      <div class="message-actions">
+
+        <button
+          class="small-btn"
+          onclick='speakText(${JSON.stringify(text)})'>
+          🔊 Тыңдау
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  chat.appendChild(div);
+
+  scrollChat();
+
+}
+
+
+/*
+============================================================
+ IMAGE GENERATOR
+============================================================
+*/
+
+function openImageGenerator(){
+
+  document.getElementById(
+    "imagePrompt"
+  ).value =
+    messageInput.value.trim();
+
+  showModal(
+    "imageModal"
+  );
+
+}
+
+
+async function generateImage(){
+
+  const prompt =
+    document.getElementById(
+      "imagePrompt"
+    ).value.trim();
+
+
+  if(!prompt){
+
+    alert(
+      "Сурет сипаттамасын жазыңыз."
+    );
+
+    return;
+
+  }
+
+
+  hideModal(
+    "imageModal"
+  );
+
+
+  addUserMessage(
+    "🎨 " + prompt
+  );
+
+
+  setStatus(
+    "Сурет жасалуда: " + prompt
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            action:
+              "image_generation",
+
+            prompt
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
 
 
     if(
-      document.getElementById(
-        "autoSpeak"
-      )?.checked
+      !response.ok ||
+      data.ok === false
     ){
 
-      speakAnswer(
-        data.answer
+      throw new Error(
+        data.error ||
+        "Сурет жасау қатесі"
       );
 
     }
+
+
+    addGeneratedImage(
+      data.image,
+      data.originalPrompt ||
+      prompt
+    );
 
 
   }catch(err){
 
-    loading.remove();
-
-    addMessage(
-
-      "Байланыс қатесі: " +
-      err.message,
-
-      "ai"
-
+    addAssistantMessage(
+      "Сурет жасау қатесі: " +
+      err.message
     );
 
+  }finally{
+
+    setStatus("");
+
   }
-
-
-  selectedImage = null;
-
-  selectedFileText = "";
-
-  selectedFileName = "";
-
-  document
-    .getElementById("preview")
-    .style.display = "none";
 
 }
 
 
 /*
 ============================================================
- FILE
+ GENERATED IMAGE
 ============================================================
 */
 
-function openFile(){
+function addGeneratedImage(
+  image,
+  prompt
+){
 
-  document
-    .getElementById("fileInput")
-    .click();
-
-}
-
-
-async function handleFile(event){
-
-  const file =
-    event.target.files[0];
-
-
-  if(
-    !file
-  ){
-
-    return;
-
-  }
-
-
-  selectedFileName =
-    file.name;
-
-
-  if(
-    file.type.startsWith(
-      "image/"
-    )
-  ){
-
-    selectedImage =
-      await fileToDataURL(file);
-
-
-    showPreview(
-      selectedImage
+  const div =
+    document.createElement(
+      "div"
     );
 
-    return;
-
-  }
-
-
-  if(
-    file.type ===
-    "text/plain"
-  ){
-
-    selectedFileText =
-      await file.text();
-
-    addMessage(
-      "📄 Файл дайын: " +
-      file.name,
-      "user"
-    );
-
-    return;
-
-  }
+  div.className =
+    "message assistant";
 
 
-  /*
-  PDF/DOCX
-  ----------------------------------------------------------
-  Frontend browser extraction is limited.
-  Worker receives text if available.
-  */
+  div.innerHTML = `
 
-  addMessage(
+    <div class="bubble">
 
-    "📄 " +
-    file.name +
-    " таңдалды. Бұл файл форматын толық талдау үшін PDF/DOCX мәтінін шығаратын модуль қажет.",
+      <div>
+        🎨 ${escapeHTML(prompt)}
+      </div>
 
-    "ai"
+      <img
+        class="message-image"
+        src="${image}">
 
-  );
+      <div class="message-actions">
+
+        <button
+          class="small-btn"
+          onclick='speakText("Сурет дайын.")'>
+          🔊 Тыңдау
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  chat.appendChild(div);
+
+  scrollChat();
 
 }
 
 
 /*
 ============================================================
- CAMERA
+ VIDEO GENERATOR
 ============================================================
 */
 
-function openCamera(){
+function openVideoGenerator(){
 
-  document
-    .getElementById("cameraInput")
-    .click();
+  document.getElementById(
+    "videoPrompt"
+  ).value =
+    messageInput.value.trim();
+
+  showModal(
+    "videoModal"
+  );
 
 }
 
 
-async function handleCamera(event){
+async function generateVideo(){
 
-  const file =
-    event.target.files[0];
+  const prompt =
+    document.getElementById(
+      "videoPrompt"
+    ).value.trim();
 
 
-  if(
-    !file
-  ){
+  if(!prompt){
+
+    alert(
+      "Видео сипаттамасын жазыңыз."
+    );
 
     return;
 
   }
 
 
-  selectedImage =
-    await fileToDataURL(file);
+  const aspect =
+    document.getElementById(
+      "videoAspect"
+    ).value;
 
 
-  showPreview(
-    selectedImage
+  const duration =
+    Number(
+      document.getElementById(
+        "videoDuration"
+      ).value
+    );
+
+
+  const resolution =
+    document.getElementById(
+      "videoResolution"
+    ).value;
+
+
+  const audio =
+    document.getElementById(
+      "videoAudio"
+    ).checked;
+
+
+  hideModal(
+    "videoModal"
   );
 
-}
+
+  addUserMessage(
+    "🎬 " + prompt
+  );
 
 
-function fileToDataURL(file){
+  setStatus(
+    "Видео жасалуда... Бұл біраз уақыт алуы мүмкін."
+  );
 
-  return new Promise(
-    resolve => {
 
-      const reader =
-        new FileReader();
+  try{
 
-      reader.onload =
-        () =>
-          resolve(
-            reader.result
-          );
+    const response =
+      await fetch(
+        WORKER_URL,
+        {
 
-      reader.readAsDataURL(
-        file
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            action:
+              "video_generation",
+
+            prompt,
+
+            mode:
+              "t2v",
+
+            aspect_ratio:
+              aspect,
+
+            duration,
+
+            resolution,
+
+            generate_audio:
+              audio
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      data.ok === false
+    ){
+
+      throw new Error(
+        data.error ||
+        "Видео жасау қатесі"
       );
 
     }
-  );
+
+
+    const video =
+      data.video;
+
+
+    if(!video){
+
+      throw new Error(
+        "Cloudflare видео адресін қайтармады."
+      );
+
+    }
+
+
+    addGeneratedVideo(
+      video,
+      prompt
+    );
+
+
+  }catch(err){
+
+    addAssistantMessage(
+      "Видео жасау қатесі: " +
+      err.message
+    );
+
+  }finally{
+
+    setStatus("");
+
+  }
 
 }
 
 
 /*
 ============================================================
- PREVIEW
+ GENERATED VIDEO
 ============================================================
 */
 
-function showPreview(src){
+function addGeneratedVideo(
+  video,
+  prompt
+){
 
-  document
-    .getElementById(
-      "preview"
-    )
-    .style.display =
-      "block";
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.className =
+    "message assistant";
 
 
-  document
-    .getElementById(
-      "previewImage"
-    )
-    .src =
-      src;
+  div.innerHTML = `
+
+    <div class="bubble">
+
+      <div>
+        🎬 ${escapeHTML(prompt)}
+      </div>
+
+      <video
+        class="message-video"
+        controls
+        playsinline
+        preload="metadata"
+        src="${video}">
+      </video>
+
+      <div class="message-actions">
+
+        <button
+          class="small-btn"
+          onclick='speakText("Видео дайын.")'>
+          🔊 Тыңдау
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  chat.appendChild(div);
+
+  scrollChat();
 
 }
 
 
 /*
 ============================================================
- AUDIO
+ MICROPHONE
 ============================================================
 */
 
 async function toggleRecording(){
 
-  if(
-    recording
-  ){
+  if(isRecording){
 
     stopRecording();
 
@@ -1866,21 +1967,44 @@ async function toggleRecording(){
         });
 
 
-    recorder =
+    audioChunks = [];
+
+    let mime =
+      "audio/webm";
+
+
+    if(
+      MediaRecorder.isTypeSupported(
+        "audio/mp4"
+      )
+    ){
+
+      mime =
+        "audio/mp4";
+
+    }else if(
+      MediaRecorder.isTypeSupported(
+        "audio/webm;codecs=opus"
+      )
+    ){
+
+      mime =
+        "audio/webm;codecs=opus";
+
+    }
+
+
+    mediaRecorder =
       new MediaRecorder(
-        stream
+        stream,
+        {mimeType:mime}
       );
 
 
-    audioChunks = [];
-
-
-    recorder.ondataavailable =
+    mediaRecorder.ondataavailable =
       event => {
 
-        if(
-          event.data.size
-        ){
+        if(event.data.size){
 
           audioChunks.push(
             event.data
@@ -1891,17 +2015,13 @@ async function toggleRecording(){
       };
 
 
-    recorder.onstop =
+    mediaRecorder.onstop =
       async () => {
 
         const blob =
           new Blob(
             audioChunks,
-            {
-              type:
-                recorder.mimeType ||
-                "audio/webm"
-            }
+            {type:mime}
           );
 
 
@@ -1914,34 +2034,27 @@ async function toggleRecording(){
 
 
         await sendAudio(
-          blob
+          blob,
+          mime
         );
 
       };
 
 
-    recorder.start();
+    mediaRecorder.start();
 
-    recording = true;
+    isRecording = true;
 
-
-    document
-      .getElementById(
-        "micBtn"
-      )
-      .textContent =
-        "⏹️";
+    setStatus(
+      "🎤 Тыңдап тұрмын..."
+    );
 
 
   }catch(err){
 
-    addMessage(
-
+    alert(
       "Микрофонға рұқсат берілмеді: " +
-      err.message,
-
-      "ai"
-
+      err.message
     );
 
   }
@@ -1952,50 +2065,46 @@ async function toggleRecording(){
 function stopRecording(){
 
   if(
-    recorder &&
-    recorder.state !==
-    "inactive"
+    mediaRecorder &&
+    mediaRecorder.state !== "inactive"
   ){
 
-    recorder.stop();
+    mediaRecorder.stop();
 
   }
 
-
-  recording = false;
-
-
-  document
-    .getElementById(
-      "micBtn"
-    )
-    .textContent =
-      "🎤";
+  isRecording = false;
 
 }
 
 
 /*
 ============================================================
- SEND AUDIO
+ AUDIO
 ============================================================
 */
 
-async function sendAudio(blob){
+async function sendAudio(
+  blob,
+  mime
+){
 
-  const base64 =
-    await blobToBase64(
-      blob
-    );
+  setStatus(
+    "Аудио мәтінге айналдырылуда..."
+  );
 
 
   try{
 
+    const base64 =
+      await blobToBase64(
+        blob
+      );
+
+
     const response =
       await fetch(
-
         WORKER_URL,
-
         {
 
           method:"POST",
@@ -2005,19 +2114,19 @@ async function sendAudio(blob){
               "application/json"
           },
 
-          body:
-            JSON.stringify({
+          body:JSON.stringify({
 
-              action:
-                "transcribe",
+            action:"transcribe",
 
-              audioBase64:
-                base64
+            audioBase64:
+              base64,
 
-            })
+            audioMimeType:
+              mime
+
+          })
 
         }
-
       );
 
 
@@ -2026,62 +2135,73 @@ async function sendAudio(blob){
 
 
     if(
-      data.ok &&
-      data.text
+      !response.ok ||
+      data.ok === false
     ){
 
-      document
-        .getElementById(
-          "message"
-        )
-        .value =
-          data.text;
-
-    }else{
-
-      addMessage(
-
+      throw new Error(
         data.error ||
-        "Дауыс танылмады.",
-
-        "ai"
-
+        "Аудио қатесі"
       );
 
     }
 
+
+    messageInput.value =
+      data.text || "";
+
+    autoResize(
+      messageInput
+    );
+
+
+    if(data.text){
+
+      await sendMessage();
+
+    }
+
+
   }catch(err){
 
-    addMessage(
-
-      "Дауыс өңдеу қатесі: " +
-      err.message,
-
-      "ai"
-
+    addAssistantMessage(
+      "Аудио қатесі: " +
+      err.message
     );
+
+  }finally{
+
+    setStatus("");
 
   }
 
 }
 
 
-function blobToBase64(blob){
+function blobToBase64(
+  blob
+){
 
   return new Promise(
-    resolve => {
+    (resolve,reject)=>{
 
       const reader =
         new FileReader();
 
-      reader.onloadend =
+      reader.onload =
         () => {
 
-          resolve(
-            reader.result
-          );
+          const result =
+            String(
+              reader.result
+            );
+
+          resolve(result);
 
         };
+
+      reader.onerror =
+        reject;
 
       reader.readAsDataURL(
         blob
@@ -2099,15 +2219,23 @@ function blobToBase64(blob){
 ============================================================
 */
 
-async function speakAnswer(text){
+async function speakText(
+  text
+){
+
+  if(!text)return;
+
+
+  setStatus(
+    "🔊 Дауыс дайындалуда..."
+  );
+
 
   try{
 
     const response =
       await fetch(
-
         WORKER_URL,
-
         {
 
           method:"POST",
@@ -2117,18 +2245,15 @@ async function speakAnswer(text){
               "application/json"
           },
 
-          body:
-            JSON.stringify({
+          body:JSON.stringify({
 
-              action:
-                "tts",
+            action:"tts",
 
-              text
+            text
 
-            })
+          })
 
         }
-
       );
 
 
@@ -2140,26 +2265,28 @@ async function speakAnswer(text){
 
     if(
       contentType.includes(
-        "audio"
+        "audio/"
       )
     ){
 
       const blob =
         await response.blob();
 
-
       const url =
         URL.createObjectURL(
           blob
         );
 
-
       const audio =
         new Audio(url);
 
+      audio.onended =
+        () =>
+          URL.revokeObjectURL(
+            url
+          );
 
-      audio.play();
-
+      await audio.play();
 
       return;
 
@@ -2170,392 +2297,61 @@ async function speakAnswer(text){
       await response.json();
 
 
-    if(
-      data.audio
-    ){
+    if(data.audio){
 
-      const audio =
-        new Audio(
-
-          data.audio.startsWith(
-            "data:"
-          )
-            ? data.audio
-            : "data:audio/mpeg;base64," +
-              data.audio
-
-        );
-
-
-      audio.play();
-
-      return;
-
-    }
-
-
-    /*
-    Browser fallback
-    */
-
-    const utterance =
-      new SpeechSynthesisUtterance(
-        text
-      );
-
-    utterance.lang =
-      "kk-KZ";
-
-    speechSynthesis.speak(
-      utterance
-    );
-
-
-  }catch(err){
-
-    const utterance =
-      new SpeechSynthesisUtterance(
-        text
-      );
-
-    utterance.lang =
-      "kk-KZ";
-
-    speechSynthesis.speak(
-      utterance
-    );
-
-  }
-
-}
-
-
-/*
-============================================================
- GENERATOR
-============================================================
-*/
-
-function openGenerator(type){
-
-  generatorType =
-    type;
-
-
-  document
-    .getElementById(
-      "generatorModal"
-    )
-    .style.display =
-      "flex";
-
-
-  const title =
-    document.getElementById(
-      "generatorTitle"
-    );
-
-
-  const options =
-    document.getElementById(
-      "videoOptions"
-    );
-
-
-  if(
-    type === "image"
-  ){
-
-    title.textContent =
-      "🎨 Сурет жасау";
-
-    options.style.display =
-      "none";
-
-  }else{
-
-    title.textContent =
-      "🎬 Видео жасау";
-
-    options.style.display =
-      "block";
-
-  }
-
-}
-
-
-function closeGenerator(){
-
-  document
-    .getElementById(
-      "generatorModal"
-    )
-    .style.display =
-      "none";
-
-}
-
-
-/*
-============================================================
- GENERATE
-============================================================
-*/
-
-async function generateContent(){
-
-  const prompt =
-    document
-      .getElementById(
-        "generatorPrompt"
-      )
-      .value.trim();
-
-
-  if(
-    !prompt
-  ){
-
-    alert(
-      "Сипаттама жазыңыз."
-    );
-
-    return;
-
-  }
-
-
-  const action =
-    generatorType === "image"
-      ? "image_generation"
-      : "video_generation";
-
-
-  const payload = {
-
-    action,
-
-    prompt
-
-  };
-
-
-  if(
-    generatorType === "video"
-  ){
-
-    payload.duration =
-      Number(
-
-        document
-          .getElementById(
-            "videoDuration"
-          )
-          .value
-
-      );
-
-
-    payload.resolution =
-      document
-        .getElementById(
-          "videoResolution"
-        )
-        .value;
-
-
-    payload.generate_audio =
-      document
-        .getElementById(
-          "videoAudio"
-        )
-        .checked;
-
-  }
-
-
-  closeGenerator();
-
-
-  addMessage(
-
-    (
-      generatorType === "image"
-        ? "🎨 Сурет жасалуда: "
-        : "🎬 Видео жасалуда: "
-    ) +
-
-    prompt,
-
-    "user"
-
-  );
-
-
-  const loading =
-    document.createElement(
-      "div"
-    );
-
-
-  loading.className =
-    "message ai";
-
-
-  loading.innerHTML = `
-
-    <div class="loading">
-
-      <span>
-        ${
-          generatorType ===
-          "image"
-            ? "Сурет жасалуда"
-            : "Видео жасалуда"
-        }
-      </span>
-
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-
-    </div>
-
-  `;
-
-
-  document
-    .getElementById(
-      "chat"
-    )
-    .appendChild(
-      loading
-    );
-
-
-  try{
-
-    const response =
-      await fetch(
-
-        WORKER_URL,
-
-        {
-
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify(
-              payload
-            )
-
-        }
-
-      );
-
-
-    const data =
-      await response.json();
-
-
-    loading.remove();
-
-
-    if(
-      !response.ok ||
-      !data.ok
-    ){
-
-      addMessage(
-
-        data.error ||
-        "Генерация қатесі.",
-
-        "ai"
-
-      );
-
-      return;
-
-    }
-
-
-    if(
-      data.type ===
-      "image"
-    ){
-
-      addMessage(
-
-        "🎨 Сурет дайын.",
-
-        "ai",
-
-        {
-          image:
-            data.image
-        }
-
-      );
-
-    }
-
-
-    else if(
-      data.type ===
-      "video"
-    ){
+      let src =
+        data.audio;
 
       if(
-        data.video
+        !String(src)
+          .startsWith("data:")
       ){
 
-        addMessage(
-
-          "🎬 Видео дайын.",
-
-          "ai",
-
-          {
-            video:
-              data.video
-          }
-
-        );
-
-      }else{
-
-        addMessage(
-
-          "Видео генераторы жауап қайтарды, бірақ видео URL берілмеді.",
-
-          "ai"
-
-        );
+        src =
+          "data:audio/mpeg;base64," +
+          src;
 
       }
 
+      const audio =
+        new Audio(src);
+
+      await audio.play();
+
     }
 
 
   }catch(err){
 
-    loading.remove();
+    /*
+    Браузерлік TTS резерві
+    */
 
-    addMessage(
+    try{
 
-      "Генерация қатесі: " +
-      err.message,
+      const utterance =
+        new SpeechSynthesisUtterance(
+          text
+        );
 
-      "ai"
+      utterance.lang =
+        "kk-KZ";
 
-    );
+      speechSynthesis.speak(
+        utterance
+      );
+
+    }catch{
+
+      alert(
+        "Дауыс ойнатылмады."
+      );
+
+    }
+
+  }finally{
+
+    setStatus("");
 
   }
 
@@ -2564,434 +2360,69 @@ async function generateContent(){
 
 /*
 ============================================================
- SEARCH
+ ESCAPE
 ============================================================
 */
 
-function openSearch(){
-
-  const query =
-    prompt(
-      "Не іздейміз?"
-    );
-
-
-  if(
-    !query
-  ){
-
-    return;
-
-  }
-
-
-  performSearch(
-    query
-  );
-
-}
-
-
-async function performSearch(query){
-
-  addMessage(
-    "🔎 Іздеу: " + query,
-    "user"
-  );
-
-
-  try{
-
-    const response =
-      await fetch(
-
-        WORKER_URL,
-
-        {
-
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                "search",
-
-              query
-
-            })
-
-        }
-
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      data.ok
-    ){
-
-      addMessage(
-
-        JSON.stringify(
-          data.results,
-          null,
-          2
-        ),
-
-        "ai"
-
-      );
-
-    }else{
-
-      addMessage(
-
-        data.error ||
-        "Іздеу қатесі.",
-
-        "ai"
-
-      );
-
-    }
-
-  }catch(err){
-
-    addMessage(
-
-      "Іздеу қатесі: " +
-      err.message,
-
-      "ai"
-
-    );
-
-  }
-
-}
-
-
-/*
-============================================================
- URL
-============================================================
-*/
-
-function openURL(){
-
-  const url =
-    prompt(
-      "Сайт URL-ін енгізіңіз:"
-    );
-
-
-  if(
-    !url
-  ){
-
-    return;
-
-  }
-
-
-  readURL(url);
-
-}
-
-
-async function readURL(url){
-
-  try{
-
-    const response =
-      await fetch(
-
-        WORKER_URL,
-
-        {
-
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                "url",
-
-              url
-
-            })
-
-        }
-
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      data.ok
-    ){
-
-      addMessage(
-
-        data.text,
-
-        "ai"
-
-      );
-
-    }else{
-
-      addMessage(
-
-        data.error,
-
-        "ai"
-
-      );
-
-    }
-
-  }catch(err){
-
-    addMessage(
-
-      "URL қатесі: " +
-      err.message,
-
-      "ai"
-
-    );
-
-  }
-
-}
-
-
-/*
-============================================================
- SETTINGS
-============================================================
-*/
-
-function openSettings(){
-
-  closeMenu();
-
-  document
-    .getElementById(
-      "settingsModal"
+function escapeHTML(
+  text
+){
+
+  return String(text || "")
+    .replace(
+      /&/g,
+      "&amp;"
     )
-    .style.display =
-      "flex";
-
-}
-
-
-function closeSettings(){
-
-  document
-    .getElementById(
-      "settingsModal"
+    .replace(
+      /</g,
+      "&lt;"
     )
-    .style.display =
-      "none";
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
-function saveSettings(){
+/*
+============================================================
+ SCROLL
+============================================================
+*/
 
-  localStorage.setItem(
+function scrollChat(){
 
-    "my_ai_settings",
+  setTimeout(
+    () => {
 
-    JSON.stringify({
+      chat.scrollTop =
+        chat.scrollHeight;
 
-      theme:
-        document
-          .getElementById(
-            "theme"
-          )
-          .value,
-
-      language:
-        document
-          .getElementById(
-            "language"
-          )
-          .value,
-
-      saveAnswers:
-        document
-          .getElementById(
-            "saveAnswers"
-          )
-          .checked,
-
-      autoSpeak:
-        document
-          .getElementById(
-            "autoSpeak"
-          )
-          .checked
-
-    })
-
+    },
+    50
   );
 
-
-  changeTheme();
-
-  closeSettings();
-
-}
-
-
-function loadSettings(){
-
-  try{
-
-    const settings =
-      JSON.parse(
-
-        localStorage.getItem(
-          "my_ai_settings"
-        ) || "{}"
-
-      );
-
-
-    if(
-      settings.theme
-    ){
-
-      document
-        .getElementById(
-          "theme"
-        )
-        .value =
-          settings.theme;
-
-    }
-
-
-    if(
-      settings.language
-    ){
-
-      document
-        .getElementById(
-          "language"
-        )
-        .value =
-          settings.language;
-
-    }
-
-
-    if(
-      typeof settings.saveAnswers ===
-      "boolean"
-    ){
-
-      document
-        .getElementById(
-          "saveAnswers"
-        )
-        .checked =
-          settings.saveAnswers;
-
-    }
-
-
-    if(
-      typeof settings.autoSpeak ===
-      "boolean"
-    ){
-
-      document
-        .getElementById(
-          "autoSpeak"
-        )
-        .checked =
-          settings.autoSpeak;
-
-    }
-
-
-    changeTheme();
-
-
-  }catch{
-
-  }
-
 }
 
 
 /*
 ============================================================
- THEME
+ INIT
 ============================================================
 */
 
-function changeTheme(){
-
-  const theme =
-    document
-      .getElementById(
-        "theme"
-      )
-      ?.value;
-
-
-  if(
-    theme === "light"
-  ){
-
-    document.body
-      .classList
-      .add("light");
-
-  }else{
-
-    document.body
-      .classList
-      .remove("light");
-
-  }
-
-}
-
-
-/*
-============================================================
- END
-============================================================
-*/
+applyTheme();
 
 </script>
 
-</div>
-
 </body>
-
 </html>
