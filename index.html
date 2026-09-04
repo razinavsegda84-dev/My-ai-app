@@ -1992,12 +1992,10 @@ document.getElementById(
 "editCanvas"
 );
 
-
 const maskCanvas =
 document.getElementById(
 "maskCanvas"
 );
-
 
 const prompt =
 document.getElementById(
@@ -2016,17 +2014,20 @@ return;
 }
 
 
-/*
-------------------------------------------------------------
-Check whether mask is actually painted.
-------------------------------------------------------------
-*/
+/* Суретті аламыз */
+
+const image =
+editCanvas.toDataURL(
+"image/png"
+);
+
+
+/* Маска бар ма, тексереміз */
 
 const maskCtx =
 maskCanvas.getContext(
 "2d"
 );
-
 
 const pixels =
 maskCtx.getImageData(
@@ -2036,10 +2037,8 @@ maskCanvas.width,
 maskCanvas.height
 ).data;
 
-
 let hasMask =
 false;
-
 
 for(
 let i = 3;
@@ -2048,8 +2047,7 @@ i += 4
 ){
 
 if(
-pixels[i] >
-20
+pixels[i] > 20
 ){
 
 hasMask =
@@ -2062,27 +2060,30 @@ break;
 }
 
 
-if(!hasMask){
+/* Worker-ге жіберілетін сұраныс */
 
-setStatus(
-"Алдымен өзгертілетін объектіні қызыл түспен белгілеңіз."
-);
+const payload = {
 
-return;
+action:
+"image_edit",
 
-}
+prompt,
 
+image
 
-const image =
-editCanvas.toDataURL(
-"image/png"
-);
+};
 
 
-const mask =
+/* Егер қызыл маска салынған болса ғана mask қосамыз */
+
+if(hasMask){
+
+payload.mask =
 createBinaryMask(
 maskCanvas
 );
+
+}
 
 
 closeModal(
@@ -2090,24 +2091,27 @@ closeModal(
 );
 
 
+if(hasMask){
+
 setStatus(
-"🖼️ Сурет дәл белгіленген аймақ бойынша өңделуде..."
+"🖼️ Белгіленген аймақ өңделуде..."
 );
 
+}else{
+
+setStatus(
+"✨ Сурет мәтін бойынша өңделуде..."
+);
+
+}
+
+
+/* AI өңдеу */
 
 const result =
-await callWorkerRaw({
-
-action:
-"image_edit",
-
-prompt,
-
-image,
-
-mask
-
-});
+await callWorkerRaw(
+payload
+);
 
 
 if(
@@ -2118,7 +2122,9 @@ result.image
 addMessage(
 "assistant",
 
-"✨ Сурет өңделді.",
+hasMask
+? "✨ Белгіленген аймақ өңделді."
+: "✨ Сурет мәтін бойынша өңделді.",
 
 {
 type:
